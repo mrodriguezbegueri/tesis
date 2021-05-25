@@ -11,7 +11,7 @@ provider:
   lambdaHashingVersion: 20201221
   environment: ${self:custom.secrets}
   region: us-east-1
-  iamRoleStatements: # Se crea un rol con los permisos necesarios para trabajar con dynamodb
+  iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB
     - Effect: "Allow"
       Action:
         - dynamodb:DescribeTable
@@ -20,13 +20,19 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: # Con esta linea le indicamos el recurso para el cual aplica el rol que se esta creando
+      Resource: # Le indicamos el recurso para el cual aplica el rol en cuestión
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.secrets.TABLE_NAME}"
 
 functions:
   createPoll:
     handler: handler.createPoll
     events:
-      - http: # Esto quiere decir que el evento se va a disparar por una solicitud http
+      - http: # Se indica que el evento se disparará mediante una solicitud http
           path: /poll
           method: post
+  updatePoll:
+    handler: handler.updatePoll
+    events:
+      - http: # Se indica que el evento se disparará mediante una solicitud http
+          path: /poll/{id}
+          method: put

@@ -15,7 +15,7 @@ const response = (statusCode, message) => {
     };
   }
 
-
+// Create one Poll
   module.exports.createPoll = (event, context, callback) => {
     const reqBody = JSON.parse(event.body);
 
@@ -40,5 +40,34 @@ const response = (statusCode, message) => {
       callback(null, response(201, poll));
     })
     .catch(err => response(null, response(err.statusCode, err)));
-  
   }
+
+// Update one poll
+module.exports.updatePoll = (event, context, callback) => {
+  const PK = event.pathParameters.id;
+  const reqBody = JSON.parse(event.body);
+  const paramName = reqBody.paramName;
+  const paramValue = reqBody.paramValue;
+  
+  const params = {
+    TableName: table,
+    Key: {
+      PK: pollsId + '#' + PK,
+      SK: pollsId + '#' + PK,
+    },
+    ConditionExpression: 'attribute_exists(PK) AND attribute_exists(SK)',
+    UpdateExpression: 'set ' + paramName + ' = :v',
+    ExpressionAttributeValues: {
+      ':v': paramValue
+    },
+    ReturnValue: 'ALL_NEW'
+  };
+
+  return db.update(params)
+  .promise()
+  .then(res => {
+    callback(null, response(200, res));
+  })
+  .catch(err => callback(null, response(err.statusCode, err)))
+}
+
