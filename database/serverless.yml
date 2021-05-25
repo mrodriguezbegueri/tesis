@@ -1,0 +1,57 @@
+service: tesis
+
+frameworkVersion: '2'
+
+custom:
+  secrets: ${file(.secrets.yml)}
+
+provider:
+  name: aws
+  region: us-east-1
+
+resources: # Se crea un recurso de aws, en este caso creamos una tabla en dynamoDB
+  Resources:
+    PollsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:custom.secrets.TABLE_NAME}
+        AttributeDefinitions:
+        - AttributeName: "PK"
+          AttributeType: "S"
+        - AttributeName: "SK"
+          AttributeType: "S"
+        - AttributeName: "GSI1PK"
+          AttributeType: "S"
+        - AttributeName: "title"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "PK"
+          KeyType: "HASH"
+        - AttributeName: "SK"
+          KeyType: "RANGE"
+        GlobalSecondaryIndexes:
+          - IndexName: ListPollsTitles
+            KeySchema:
+              - AttributeName: "GSI1PK"
+                KeyType: "HASH"
+            Projection:
+              NonKeyAttributes:
+                - title
+              ProjectionType: "INCLUDE"
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+          - IndexName: SearchPollByTitle
+            KeySchema:
+              - AttributeName: "title"
+                KeyType: "HASH"
+              - AttributeName: "SK"
+                KeyType: "RANGE"
+            Projection:
+              ProjectionType: "ALL"
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput: # Cuando le damos capacidad de lectura 1, le estamos dando la capacidad de realizar 3600 lecturas por hora. Lo mismo para las escrituras con WriteCapacityUnite. Amazon nos va a avisar si nos pasamos de esto
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

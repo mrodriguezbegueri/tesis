@@ -1,0 +1,32 @@
+service: poll-api
+
+frameworkVersion: '2'
+
+custom:
+  secrets: ${file(.secrets.yml)}
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  environment: ${self:custom.secrets}
+  region: us-east-1
+  iamRoleStatements: # Se crea un rol con los permisos necesarios para trabajar con dynamodb
+    - Effect: "Allow"
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: # Con esta linea le indicamos el recurso para el cual aplica el rol que se esta creando
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.secrets.TABLE_NAME}"
+
+functions:
+  createPoll:
+    handler: handler.createPoll
+    events:
+      - http: # Esto quiere decir que el evento se va a disparar por una solicitud http
+          path: /poll
+          method: post
