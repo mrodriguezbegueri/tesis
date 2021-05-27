@@ -137,13 +137,8 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "dynamodb:Query",
-                    "dynamodb:DescribeTable",
-                    "dynamodb:Scan",
-                    "dynamodb:GetItem",
-                    "dynamodb:PutItem",
-                    "dynamodb:UpdateItem",
-                    "dynamodb:DeleteItem"
+                    "dynamodb:BatchWriteItem",
+                    "dynamodb:PutItem"
                   ],
                   "Resource": "arn:aws:dynamodb:us-east-1:*:table/polls"
                 }
@@ -174,7 +169,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/result-api/dev/1622033846920-2021-05-26T12:57:26.920Z/result-api.zip"
+          "S3Key": "serverless/result-api/dev/1622119560929-2021-05-27T12:46:00.929Z/result-api.zip"
         },
         "Handler": "handler.addResult",
         "Runtime": "nodejs12.x",
@@ -200,14 +195,14 @@
         "AddResultLogGroup"
       ]
     },
-    "AddResultLambdaVersionqd257BLOETRoD1gVxYbharikwMynPqbfQNIgkYP1U": {
+    "AddResultLambdaVersionDdcHP9G7LCzS9H9O8QjaHpTK5hUSJK5MvPADQg2IDg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AddResultLambdaFunction"
         },
-        "CodeSha256": "p1ddpdFj8dp9oN9g01fipeCx6isd5aO8/MPbLkVKvWs="
+        "CodeSha256": "D3X5aDv8P4qSu8N/mWzVoy/Kih6OLmEhsmUpJz75sn0="
       }
     },
     "ApiGatewayRestApi": {
@@ -280,7 +275,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1622033845489": {
+    "ApiGatewayDeployment1622119559078": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -342,7 +337,7 @@
     "AddResultLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AddResultLambdaVersionqd257BLOETRoD1gVxYbharikwMynPqbfQNIgkYP1U"
+        "Ref": "AddResultLambdaVersionDdcHP9G7LCzS9H9O8QjaHpTK5hUSJK5MvPADQg2IDg"
       },
       "Export": {
         "Name": "sls-result-api-dev-AddResultLambdaFunctionQualifiedArn"

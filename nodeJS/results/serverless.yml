@@ -15,13 +15,8 @@ provider:
   iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB
     - Effect: "Allow"
       Action:
-        - dynamodb:Query
-        - dynamodb:DescribeTable
-        - dynamodb:Scan
-        - dynamodb:GetItem
+        - dynamodb:BatchWriteItem
         - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
       Resource: # Le indicamos el recurso para el cual aplica el rol en cuestión
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.secrets.TABLE_NAME}"
 

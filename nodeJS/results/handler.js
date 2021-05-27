@@ -18,9 +18,9 @@ const response = (statusCode, message) => {
   }
 
 // Add one result
-module.exports.addResult = (event, context, callback) => {
+module.exports.addResult = async (event, context, callback) => {
     const reqBody = JSON.parse(event.body);
-    const pollId = reqBody.pollId;
+    const pollId = reqBody.PK;
     const resultGroups = reqBody.groups;
 
     // Get answers
@@ -29,19 +29,19 @@ module.exports.addResult = (event, context, callback) => {
         let questions = g.questions;
 
         questions.forEach(q => {
+          let answerId = uuidv4();
 
             let answer = {
                 PutRequest: {
                     Item: {
-                        PK: pollsId + '#' + pollId,
-                        SK: answersId + '#' + answersId,
+                        PK: pollId,
+                        SK: answersId + '#' + answerId,
                         type: q.type,
                         label: q.label,
                         value: q.value
                     }
                 }
             };
-
             answers.push({...answer});
         })
     
@@ -50,7 +50,7 @@ module.exports.addResult = (event, context, callback) => {
     const resultId = uuidv4();
   
     const result = {
-      PK: pollsId + '#' + pollId,
+      PK: pollId,
       SK: resultsId + '#' + resultId,
       title: reqBody.title,
       description: reqBody.description,
@@ -58,27 +58,21 @@ module.exports.addResult = (event, context, callback) => {
       createdAt: new Date().toISOString()
     };
   
-    return db.put({
-      TableName: table,
-      Item: result
-    })
-    .promise()
-    .then(() => {
+   let res = await db.put({TableName: table, Item: result}).promise().catch(err => {
+      return callback(null, response(err.statusCode, err)); // AL SER UNA PROMESA SI SALTA UN ERROR NO SE PARA LA EJECUCIÓN
+   });
+    
+    // Save answers
+   const params = {
+      RequestItems: {
+        [table]: answers
+      }
+   }
 
-        // Save answers
-        const params = {
-            RequestItems = {}
-        }
-        params.RequestItems[table] = answers;
+   res = await db.batchWrite(params).promise().catch(err => {
+     return callback(null, response(err.statusCode, err)) // AL SER UNA PROMESA SI SALTA UN ERROR NO SE PARA LA EJECUCIÓN
+   });
 
-        db.batchWrite(params)
-        .promise()
-        .then(res => {
-          callback(null, response(200, res));
-        })
-        .catch(err => callback(null, response(err.statusCode, err)))
+   return callback(null, response(200, res));
 
-      callback(null, response(201, poll));
-    })
-    .catch(err => response(null, response(err.statusCode, err)));
   }
