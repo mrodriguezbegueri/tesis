@@ -59,20 +59,22 @@ module.exports.addResult = async (event, context, callback) => {
     };
   
    let res = await db.put({TableName: table, Item: result}).promise().catch(err => {
-      return callback(null, response(err.statusCode, err)); // AL SER UNA PROMESA SI SALTA UN ERROR NO SE PARA LA EJECUCIÓN
+      return callback(null, response(err.statusCode, err));
    });
-    
+
+   if (res) {
     // Save answers
-   const params = {
-      RequestItems: {
-        [table]: answers
+      const params = {
+          RequestItems: {
+            [table]: answers
+          }
       }
+
+      res = await db.batchWrite(params).promise().catch(err => {
+        return callback(null, response(err.statusCode, err))
+      });
+
+      return callback(null, response(200, res));
    }
-
-   res = await db.batchWrite(params).promise().catch(err => {
-     return callback(null, response(err.statusCode, err)) // AL SER UNA PROMESA SI SALTA UN ERROR NO SE PARA LA EJECUCIÓN
-   });
-
-   return callback(null, response(200, res));
-
+   
   }
