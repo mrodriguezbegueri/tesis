@@ -137,7 +137,8 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "dynamodb:BatchWriteItem"
+                    "dynamodb:BatchWriteItem",
+                    "dynamodb:PutItem"
                   ],
                   "Resource": "arn:aws:dynamodb:us-east-1:*:table/polls"
                 }
@@ -168,7 +169,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/result-api/dev/1622120194467-2021-05-27T12:56:34.467Z/result-api.zip"
+          "S3Key": "serverless/result-api/dev/1622120355920-2021-05-27T12:59:15.920Z/result-api.zip"
         },
         "Handler": "handler.addResult",
         "Runtime": "nodejs12.x",
@@ -194,14 +195,14 @@
         "AddResultLogGroup"
       ]
     },
-    "AddResultLambdaVersiont0hhChrxMDNfHejfJllW5bbnbz8jgd9vWw6xNaC4Y": {
+    "AddResultLambdaVersionZ5ACSVKfVhK0zMbMe8rNEBRoFBX0FvHSbYsjdfHHgQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AddResultLambdaFunction"
         },
-        "CodeSha256": "d4GLs+DgVlJBBNLI++Mr8n+wJeL6tiPrngRoae38X2U="
+        "CodeSha256": "p3kufo8t4brhkUaRkS6c283OHk9bNQ2ixZl2Sp7puCM="
       }
     },
     "ApiGatewayRestApi": {
@@ -274,7 +275,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1622120192971": {
+    "ApiGatewayDeployment1622120354567": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -336,7 +337,7 @@
     "AddResultLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AddResultLambdaVersiont0hhChrxMDNfHejfJllW5bbnbz8jgd9vWw6xNaC4Y"
+        "Ref": "AddResultLambdaVersionZ5ACSVKfVhK0zMbMe8rNEBRoFBX0FvHSbYsjdfHHgQ"
       },
       "Export": {
         "Name": "sls-result-api-dev-AddResultLambdaFunctionQualifiedArn"
