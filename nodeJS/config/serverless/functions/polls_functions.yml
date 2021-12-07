@@ -1,0 +1,54 @@
+createPoll:
+  handler: src/api/handlers/polls/pollHandler.createPoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http: # Se indica que el evento se disparará mediante una solicitud http
+        path: /poll
+        method: post
+updatePoll:
+  handler: src/api/handlers/polls/pollHandler.updatePoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /poll/{id}
+        method: put
+getPoll:
+  handler: src/api/handlers/polls/pollHandler.getPoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /poll/{id}
+        method: get
+deletePoll:
+  handler: src/api/handlers/polls/pollHandler.deletePoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /poll/{id}
+        method: delete
+getAllPolls:
+  handler: src/api/handlers/polls/pollHandler.getAllPolls
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /polls
+        method: get
+getPollByTitle:
+  handler: src/api/handlers/polls/pollHandler.getPollByTitle
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /getPollByTitle/{title}
+        method: get

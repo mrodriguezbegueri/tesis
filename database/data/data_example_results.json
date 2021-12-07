@@ -1,0 +1,16 @@
+{
+    "PK": "POLL#82bd7128-475b-404a-bd36-a5733b9dbeda",
+	"title": "Encuesta 1",
+	"description": "Descripción de encuesta 1",
+	"groups": [{
+		"label": "Grupo 1",
+		"description": "Descripción de grupo 1",
+		"questions": [{
+			"type": "select",
+			"label": "Pregunta 1",
+			"description": "Descrpición de pregunta 1",
+		  	"required": true,
+            "value": "opcion 1"
+        }]
+	}]
+}

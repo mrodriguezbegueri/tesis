@@ -1,0 +1,61 @@
+[
+    {
+	"title": "Encuesta 1",
+	"description": "Descripción de encuesta 1",
+	"groups": [{
+		"label": "Grupo 1",
+		"description": "Descripción de grupo 1",
+		"questions": [{
+			"type": "select",
+			"label": "Pregunta 1",
+			"description": "Descrpición de pregunta 1",
+		  	"required": true,
+			"options": [{
+					"label": "opcion 1"
+				},
+				{
+					"label": "opcion 2"
+				}
+			]
+		}]
+	}]
+},
+
+{
+	"title": "Encuesta 2",
+	"description": "Descripción de encuesta 2",
+	"groups": [{
+		"label": "Grupo 1",
+		"description": "Descripción de grupo 1",
+		"questions": [{
+			"type": "select",
+			"label": "Pregunta 1",
+			"description": "Descrpición de pregunta 1",
+		  	"required": true,
+			"options": [{
+					"label": "opcion 1"
+				},
+				{
+					"label": "opcion 2"
+				}
+			]
+		},
+        {
+			"type": "select",
+			"label": "Pregunta 2",
+			"description": "Descrpición de pregunta 2",
+		  	"required": true,
+			"options": [{
+					"label": "opcion 1"
+				},
+				{
+					"label": "opcion 2"
+				},
+                {
+					"label": "opcion 3"
+				}
+			]
+		}]
+	}]
+}
+]
