@@ -4,6 +4,7 @@
   "description": "Poll API for final project of UNSJ",
   "main": "index.js",
   "scripts": {
+    "start:local": "npm i && sls offline --aws-profile awsTesis --region us-east-1 --stage tesis",
     "deploy": "npm i && sls deploy --aws-profile awsTesis --region us-east-1 --stage tesis",
     "package": "npm i && sls package --aws-profile awsTesis --region us-east-1 --stage tesis",
     "remove": "sls remove --aws-profile awsTesis --region us-east-1 --stage tesis",

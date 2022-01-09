@@ -76,8 +76,9 @@ module.exports.updatePoll = (event) => {
 }
 
 // Get one poll
-module.exports.getPoll = (event) => {
-  const PK = event.pathParameters.id;
+module.exports.getPoll = async (event) => {
+  const PK = event.pathParameters.id
+  console.log('PK: ', PK)
   
   const params = {
     TableName: tableName,
@@ -87,21 +88,36 @@ module.exports.getPoll = (event) => {
     }
   };
 
-  return db.get(params)
-    .promise()
-    .then(res => {
-      if (res.Item)
-        return response(200,res.Item)
-      else
-        return response(404, {error: 'Poll not found'})
-    })
-    .catch(err => {
-      return response(err.statusCode, err)
-    })
+  try {
+    const pollSearch = await db.get(params).promise()
+    console.log('poll: ', pollSearch)
+
+    if (!pollSearch.Item) {
+      return response(404, {error: 'Poll not found'})
+    }
+
+    const poll = pollSearch.Item
+    return response(200, poll)
+  } catch (err) {
+    console.log('err: ', err)
+    return response(err.statusCode, err)
+  }
+
+  // return db.get(params)
+  //   .promise()
+  //   .then(res => {
+  //     if (res.Item)
+  //       return response(200,res.Item)
+  //     else
+  //       return response(404, {error: 'Poll not found'})
+  //   })
+  //   .catch(err => {
+  //     return response(err.statusCode, err)
+  //   })
 }
 
 // Delete one poll
-module.exports.deletePoll = (event) => {
+module.exports.deletePoll = async (event) => {
   const PK = event.pathParameters.id;
   
   const params = {
@@ -112,18 +128,26 @@ module.exports.deletePoll = (event) => {
     }
   };
 
-  return db.delete(params)
-  .promise()
-  .then(() => {
+  try {
+    const deletePoll = await db.delete(params).promise()
+    console.log('deletePoll: ', deletePoll)
     return response(200, { message: 'Poll deleted successfully' })
-  })
-  .catch(err => {
+  } catch (err) {
     return response(err.statusCode, err)
-  })
+  }
+
+  // return db.delete(params)
+  // .promise()
+  // .then(() => {
+  //   return response(200, { message: 'Poll deleted successfully' })
+  // })
+  // .catch(err => {
+  //   return response(err.statusCode, err)
+  // })
 }
 
 // Get list of poll's titles
-module.exports.getAllPolls = () => {
+module.exports.getAllPolls = async () => {
   const params = {
     TableName: tableName,
     IndexName: 'ListPollsTitles',
@@ -133,36 +157,45 @@ module.exports.getAllPolls = () => {
     }
   };
 
-  return db.query(params)
-  .promise()
-  .then(res => {
-    return response(200, res)
-  })
-  .catch(err => {
+  try {
+    const pollsSearch = await db.query(params).promise()
+    const polls = pollsSearch.Items
+    return response(200, polls)
+  } catch (err) {
     return response(err.statusCode, err)
-  })
+  }
 }
 
 // Get one poll by title
-module.exports.getPollByTitle = (event) => {
-  const title = event.pathParameters.title
-  
+module.exports.getPollByTitle = async (event) => {
+  const title = event.queryStringParameters.title
+  console.log('title: ', title)
+
   const params = {
     TableName: tableName,
-    IndexName: 'SearchPollByTitle',
-    KeyConditionExpression: 'title = :v1 AND begins_with(SK, :v2)',
+    // IndexName: 'SearchPollByTitle',
+    FilterExpression: 'title = :v1 AND begins_with(PK, :v2)',
     ExpressionAttributeValues: {
       ':v1': title,
       ':v2': 'POLL'
     }
-  };
+  }
 
-  return db.query(params)
-  .promise()
-  .then(res => {
-    return response(200, res)
-  })
-  .catch(err => {
+  try {
+    const pollSearch = await db.scan(params).promise()
+    console.log('pollSearch', pollSearch)
+
+    if (!pollSearch.Items || pollSearch.Items.length !== 1) {
+      return response(500, {
+        message: "Error getting the poll"
+      })
+    }
+
+    const poll = pollSearch.Items[0]
+    
+    return response(200, poll)
+  } catch (err) {
+    console.log('err: ', err)
     return response(err.statusCode, err)
-  })
+  }
 }
