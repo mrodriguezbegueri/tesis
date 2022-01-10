@@ -59,22 +59,29 @@ module.exports.addResult = async (event) => {
     };
   
     // Save poll
-   let res = await db.put({TableName: tableName, Item: result}).promise().catch(err => {
-      return response(err.statusCode, err)
-   });
+    try {
+      let res = await db.put({TableName: tableName, Item: result}).promise()
+      //  let res = await db.put({TableName: tableName, Item: result}).promise().catch(err => {
+      //     return response(err.statusCode, err)
+      //  });
 
-   if (res) {
-    // Save answers
-      const params = {
-          RequestItems: {
-            [tableName]: answers
+      if (res) {
+        // Save answers
+          const params = {
+              RequestItems: {
+                [tableName]: answers
+              }
           }
+          res = await db.batchWrite(params).promise()
+          // res = await db.batchWrite(params).promise().catch(err => {
+          //   return response(err.statusCode, err)
+          // });
+          return response(200, res)
+      } else {
+          return response(500, { message: 'Error at creating the poll' })
       }
-      res = await db.batchWrite(params).promise().catch(err => {
-        return response(err.statusCode, err)
-      });
-      return response(200, res)
-   } else {
-      return response(500, { message: 'Error at creating the poll' })
-   }
+    } catch (err) {
+      return response(err.statusCode, err)
+    }
+    
   }

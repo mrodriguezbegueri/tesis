@@ -16,7 +16,7 @@ const response = (statusCode, message) => {
   }
 
 // Create one Poll
-module.exports.createPoll = (event) => {
+module.exports.createPoll = async (event) => {
     const reqBody = JSON.parse(event.body);
 
     const pollId = uuidv4();
@@ -29,30 +29,45 @@ module.exports.createPoll = (event) => {
       description: reqBody.description,
       groups: reqBody.groups,
       createdAt: new Date().toISOString()
-    };
-  
-    return db.put({
+    }
+
+    const params = {
       TableName: tableName,
       Item: poll
-    })
-    .promise()
-    .then(() => {
-      return response(201, poll)
-    })
-    .catch(err => {
+    }
+
+    try {
+      const createPoll = await db.put(params).promise()
+      console.log('createPoll: ', createPoll)
+
+      delete params.Item
+      params['Key'] = {
+        PK: dynamoPollsId + '#' + pollId,
+        SK: dynamoPollsId + '#' + pollId,
+      }
+
+      const getPoll = await db.get(params).promise()
+
+      if (!getPoll.Item) {
+        return response(404, {error: 'Error creating Poll'})
+      }
+
+      return response(201, getPoll.Item)
+    } catch (err) {
+      console.log('err: ', err)
       return response(err.statusCode, err)
-    });
+    }
   }
 
 // Update one poll
-module.exports.updatePoll = (event) => {
+module.exports.updatePoll = async (event) => {
   const PK = event.pathParameters.id;
   const reqBody = JSON.parse(event.body);
   const paramName = reqBody.paramName;
   const paramValue = reqBody.paramValue;
   
   const params = {
-    TableName: table,
+    TableName: tableName,
     Key: {
       PK: dynamoPollsId + '#' + PK,
       SK: dynamoPollsId + '#' + PK,
@@ -65,14 +80,13 @@ module.exports.updatePoll = (event) => {
     ReturnValue: 'ALL_NEW'
   };
 
-  return db.update(params)
-  .promise()
-  .then(res => {
-    return response(200, res)
-  })
-  .catch(err => {
+  try {
+    const updatePoll = await db.update(params).promise()
+    return response(200, updatePoll)
+  } catch (err) {
+    console.log('err: ', err)
     return response(err.statusCode, err)
-  })
+  }
 }
 
 // Get one poll
@@ -102,18 +116,6 @@ module.exports.getPoll = async (event) => {
     console.log('err: ', err)
     return response(err.statusCode, err)
   }
-
-  // return db.get(params)
-  //   .promise()
-  //   .then(res => {
-  //     if (res.Item)
-  //       return response(200,res.Item)
-  //     else
-  //       return response(404, {error: 'Poll not found'})
-  //   })
-  //   .catch(err => {
-  //     return response(err.statusCode, err)
-  //   })
 }
 
 // Delete one poll
@@ -135,15 +137,6 @@ module.exports.deletePoll = async (event) => {
   } catch (err) {
     return response(err.statusCode, err)
   }
-
-  // return db.delete(params)
-  // .promise()
-  // .then(() => {
-  //   return response(200, { message: 'Poll deleted successfully' })
-  // })
-  // .catch(err => {
-  //   return response(err.statusCode, err)
-  // })
 }
 
 // Get list of poll's titles
