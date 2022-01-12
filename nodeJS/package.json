@@ -13,6 +13,7 @@
   "author": "Matias Rodriguez",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "uuid": "^8.3.2"
   }
 }

@@ -50,5 +50,5 @@ getPollByTitle:
       - src/api/handlers/polls/**
   events:
     - http:
-        path: /getPollByTitle
+        path: /polls/getPollByTitle
         method: get

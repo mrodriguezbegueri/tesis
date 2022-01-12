@@ -31,8 +31,9 @@ package:
     - ./node_modules/**
 
 functions:
-  - ${file(config/serverless/functions/polls_functions.yml)}
-  - ${file(config/serverless/functions/results_functions.yml)}
+  - ${file(config/serverless/functions/api/polls_functions.yml)}
+  - ${file(config/serverless/functions/api/results_functions.yml)}
+  - ${file(config/serverless/functions/bot/save_random_results_bot.yml)}
 
 resources:
   - ${file(../database/database_config.yml)}

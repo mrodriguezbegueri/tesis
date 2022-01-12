@@ -1,0 +1,9 @@
+saveRandomResultsBot:
+  handler: src/bot/botHandler.run
+  package:
+    patterns:
+      - src/bot/**
+  events:
+    - http:
+        path: /bot/run
+        method: get
