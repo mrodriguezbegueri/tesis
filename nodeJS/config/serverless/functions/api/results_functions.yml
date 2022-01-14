@@ -5,7 +5,7 @@ addResult:
       - src/api/handlers/results/**
   events:
     - http: # Se indica que el evento se disparará mediante una solicitud http
-        path: /result
+        path: /results
         method: post
 # addRandomResult:
 #   handler: src/api/handlers/results/resultHandler.addRandomResult

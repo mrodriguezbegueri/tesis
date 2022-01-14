@@ -14,38 +14,43 @@ const response = (statusCode, message) => {
 
 const run = async (event) => {
 
-    try {
-        // Obtener la encuesta        
+    try { 
         const pollTitle = event.queryStringParameters.title
         console.log('pollTitle', pollTitle)
-
-        const params = {
-            title: pollTitle
-        }
-
-        const getPollRequest = await axios.get(APIG_URL + '/polls/getPollByTitle', { params })
     
-        const poll = getPollRequest.data
+        const poll = await getPollByTitle(pollTitle)
         console.log('poll', poll)
-
-        // Armar las respuestas
-        getPollResult(poll)
+        
+        buildRandomAnswer(poll)
         console.log('poll after: ', JSON.stringify(poll))
+
+        await saveAnswer(poll)
         
-        
-        return response(200, 'ok')
+        return response(200, poll)
 
     } catch(err) {
         console.log('err', err)
+        return response(err.statusCode, err.message)
     }
 }
 
-const getPollResult = (poll) => {
+const buildRandomAnswer = (poll) => {
     poll.groups.forEach(group => {
         group.questions.forEach(question => {
             addRandomAnswer(question)
         })
     })
+}
+
+const getPollByTitle = async (pollTitle) => {
+    const params = {
+        title: pollTitle
+    }
+
+    const getPollRequest = await axios.get(APIG_URL + '/polls/getPollByTitle', { params })
+    const poll = getPollRequest.data
+
+    return poll
 }
 
 const addRandomAnswer = (question) => {
@@ -59,6 +64,11 @@ const getRandomInt = (min, max) => {
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const saveAnswer = async (answer) => {
+    const saveAnswerRequest = await axios.post(APIG_URL + '/results', answer)
+    console.log('saveAnswerRequest', saveAnswerRequest)
 }
 
 module.exports = {
