@@ -167,7 +167,7 @@ module.exports.getPollByTitle = async (event) => {
   const params = {
     TableName: tableName,
     // IndexName: 'SearchPollByTitle',
-    FilterExpression: 'title = :v1 AND begins_with(PK, :v2)',
+    FilterExpression: 'title = :v1 AND begins_with(PK, :v2) AND begins_with(SK, :v2)',
     ExpressionAttributeValues: {
       ':v1': title,
       ':v2': 'POLL'

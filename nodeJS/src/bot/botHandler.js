@@ -14,32 +14,24 @@ const response = (statusCode, message) => {
 
 const run = async (event) => {
 
-    try { 
+    try {
         const pollTitle = event.queryStringParameters.title
         console.log('pollTitle', pollTitle)
-    
-        const poll = await getPollByTitle(pollTitle)
-        console.log('poll', poll)
-        
-        buildRandomAnswer(poll)
-        console.log('poll after: ', JSON.stringify(poll))
 
-        await saveAnswer(poll)
+        const poll = await getPollByTitle(pollTitle)
+        console.log('poll', JSON.stringify(poll))
+            
+        let answer = buildRandomAnswer(poll)
+        console.log('answer: ', JSON.stringify(answer))
+
+        await saveAnswer(answer)
         
-        return response(200, poll)
+        return response(200, answer)
 
     } catch(err) {
         console.log('err', err)
         return response(err.statusCode, err.message)
     }
-}
-
-const buildRandomAnswer = (poll) => {
-    poll.groups.forEach(group => {
-        group.questions.forEach(question => {
-            addRandomAnswer(question)
-        })
-    })
 }
 
 const getPollByTitle = async (pollTitle) => {
@@ -51,6 +43,23 @@ const getPollByTitle = async (pollTitle) => {
     const poll = getPollRequest.data
 
     return poll
+}
+
+const buildRandomAnswer = (poll) => {
+    let answer = {...poll}
+
+    answer.groups.forEach(group => {
+        group.questions.forEach(question => {
+            addRandomAnswer(question)
+        })
+    })
+
+    return answer
+}
+
+const saveAnswer = async (answer) => {
+    const saveAnswerRequest = await axios.post(APIG_URL + '/results', answer)
+    console.log('saveAnswerRequest', saveAnswerRequest)
 }
 
 const addRandomAnswer = (question) => {
@@ -66,11 +75,38 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const saveAnswer = async (answer) => {
-    const saveAnswerRequest = await axios.post(APIG_URL + '/results', answer)
-    console.log('saveAnswerRequest', saveAnswerRequest)
+const callBot = (event) => {
+    try {
+
+        const numberOfExecutions = event.queryStringParameters.number_of_executions
+        const pollTitle = event.queryStringParameters.title
+
+        for(let i = 0; i < numberOfExecutions; i++) {
+            
+            callSaveAnswerBot(pollTitle)
+        }
+        
+        return response(200, 'ok')
+
+    } catch(err) {
+        console.log('err', err)
+        return response(err.statusCode, err.message)
+    }
+}
+
+const callSaveAnswerBot = (pollTitle) => {
+    const params = {
+        title: pollTitle
+    }
+    
+    const runBotRequest = axios.get(APIG_URL + '/bot/run', { params })
+    .catch( (err) => {
+        console.log('err: ', err)
+    })
+    console.log('runBotRequest', runBotRequest)
 }
 
 module.exports = {
-    run
+    run,
+    callBot
 }

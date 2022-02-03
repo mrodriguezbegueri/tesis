@@ -7,3 +7,13 @@ saveRandomResultsBot:
     - http:
         path: /bot/run
         method: get
+callBot:
+  handler: src/bot/botHandler.callBot
+  timeout: 15
+  package:
+    patterns:
+      - src/bot/**
+  events:
+    - http:
+        path: /bot/callBot
+        method: get
