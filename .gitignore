@@ -1,2 +1,4 @@
 nodeJS/node_modules/**
 nodeJS/.serverless/**
+automatic-process/node_modules/**
+automatic-process/.serverless/**

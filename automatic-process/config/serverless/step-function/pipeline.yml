@@ -1,0 +1,40 @@
+name: save-records-dynamo-sf-tesis
+definition:
+  StartAt: getPoll
+  States:
+    getPoll:
+      Type: Task
+      Resource: ${self:provider.environment.GET_POLL_FUNCTION_ARN}
+      Parameters:
+        step: getPoll step
+        data: $.data
+      Next: forLoopCondition
+    forLoopCondition:
+      Type: Choice
+      Choices:
+        - Variable: $.data.recordsSent
+          NumericLessThan: 10000
+          Next: buildRandomResult
+      Default: succeed
+    buildRandomResult:
+      Type: Task
+      Resource:
+        Fn::GetAtt: [getRandomResult, Arn]
+      Parameters:
+        step: buildRandomResult step
+        data: $.data
+      Next: sendResultToSQS
+    sendResultToSQS:
+      Type: Task
+      Resource: "arn:aws:states:::sqs:sendMessage"
+      Parameters:
+        MessageBody.$: $.data.randomResult
+        QueueUrl: { Ref: ResultsQueue}
+      Next: nextResult
+    nextResult:
+      Type: Pass
+      Parameters:
+        data: $.data.cantRecords + 1
+      Next: forLoopCondition
+    succeed:
+      Type: Succeed

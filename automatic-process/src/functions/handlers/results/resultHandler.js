@@ -1,0 +1,63 @@
+'use strict'
+
+const AWS = require('aws-sdk')
+// const axios = require('axios').default
+
+// const APIG_URL = process.env.APIG_URL
+
+// const lambda = new AWS.Lambda({
+//     region: process.env.REGION //change to your region
+//   });
+
+const response = (statusCode, message) => {
+    return {
+        statusCode: statusCode,
+        body: JSON.stringify(message)
+    };
+}
+
+const getRandomResult = async (event) => {
+
+    try {
+        const poll = event.data.poll
+            
+        let answer = buildRandomAnswer(poll)
+        console.log('answer: ', JSON.stringify(answer))
+        
+        return response(200, answer)
+
+    } catch(err) {
+        console.log('err', err)
+        return response(err.statusCode, err.message)
+    }
+}
+
+const buildRandomAnswer = (poll) => {
+    let answer = {...poll}
+
+    answer.groups.forEach(group => {
+        group.questions.forEach(question => {
+            addRandomAnswer(question)
+        })
+    })
+
+    return answer
+}
+
+
+const addRandomAnswer = (question) => {
+    const contOptions = question.options.length
+    const randomIndex = getRandomInt(0, (contOptions - 1))
+    const answer = question.options[randomIndex].label
+    question.value = answer 
+}
+
+const getRandomInt = (min, max) => {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+module.exports = {
+    getRandomResult
+}

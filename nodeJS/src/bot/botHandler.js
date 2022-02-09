@@ -5,6 +5,10 @@ const axios = require('axios').default
 
 const APIG_URL = process.env.APIG_URL
 
+const lambda = new AWS.Lambda({
+    region: process.env.REGION //change to your region
+  });
+
 const response = (statusCode, message) => {
     return {
         statusCode: statusCode,
@@ -75,18 +79,18 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const callBot = (event) => {
+const callBot = async (event, context, callback) => {
     try {
-
+        // context.callbackWaitsForEmptyEventLoop = true
         const numberOfExecutions = event.queryStringParameters.number_of_executions
         const pollTitle = event.queryStringParameters.title
 
-        for(let i = 0; i < numberOfExecutions; i++) {
+            // for(let i = 0; i < numberOfExecutions; i++) {
             
-            callSaveAnswerBot(pollTitle)
-        }
+        await callSaveAnswerBot(pollTitle, numberOfExecutions)
+            // }
         
-        return response(200, 'ok')
+        return response(200, 'All requests sended')
 
     } catch(err) {
         console.log('err', err)
@@ -94,16 +98,34 @@ const callBot = (event) => {
     }
 }
 
-const callSaveAnswerBot = (pollTitle) => {
-    const params = {
-        title: pollTitle
-    }
+const callSaveAnswerBot = (pollTitle, numberOfExecutions) => {
+    // const params = {
+    //     title: pollTitle
+    // }
     
-    const runBotRequest = axios.get(APIG_URL + '/bot/run', { params })
-    .catch( (err) => {
-        console.log('err: ', err)
+    // const runBotRequest = axios.get(APIG_URL + '/bot/run', { params })
+    // .catch( (err) => {
+    //     console.log('err: ', err)
+    // })
+    // console.log('runBotRequest', runBotRequest)
+
+    const payload = {
+        queryStringParameters: {
+            title: pollTitle
+        }
+    }
+
+    return new Promise((resolve, reject) => {
+        for(let i = 0; i < numberOfExecutions; i++) {
+            console.log('i: ', i)
+            lambda.invoke({
+                FunctionName: process.env.SAVE_RANDOM_ANSWER_LAMBDA,
+                InvocationType: 'Event',
+                Payload: JSON.stringify(payload)
+            })
+         }
+         resolve('ok')
     })
-    console.log('runBotRequest', runBotRequest)
 }
 
 module.exports = {

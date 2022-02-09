@@ -18,9 +18,12 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchWriteItem
         - dynamodb:PutItem
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
       Resource: # Le indicamos el recurso para el cual aplica el rol en cuestión
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/ListPollsTitles
+        - arn:aws:lambda:${self:provider.region}:735585965178:function:polls-api-nodejs-tesis-saveRandomResultsBot
         # - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/SearchPollByTitle
   environment: ${file(config/serverless/environment/env.yml)}
 

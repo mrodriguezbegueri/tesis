@@ -1,0 +1,5 @@
+getRandomResult:
+  handler: src/functions/handlers/results/resultHandler.getRandomResult
+  package:
+    patterns:
+      - src/functions/handlers/results/**
