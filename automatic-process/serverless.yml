@@ -38,6 +38,7 @@ functions:
   - ${file(config/serverless/functions/start-process/start_process.yml)}
   - ${file(config/serverless/functions/polls/polls_functions.yml)}
   - ${file(config/serverless/functions/incrementer/incrementer_function.yml)}
+  - ${file(config/serverless/functions/dynamo-saver/dynamo_saver.yml)}
 
 resources:
   - ${file(config/serverless/sqs/sqs.yml)}

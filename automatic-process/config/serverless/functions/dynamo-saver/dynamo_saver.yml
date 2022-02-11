@@ -1,0 +1,13 @@
+dynamoSaver:
+  handler: src/functions/handlers/dynamo-saver/dynamoSaverHandler.dynamoSaver
+  reservedConcurrency: 5
+  package:
+    patterns:
+      - src/functions/handlers/dynamo-saver/**
+  events:
+    - sqs:
+        batchSize: 1
+        arn:
+          Fn::GetAtt: 
+            - ResultsQueue 
+            - Arn
