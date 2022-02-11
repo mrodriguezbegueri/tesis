@@ -1,0 +1,5 @@
+getPollByTitle:
+  handler: src/functions/handlers/polls/pollsHandler.getPollByTitle
+  package:
+    patterns:
+      - src/functions/handlers/polls/**

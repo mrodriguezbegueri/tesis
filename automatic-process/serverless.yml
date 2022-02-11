@@ -7,27 +7,22 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
   region: us-east-1
-  # iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB
-  #   - Effect: "Allow"
-  #     Action:
-  #       - dynamodb:Query
-  #       - dynamodb:DescribeTable
-  #       - dynamodb:Scan
-  #       - dynamodb:GetItem
-  #       - dynamodb:UpdateItem
-  #       - dynamodb:DeleteItem
-  #       - dynamodb:BatchWriteItem
-  #       - dynamodb:PutItem
-  #     Resource: # Le indicamos el recurso para el cual aplica el rol en cuestión
-  #       - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}
-  #       - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/ListPollsTitles
+  iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB
+    - Effect: "Allow"
+      Action:
+        - states:StartExecution
+        - dynamodb:Scan
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/ListPollsTitles
+        - ${self:provider.environment.STEP_FUNCTION_ARN}
   environment: ${file(config/serverless/environment/env.yml)}
 
 package:
   individually: true
   patterns:
     - '!./**'
-    - ./node_modules/**
+    # - ./node_modules/**
 
 plugins:
   - serverless-pseudo-parameters
@@ -36,11 +31,13 @@ plugins:
 stepFunctions:
   stateMachines:
     pipeline: ${file(config/serverless/step-function/pipeline.yml)}
-  DependsOn: ResultsQueue
 
 
 functions:
   - ${file(config/serverless/functions/results/results_functions.yml)}
+  - ${file(config/serverless/functions/start-process/start_process.yml)}
+  - ${file(config/serverless/functions/polls/polls_functions.yml)}
+  - ${file(config/serverless/functions/incrementer/incrementer_function.yml)}
 
 resources:
   - ${file(config/serverless/sqs/sqs.yml)}

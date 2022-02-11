@@ -1,0 +1,9 @@
+start_process:
+  handler: src/functions/handlers/start-process/startProcessHandler.startProcess
+  package:
+    patterns:
+      - src/functions/handlers/start-process/**
+  events:
+    - http:
+        path: /start_process
+        method: post

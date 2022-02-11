@@ -9,26 +9,39 @@ const AWS = require('aws-sdk')
 //     region: process.env.REGION //change to your region
 //   });
 
-const response = (statusCode, message) => {
+const generateEventResponse = (processData) => {
     return {
-        statusCode: statusCode,
-        body: JSON.stringify(message)
-    };
+        data: {
+            poll: processData.poll,
+            randomResult: processData.randomResult,
+            recordsSent: processData.recordsSent,
+            recordsToSent: processData.recordsToSent
+        }
+    }
 }
 
 const getRandomResult = async (event) => {
 
     try {
         const poll = event.data.poll
+        const recordsToSent = event.data.recordsToSent
+        const recordsSent = event.data.recordsSent
             
-        let answer = buildRandomAnswer(poll)
-        console.log('answer: ', JSON.stringify(answer))
+        let randomResult = buildRandomAnswer(poll)
+        console.log('answer: ', JSON.stringify(randomResult))
         
-        return response(200, answer)
+        const eventResponseData = generateEventResponse({
+            poll,
+            randomResult,
+            recordsSent,
+            recordsToSent
+        })
 
+        console.log("eventResponseData: ", eventResponseData)
+
+        return eventResponseData
     } catch(err) {
         console.log('err', err)
-        return response(err.statusCode, err.message)
     }
 }
 

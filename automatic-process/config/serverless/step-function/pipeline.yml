@@ -4,16 +4,17 @@ definition:
   States:
     getPoll:
       Type: Task
-      Resource: ${self:provider.environment.GET_POLL_FUNCTION_ARN}
+      Resource:
+        Fn::GetAtt: [getPollByTitle, Arn]
       Parameters:
         step: getPoll step
-        data: $.data
+        data.$: $.data
       Next: forLoopCondition
     forLoopCondition:
       Type: Choice
       Choices:
-        - Variable: $.data.recordsSent
-          NumericLessThan: 10000
+        - Variable: "$.data.recordsSent"
+          NumericLessThanPath: "$.data.recordsToSent"
           Next: buildRandomResult
       Default: succeed
     buildRandomResult:
@@ -22,7 +23,7 @@ definition:
         Fn::GetAtt: [getRandomResult, Arn]
       Parameters:
         step: buildRandomResult step
-        data: $.data
+        data.$: $.data
       Next: sendResultToSQS
     sendResultToSQS:
       Type: Task
@@ -30,11 +31,15 @@ definition:
       Parameters:
         MessageBody.$: $.data.randomResult
         QueueUrl: { Ref: ResultsQueue}
-      Next: nextResult
-    nextResult:
-      Type: Pass
+      ResultPath: "$.taskresult"
+      Next: incrementer
+    incrementer:
+      Type: Task
+      Resource:
+        Fn::GetAtt: [incrementerFunction, Arn]
       Parameters:
-        data: $.data.cantRecords + 1
+        step: incrementer step
+        data.$: $.data
       Next: forLoopCondition
     succeed:
       Type: Succeed
