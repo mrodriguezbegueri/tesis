@@ -3,3 +3,11 @@ Resources:
     Type: AWS::SQS::Queue
     Properties:
       QueueName: results-queue-tesis
+      RedrivePolicy:
+        deadLetterTargetArn:
+          Fn::GetAtt:
+            - ResultsErrorQueueDLQ
+            - Arn
+        maxReceiveCount: 2
+  ResultsErrorQueueDLQ:
+      Type: 'AWS::SQS::Queue'

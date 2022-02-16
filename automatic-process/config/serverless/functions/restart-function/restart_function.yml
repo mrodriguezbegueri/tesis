@@ -1,0 +1,5 @@
+restartFunction:
+  handler: src/functions/handlers/restart-function/restartHandler.restart
+  package:
+    patterns:
+      - src/functions/handlers/restart-function/**

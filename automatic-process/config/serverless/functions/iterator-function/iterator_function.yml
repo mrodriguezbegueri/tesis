@@ -1,0 +1,5 @@
+iteratorFunction:
+  handler: src/functions/handlers/iterator-function/iteratorHandler.iterator
+  package:
+    patterns:
+      - src/functions/handlers/iterator-function/**

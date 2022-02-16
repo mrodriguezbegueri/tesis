@@ -16,5 +16,8 @@
     "serverless": "^2.35.0",
     "serverless-pseudo-parameters": "^2.6.1",
     "serverless-step-functions": "^3.5.1"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }

@@ -58,9 +58,6 @@ const addResult = async (event) => {
   // Save poll
   try {
     let res = await db.put({TableName: tableName, Item: result}).promise()
-    //  let res = await db.put({TableName: tableName, Item: result}).promise().catch(err => {
-    //     return response(err.statusCode, err)
-    //  });
 
     if (res) {
       // Save answers
@@ -70,9 +67,6 @@ const addResult = async (event) => {
             }
         }
         res = await db.batchWrite(params).promise()
-        // res = await db.batchWrite(params).promise().catch(err => {
-        //   return response(err.statusCode, err)
-        // });
         return response(200, res)
     } else {
         return response(500, { message: 'Error at creating the poll' })
@@ -81,10 +75,6 @@ const addResult = async (event) => {
     return response(err.statusCode, err)
   }
 }
-
-// const addRandomResult = async (event) => {
-
-// }
 
 
 module.exports = {

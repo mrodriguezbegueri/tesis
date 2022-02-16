@@ -11,12 +11,8 @@ const AWS = require('aws-sdk')
 
 const generateEventResponse = (processData) => {
     return {
-        data: {
             poll: processData.poll,
-            randomResult: processData.randomResult,
-            recordsSent: processData.recordsSent,
-            recordsToSent: processData.recordsToSent
-        }
+            randomResult: processData.randomResult
     }
 }
 
@@ -24,17 +20,13 @@ const getRandomResult = async (event) => {
 
     try {
         const poll = event.data.poll
-        const recordsToSent = event.data.recordsToSent
-        const recordsSent = event.data.recordsSent
             
         let randomResult = buildRandomAnswer(poll)
         console.log('answer: ', JSON.stringify(randomResult))
         
         const eventResponseData = generateEventResponse({
             poll,
-            randomResult,
-            recordsSent,
-            recordsToSent
+            randomResult
         })
 
         console.log("eventResponseData: ", eventResponseData)
@@ -46,7 +38,7 @@ const getRandomResult = async (event) => {
 }
 
 const buildRandomAnswer = (poll) => {
-    let answer = {...poll}
+    let answer = JSON.parse(JSON.stringify(poll))
 
     answer.groups.forEach(group => {
         group.questions.forEach(question => {

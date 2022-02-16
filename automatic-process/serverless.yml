@@ -12,6 +12,8 @@ provider:
       Action:
         - states:StartExecution
         - dynamodb:Scan
+        - dynamodb:BatchWriteItem
+        - dynamodb:PutItem
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/ListPollsTitles
@@ -37,7 +39,8 @@ functions:
   - ${file(config/serverless/functions/results/results_functions.yml)}
   - ${file(config/serverless/functions/start-process/start_process.yml)}
   - ${file(config/serverless/functions/polls/polls_functions.yml)}
-  - ${file(config/serverless/functions/incrementer/incrementer_function.yml)}
+  - ${file(config/serverless/functions/iterator-function/iterator_function.yml)}
+  - ${file(config/serverless/functions/restart-function/restart_function.yml)}
   - ${file(config/serverless/functions/dynamo-saver/dynamo_saver.yml)}
 
 resources:

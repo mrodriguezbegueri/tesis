@@ -12,15 +12,22 @@ const response = (statusCode, message) => {
 const startProcess = async (event) => {
     try {
         const reqBody = JSON.parse(event.body);
-        const title = reqBody.title
-        const recordsToSent = reqBody.recordsToSent
-        const recordsSent = 0
+        // const title = reqBody.title
+        // const recordsToSent = reqBody.recordsToSent
+        const { count, index, step, title, executionCount } = reqBody
+        
 
         const step_function_input = {
+            restart: {
+                executionCount
+            },
+            iterator: {
+                count,
+                index,
+                step
+            },
             data: {
-                title,
-                recordsToSent,
-                recordsSent
+                title
             }
         }
 

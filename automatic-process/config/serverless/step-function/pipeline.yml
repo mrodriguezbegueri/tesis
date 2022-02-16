@@ -1,29 +1,31 @@
 name: save-records-dynamo-sf-tesis
 definition:
-  StartAt: getPoll
+  StartAt: GetPoll
   States:
-    getPoll:
+    GetPoll:
       Type: Task
       Resource:
         Fn::GetAtt: [getPollByTitle, Arn]
-      Parameters:
-        step: getPoll step
-        data.$: $.data
-      Next: forLoopCondition
-    forLoopCondition:
+      ResultPath: $.data
+      Next: Iterator
+    Iterator:
+      Type: Task
+      Resource: 
+        Fn::GetAtt: [iteratorFunction, Arn]
+      ResultPath: $.iterator
+      Next: IsCountReached
+    IsCountReached:
       Type: Choice
       Choices:
-        - Variable: "$.data.recordsSent"
-          NumericLessThanPath: "$.data.recordsToSent"
-          Next: buildRandomResult
-      Default: succeed
-    buildRandomResult:
+        - Variable: $.iterator.shouldContinue
+          BooleanEquals: true
+          Next: BuildRandomResult
+      Default: ShouldRestart
+    BuildRandomResult:
       Type: Task
       Resource:
         Fn::GetAtt: [getRandomResult, Arn]
-      Parameters:
-        step: buildRandomResult step
-        data.$: $.data
+      ResultPath: $.data
       Next: sendResultToSQS
     sendResultToSQS:
       Type: Task
@@ -32,14 +34,19 @@ definition:
         MessageBody.$: $.data.randomResult
         QueueUrl: { Ref: ResultsQueue}
       ResultPath: "$.taskresult"
-      Next: incrementer
-    incrementer:
+      Next: Iterator
+    ShouldRestart:
+      Type: Choice
+      Choices:
+        - Variable: $.restart.executionCount
+          NumericGreaterThan: 0
+          Next: Restart
+      Default: Done
+    Restart:
       Type: Task
       Resource:
-        Fn::GetAtt: [incrementerFunction, Arn]
-      Parameters:
-        step: incrementer step
-        data.$: $.data
-      Next: forLoopCondition
-    succeed:
-      Type: Succeed
+        Fn::GetAtt: [restartFunction, Arn]
+      Next: Done
+    Done:
+      Type: Pass
+      End: true

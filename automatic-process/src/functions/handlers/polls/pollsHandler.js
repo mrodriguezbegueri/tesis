@@ -6,25 +6,18 @@ const pollsTableName = process.env.POLLS_TABLE_NAME;
 
 const generateEventResponse = (processData) => {
     return {
-        data: {
-            poll: processData.poll,
-            recordsSent: processData.recordsSent,
-            recordsToSent: processData.recordsToSent
-        }
+            poll: processData.poll
     }
 }
 // Get one poll by title
 const getPollByTitle = async (event, context, callback) => {
     console.log("event.data:", JSON.stringify(event))
     const title = event.data.title
-    const recordsToSent = event.data.recordsToSent
-    const recordsSent = event.data.recordsSent 
 
     console.log('title: ', title)
   
     const params = {
       TableName: pollsTableName,
-      // IndexName: 'SearchPollByTitle',
       FilterExpression: 'title = :v1 AND begins_with(PK, :v2) AND begins_with(SK, :v2)',
       ExpressionAttributeValues: {
         ':v1': title,
@@ -43,9 +36,7 @@ const getPollByTitle = async (event, context, callback) => {
       const poll = pollSearch.Items[0]
       
       const eventResponseData = generateEventResponse({
-        poll,
-        recordsToSent,
-        recordsSent    
+        poll
     })
         
       console.log('eventResponseData: ', eventResponseData) 

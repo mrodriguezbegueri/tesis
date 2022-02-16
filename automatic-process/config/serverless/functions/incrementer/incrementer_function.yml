@@ -1,5 +1,0 @@
-incrementerFunction:
-  handler: src/functions/handlers/incrementer/incrementerHandler.incrementer
-  package:
-    patterns:
-      - src/functions/handlers/incrementer/**

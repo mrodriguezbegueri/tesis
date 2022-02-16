@@ -4,6 +4,7 @@ dynamoSaver:
   package:
     patterns:
       - src/functions/handlers/dynamo-saver/**
+      - node_modules/uuid/**
   events:
     - sqs:
         batchSize: 1
