@@ -9,5 +9,6 @@ Resources:
             - ResultsErrorQueueDLQ
             - Arn
         maxReceiveCount: 2
+      VisibilityTimeout: 36
   ResultsErrorQueueDLQ:
       Type: 'AWS::SQS::Queue'

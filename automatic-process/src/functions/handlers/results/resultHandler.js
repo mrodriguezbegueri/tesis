@@ -30,7 +30,7 @@ const getRandomResult = async (event) => {
         })
 
         console.log("eventResponseData: ", eventResponseData)
-
+        // await sleep(1000)
         return eventResponseData
     } catch(err) {
         console.log('err', err)
@@ -45,7 +45,6 @@ const buildRandomAnswer = (poll) => {
             addRandomAnswer(question)
         })
     })
-
     return answer
 }
 
@@ -62,6 +61,12 @@ const getRandomInt = (min, max) => {
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
+// const sleep = (ms) => {
+//     return new Promise((resolve) => {
+//       setTimeout(resolve, ms);
+//     });
+//   }
 
 module.exports = {
     getRandomResult

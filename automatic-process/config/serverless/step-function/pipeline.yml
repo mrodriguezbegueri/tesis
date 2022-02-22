@@ -39,7 +39,7 @@ definition:
       Type: Choice
       Choices:
         - Variable: $.restart.executionCount
-          NumericGreaterThan: 0
+          NumericGreaterThan: 1
           Next: Restart
       Default: Done
     Restart:

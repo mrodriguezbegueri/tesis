@@ -1,12 +1,10 @@
 'use strict';
 
-const AWS = require('aws-sdk');
-const db = new AWS.DynamoDB.DocumentClient({});
-const { v4: uuidv4 } = require('uuid');
+const AWS = require('aws-sdk')
+const db = new AWS.DynamoDB.DocumentClient({})
+const { v4: uuidv4 } = require('uuid')
 
-const tableName = process.env.POLLS_TABLE_NAME;
-const dynamoResultsId = process.env.RESULTS_ID;
-const dynamoAnswersId = process.env.ANSWER_ID
+const { POLLS_TABLE_NAME, RESULTS_ID, QUESTIONS_ID, GROUPS_ID } = process.env
 
 const response = (statusCode, message) => {
     return {
@@ -16,65 +14,53 @@ const response = (statusCode, message) => {
 }
 
 const addResult = async (event) => {
-  const reqBody = JSON.parse(event.body);
-  const pollId = reqBody.PK;
-  const resultGroups = reqBody.groups;
-
-  // Get answers
-  let answers = [];
-
-  resultGroups.forEach(group => {
-      let questions = group.questions;
-
-      questions.forEach(question => {
-        let answerId = uuidv4();
-
-        let answer = {
-          PutRequest: {
-            Item: {
-              PK: pollId,
-              SK: dynamoAnswersId + '#' + answerId,
-              type: question.type,
-              label: question.label,
-              value: question.value
-            }
-          }
-        };
-          answers.push({...answer});
-      });
-  });
+  const reqBody = JSON.parse(event.body)
+  const pollId = reqBody.PK
+  const resultGroups = reqBody.groups
 
   const resultId = uuidv4();
 
-  const result = {
-    PK: pollId,
-    SK: dynamoResultsId + '#' + resultId,
+  let result = {
+    PK: RESULTS_ID + '#' + resultId,
+    SK: pollId,
     title: reqBody.title,
     description: reqBody.description,
     groups: reqBody.groups,
     createdAt: new Date().toISOString()
-  };
+  }
 
+
+  resultGroups.forEach( (group, gIndex) => {
+      let questions = group.questions
+
+      questions.forEach( (question, qIndex) => {
+        let key = buildQuestionKey(gIndex, qIndex)
+        console.info('key: ', key)
+        result[key] = question.value
+      })
+  })
+
+  console.log(JSON.stringify(result))
+
+  
   // Save poll
   try {
-    let res = await db.put({TableName: tableName, Item: result}).promise()
+    let res = await db.put({TableName: POLLS_TABLE_NAME, Item: result}).promise()
 
     if (res) {
-      // Save answers
-        const params = {
-            RequestItems: {
-              [tableName]: answers
-            }
-        }
-        res = await db.batchWrite(params).promise()
         return response(200, res)
     } else {
         return response(500, { message: 'Error at creating the poll' })
     }
   } catch (err) {
+    console.error('err: ', err)
     return response(err.statusCode, err)
   }
 }
+
+const buildQuestionKey = (groupIndex, questionIndex) => {
+  return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
+} 
 
 
 module.exports = {

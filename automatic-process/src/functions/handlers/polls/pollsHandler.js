@@ -18,15 +18,16 @@ const getPollByTitle = async (event, context, callback) => {
   
     const params = {
       TableName: pollsTableName,
-      FilterExpression: 'title = :v1 AND begins_with(PK, :v2) AND begins_with(SK, :v2)',
+      IndexName: 'SearchPollByTitle',
+      KeyConditionExpression: 'title = :v AND begins_with(PK, :v1)',
       ExpressionAttributeValues: {
-        ':v1': title,
-        ':v2': 'POLL'
+        ':v': title,
+        ':v1': 'POLL'
       }
     }
   
     try {
-      const pollSearch = await db.scan(params).promise()
+      const pollSearch = await db.query(params).promise()
       console.log('pollSearch', pollSearch)
   
       if (!pollSearch.Items || pollSearch.Items.length !== 1) {

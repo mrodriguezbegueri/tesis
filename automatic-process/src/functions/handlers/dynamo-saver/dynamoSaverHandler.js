@@ -49,8 +49,8 @@ const saveResult = async (itemString) => {
           let answer = {
             PutRequest: {
               Item: {
-                PK: pollId,
-                SK: dynamoAnswersId + '#' + answerId,
+                PK: dynamoAnswersId + '#' + answerId,
+                SK: pollId,
                 type: question.type,
                 label: question.label,
                 value: question.value
@@ -64,8 +64,8 @@ const saveResult = async (itemString) => {
     const resultId = uuidv4();
   
     const result = {
-      PK: pollId,
-      SK: dynamoResultsId + '#' + resultId,
+      PK: dynamoResultsId + '#' + resultId,
+      SK: pollId,
       title: item.title,
       description: item.description,
       groups: item.groups,

@@ -11,12 +11,13 @@ provider:
     - Effect: "Allow"
       Action:
         - states:StartExecution
-        - dynamodb:Scan
+        - dynamodb:Query
         - dynamodb:BatchWriteItem
         - dynamodb:PutItem
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/ListPollsTitles
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/SearchPollByTitle
         - ${self:provider.environment.STEP_FUNCTION_ARN}
   environment: ${file(config/serverless/environment/env.yml)}
 
