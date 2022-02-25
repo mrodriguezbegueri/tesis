@@ -10,41 +10,42 @@ const response = (statusCode, message) => {
     return {
         statusCode: statusCode,
         body: JSON.stringify(message)
-    };
+    }
 }
 
 const addResult = async (event) => {
-  const reqBody = JSON.parse(event.body)
-  const pollId = reqBody.PK
-  const resultGroups = reqBody.groups
+  try {
+  
+    const reqBody = JSON.parse(event.body)
+    const pollId = reqBody.PK
+    const resultGroups = reqBody.groups
 
-  const resultId = uuidv4();
+    const resultId = uuidv4()
 
-  let result = {
-    PK: RESULTS_ID + '#' + resultId,
-    SK: pollId,
-    title: reqBody.title,
-    description: reqBody.description,
-    groups: reqBody.groups,
-    createdAt: new Date().toISOString()
-  }
+    let result = {
+      PK: RESULTS_ID + '#' + resultId,
+      SK: pollId,
+      title: reqBody.title,
+      description: reqBody.description,
+      groups: reqBody.groups,
+      createdAt: new Date().toISOString()
+    }
 
 
-  resultGroups.forEach( (group, gIndex) => {
-      let questions = group.questions
+    resultGroups.forEach( (group, gIndex) => {
+        let questions = group.questions
 
-      questions.forEach( (question, qIndex) => {
-        let key = buildQuestionKey(gIndex, qIndex)
-        console.info('key: ', key)
-        result[key] = question.value
-      })
-  })
+        questions.forEach( (question, qIndex) => {
+          let key = buildQuestionKey(gIndex, qIndex)
+          console.info('key: ', key)
+          result[key] = question.value
+        })
+    })
 
-  console.log(JSON.stringify(result))
+    console.log(JSON.stringify(result))
 
   
-  // Save poll
-  try {
+    // Save poll
     let res = await db.put({TableName: POLLS_TABLE_NAME, Item: result}).promise()
 
     if (res) {

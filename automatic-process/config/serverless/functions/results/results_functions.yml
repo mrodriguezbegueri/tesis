@@ -3,3 +3,4 @@ getRandomResult:
   package:
     patterns:
       - src/functions/handlers/results/**
+      - node_modules/uuid/**

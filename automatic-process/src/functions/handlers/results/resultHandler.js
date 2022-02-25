@@ -1,6 +1,7 @@
 'use strict'
 
 const AWS = require('aws-sdk')
+const { v4: uuidv4 } = require('uuid')
 // const axios = require('axios').default
 
 // const APIG_URL = process.env.APIG_URL
@@ -8,6 +9,8 @@ const AWS = require('aws-sdk')
 // const lambda = new AWS.Lambda({
 //     region: process.env.REGION //change to your region
 //   });
+
+const { RESULTS_ID, QUESTIONS_ID, GROUPS_ID } = process.env
 
 const generateEventResponse = (processData) => {
     return {
@@ -21,7 +24,7 @@ const getRandomResult = async (event) => {
     try {
         const poll = event.data.poll
             
-        let randomResult = buildRandomAnswer(poll)
+        let randomResult = buildRandomResult(poll)
         console.log('answer: ', JSON.stringify(randomResult))
         
         const eventResponseData = generateEventResponse({
@@ -30,30 +33,43 @@ const getRandomResult = async (event) => {
         })
 
         console.log("eventResponseData: ", eventResponseData)
-        // await sleep(1000)
         return eventResponseData
     } catch(err) {
         console.log('err', err)
     }
 }
 
-const buildRandomAnswer = (poll) => {
-    let answer = JSON.parse(JSON.stringify(poll))
+const buildRandomResult = (poll) => {
+    
+    const resultId = uuidv4()
 
-    answer.groups.forEach(group => {
-        group.questions.forEach(question => {
-            addRandomAnswer(question)
+    let result = {
+        PK: RESULTS_ID + '#' + resultId,
+        SK: poll.PK,
+        title: poll.title,
+        description: poll.description,
+        groups: poll.groups,
+        createdAt: new Date().toISOString()
+      }
+
+    poll.groups.forEach( ( group, gIndex ) => {
+        group.questions.forEach( ( question, qIndex ) => {
+            let key = buildQuestionKey(gIndex, qIndex)
+            const randomAnswer = getRandomAnswer(question)
+            result[key] = randomAnswer
         })
     })
-    return answer
+    return result
 }
 
 
-const addRandomAnswer = (question) => {
+const getRandomAnswer = (question) => {
+
     const contOptions = question.options.length
     const randomIndex = getRandomInt(0, (contOptions - 1))
     const answer = question.options[randomIndex].label
-    question.value = answer 
+
+    return answer
 }
 
 const getRandomInt = (min, max) => {
@@ -62,11 +78,9 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-// const sleep = (ms) => {
-//     return new Promise((resolve) => {
-//       setTimeout(resolve, ms);
-//     });
-//   }
+const buildQuestionKey = (groupIndex, questionIndex) => {
+    return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
+  } 
 
 module.exports = {
     getRandomResult

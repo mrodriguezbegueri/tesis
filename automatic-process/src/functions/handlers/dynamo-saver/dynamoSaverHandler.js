@@ -2,10 +2,9 @@ const AWS = require('aws-sdk');
 const db = new AWS.DynamoDB.DocumentClient({});
 const { v4: uuidv4 } = require('uuid');
 
-const tableName = process.env.POLLS_TABLE_NAME;
-const dynamoResultsId = process.env.RESULTS_ID;
-const dynamoAnswersId = process.env.ANSWER_ID
+// const tableName = process.env.POLLS_TABLE_NAME;
 
+const { POLLS_TABLE_NAME, RESULTS_ID, QUESTIONS_ID, GROUPS_ID } = process.env
 
 
 const response = (statusCode, message) => {
@@ -20,10 +19,11 @@ const dynamoSaver = async (event) => {
     try {
         console.info(JSON.stringify(event))
 
-        const messages = event.Records
-        const result = messages[0].body
+        // const messages = event.Records
+        const results = event.Records
+        // const result = messages[0].body
 
-        const res = await saveResult(result)
+        const res = await saveResult(results)
 
         return res
     } catch(err) {
@@ -32,61 +32,39 @@ const dynamoSaver = async (event) => {
     }
 }
 
-const saveResult = async (itemString) => {
-    const item = JSON.parse(itemString);
-    const pollId = item.PK;
-    const resultGroups = item.groups;
+const saveResult = async (results) => {
+  try {
+    
+      const resultsToSave = []
+      results.forEach(result => {
+         let parsedResult = JSON.parse(result.body)
+         console.info('parsedResult: ', parsedResult)
+         
+         let dynamoItem = {
+           PutRequest: {
+             Item: parsedResult
+           }
+         }
+         
+         resultsToSave.push(dynamoItem)
+      })
+
+      console.info('resultsToSave: ', resultsToSave)
+
+      const params = {
+        RequestItems: {
+          [POLLS_TABLE_NAME]: resultsToSave
+        }
+      }
+
+      const batchWriteResponse = await db.batchWrite(params).promise()
   
-    // Get answers
-    let answers = [];
+      // let res = await db.put({TableName: POLLS_TABLE_NAME, Item: result}).promise()
   
-    resultGroups.forEach(group => {
-        let questions = group.questions;
-  
-        questions.forEach(question => {
-          let answerId = uuidv4();
-  
-          let answer = {
-            PutRequest: {
-              Item: {
-                PK: dynamoAnswersId + '#' + answerId,
-                SK: pollId,
-                type: question.type,
-                label: question.label,
-                value: question.value
-              }
-            }
-          };
-            answers.push({...answer});
-        });
-    });
-  
-    const resultId = uuidv4();
-  
-    const result = {
-      PK: dynamoResultsId + '#' + resultId,
-      SK: pollId,
-      title: item.title,
-      description: item.description,
-      groups: item.groups,
-      createdAt: new Date().toISOString()
-    };
-  
-    // Save poll
-    try {
-      let res = await db.put({TableName: tableName, Item: result}).promise()
-  
-      if (res) {
-        // Save answers
-          const params = {
-              RequestItems: {
-                [tableName]: answers
-              }
-          }
-          res = await db.batchWrite(params).promise()
-          return response(200, res)
+      if (batchWriteResponse) {
+          return response(200, batchWriteResponse)
       } else {
-          throw new Error('Error at creating the poll')
+          throw new Error('Error at writing the results')
       }
     } catch (err) {
         console.error('Error: ', err.message)
@@ -95,6 +73,9 @@ const saveResult = async (itemString) => {
 
 }
 
+const buildQuestionKey = (groupIndex, questionIndex) => {
+  return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
+} 
 
 module.exports = {
     dynamoSaver
