@@ -1,0 +1,20 @@
+createPoll:
+  module: src/api/handlers/polls/createPoll
+  handler: createPollHandler.createPoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http: # Se indica que el evento se disparará mediante una solicitud http
+        path: /poll
+        method: post
+getPoll:
+  module: src/api/handlers/polls/getPoll
+  handler: getPollHandler.getPoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /poll/{id}
+        method: get
