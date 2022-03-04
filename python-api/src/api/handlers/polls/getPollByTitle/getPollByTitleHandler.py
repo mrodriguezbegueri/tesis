@@ -18,29 +18,27 @@ def create_response(code, message):
     'body': json.dumps(message)
   }
 
-def getPoll(event, context):
+def getPollByTitle(event, context):
+    title = event['queryStringParameters']['title']
 
-    pk = event['pathParameters']['id']
-    print('pk: ', pk)
-
-    pk = DYNAMO_POLLS_ID + '#' + pk
     table = dynamodb_client.Table(TABLE_NAME)
+
     params = {
-        'PK': pk,
-        'SK': pk
+        'IndexName': 'SearchPollByTitle',
+        'KeyConditionExpression': 'title = :v AND begins_with(PK, :v1)',
+        'ExpressionAttributeValues': {
+            ':v': title,
+            ':v1': 'POLL'
+        }
     }
 
-    response = table.get_item(
-        Key = params
-    )
-
+    response = table.query(**params)
     print('response: ', response)
 
+    if not response['Items'] or len(response['Items']) != 1:
+        return create_response(500, { 'message': 'Poll not found' })
 
-    if not 'Item' in response:
-        return create_response(404, {'error': 'Poll not found'})
-
-    poll = response['Item']
+    poll = response['Items'][0]
 
     return create_response(200, poll)
 

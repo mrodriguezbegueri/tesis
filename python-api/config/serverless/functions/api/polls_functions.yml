@@ -18,3 +18,43 @@ getPoll:
     - http:
         path: /poll/{id}
         method: get
+getAllPolls:
+  module: src/api/handlers/polls/getAllPolls
+  handler: getAllPollsHandler.getAllPolls
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /polls
+        method: get
+updatePoll:
+  module: src/api/handlers/polls/updatePoll
+  handler: updatePollHandler.updatePoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /poll/{id}
+        method: put
+deletePoll:
+  module: src/api/handlers/polls/deletePoll
+  handler: deletePollHandler.deletePoll
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /poll/{id}
+        method: delete
+getPollByTitle:
+  module: src/api/handlers/polls/getPollByTitle
+  handler: getPollByTitleHandler.getPollByTitle
+  package:
+    patterns:
+      - src/api/handlers/polls/**
+  events:
+    - http:
+        path: /polls/getPollByTitle
+        method: get

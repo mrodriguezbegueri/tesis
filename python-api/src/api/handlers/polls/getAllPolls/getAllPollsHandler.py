@@ -18,29 +18,24 @@ def create_response(code, message):
     'body': json.dumps(message)
   }
 
-def getPoll(event, context):
+def getAllPolls(event, context):
 
-    pk = event['pathParameters']['id']
-    print('pk: ', pk)
-
-    pk = DYNAMO_POLLS_ID + '#' + pk
     table = dynamodb_client.Table(TABLE_NAME)
+
     params = {
-        'PK': pk,
-        'SK': pk
+        'IndexName': 'ListPollsTitles',
+        'KeyConditionExpression': 'GSI1PK = :v',
+        'ExpressionAttributeValues': {
+            ':v': 'POLLS'
+        }
     }
 
-    response = table.get_item(
-        Key = params
-    )
+
+    response = table.query(**params)
 
     print('response: ', response)
 
+    polls = response['Items']
 
-    if not 'Item' in response:
-        return create_response(404, {'error': 'Poll not found'})
-
-    poll = response['Item']
-
-    return create_response(200, poll)
+    return create_response(200, polls)
 

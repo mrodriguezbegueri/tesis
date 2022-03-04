@@ -180,7 +180,7 @@ module.exports.getPollByTitle = async (event) => {
 
     if (!pollSearch.Items || pollSearch.Items.length !== 1) {
       return response(500, {
-        message: "Error getting the poll"
+        message: "Poll not found"
       })
     }
 

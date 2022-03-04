@@ -3,3 +3,4 @@ nodeJS/.serverless/**
 automatic-process/node_modules/**
 automatic-process/.serverless/**
 python-api/.serverless/**
+*.zip

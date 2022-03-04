@@ -18,29 +18,23 @@ def create_response(code, message):
     'body': json.dumps(message)
   }
 
-def getPoll(event, context):
+def deletePoll(event, context):
 
     pk = event['pathParameters']['id']
     print('pk: ', pk)
-
     pk = DYNAMO_POLLS_ID + '#' + pk
+
     table = dynamodb_client.Table(TABLE_NAME)
+    
     params = {
-        'PK': pk,
-        'SK': pk
+        'Key': {
+            'PK': pk,
+            'SK': pk
+        }
     }
 
-    response = table.get_item(
-        Key = params
-    )
-
+    response = table.delete_item(**params)
     print('response: ', response)
 
-
-    if not 'Item' in response:
-        return create_response(404, {'error': 'Poll not found'})
-
-    poll = response['Item']
-
-    return create_response(200, poll)
+    return create_response(200, { 'message': 'Poll deleted successfully' })
 
