@@ -24,27 +24,30 @@ def createPoll(event, context):
     request = json.loads(event['body'])
     poll_id = str(uuid.uuid4())
 
-    poll = {
-      'PK': DYNAMO_POLLS_ID + '#' + poll_id,
-      'SK': DYNAMO_POLLS_ID + '#' + poll_id,
-      'GSI1PK': 'POLLS',
-      'title': request['title'],
-      'description': request['description'],
-      'groups': request['groups'],
+    params = {
+      'Item': {
+        'PK': DYNAMO_POLLS_ID + '#' + poll_id,
+        'SK': DYNAMO_POLLS_ID + '#' + poll_id,
+        'GSI1PK': 'POLLS',
+        'title': request['title'],
+        'description': request['description'],
+        'groups': request['groups'],
+      }
     }
 
-    print('POLL', poll)
+    print('params', params)
 
-    table = dynamodb_client.Table(TABLE_NAME)
+    try:
+      table = dynamodb_client.Table(TABLE_NAME)
+      response = table.put_item(**params)
+    except Exception as ex:
+      return create_response(500, str(ex))
 
-    response = table.put_item(
-       Item = poll
-    )
 
     print('Response', response)
 
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
-      return response(500, 'Error creating the poll')
+      return create_response(500, 'Error creating the poll')
 
-    return create_response(200, poll)
+    return create_response(200, params['Item'])
 

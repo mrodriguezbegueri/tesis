@@ -38,11 +38,16 @@ def updatePoll(event, context):
         'ReturnValues': 'ALL_NEW'
     }
 
-    table = dynamodb_client.Table(TABLE_NAME)
-
-    response = table.update_item(**params)
+    try:
+        table = dynamodb_client.Table(TABLE_NAME)
+        response = table.update_item(**params)
+    except Exception as ex:
+        return create_response(500, str(ex))
 
     print('Response', response)
+
+    if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+      return create_response(500, 'Error updating the poll')
 
     return create_response(200, response)
 

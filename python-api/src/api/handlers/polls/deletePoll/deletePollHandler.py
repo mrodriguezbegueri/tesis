@@ -24,8 +24,6 @@ def deletePoll(event, context):
     print('pk: ', pk)
     pk = DYNAMO_POLLS_ID + '#' + pk
 
-    table = dynamodb_client.Table(TABLE_NAME)
-    
     params = {
         'Key': {
             'PK': pk,
@@ -33,8 +31,16 @@ def deletePoll(event, context):
         }
     }
 
-    response = table.delete_item(**params)
+    try:
+        table = dynamodb_client.Table(TABLE_NAME)
+        response = table.delete_item(**params)
+    except Exception as ex:
+        return create_response(500, str(ex))
+
     print('response: ', response)
+
+    if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+      return create_response(500, 'Error deleting the poll')
 
     return create_response(200, { 'message': 'Poll deleted successfully' })
 

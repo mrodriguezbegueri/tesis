@@ -20,7 +20,6 @@ def create_response(code, message):
 
 def getAllPolls(event, context):
 
-    table = dynamodb_client.Table(TABLE_NAME)
 
     params = {
         'IndexName': 'ListPollsTitles',
@@ -30,10 +29,16 @@ def getAllPolls(event, context):
         }
     }
 
-
-    response = table.query(**params)
+    try:
+        table = dynamodb_client.Table(TABLE_NAME)
+        response = table.query(**params)
+    except Exception as ex:
+        return create_response(500, str(ex))
 
     print('response: ', response)
+
+    if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+      return create_response(500, 'Error getting the polls')
 
     polls = response['Items']
 

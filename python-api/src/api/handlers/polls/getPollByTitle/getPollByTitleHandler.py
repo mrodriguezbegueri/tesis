@@ -21,8 +21,6 @@ def create_response(code, message):
 def getPollByTitle(event, context):
     title = event['queryStringParameters']['title']
 
-    table = dynamodb_client.Table(TABLE_NAME)
-
     params = {
         'IndexName': 'SearchPollByTitle',
         'KeyConditionExpression': 'title = :v AND begins_with(PK, :v1)',
@@ -32,8 +30,16 @@ def getPollByTitle(event, context):
         }
     }
 
-    response = table.query(**params)
+    try:
+        table = dynamodb_client.Table(TABLE_NAME)
+        response = table.query(**params)
+    except Exception as ex:
+        return create_response(500, str(ex))
+
     print('response: ', response)
+
+    if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+      return create_response(500, 'Error getting the poll')
 
     if not response['Items'] or len(response['Items']) != 1:
         return create_response(500, { 'message': 'Poll not found' })

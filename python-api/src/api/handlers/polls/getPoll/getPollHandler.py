@@ -24,18 +24,23 @@ def getPoll(event, context):
     print('pk: ', pk)
 
     pk = DYNAMO_POLLS_ID + '#' + pk
-    table = dynamodb_client.Table(TABLE_NAME)
     params = {
-        'PK': pk,
-        'SK': pk
+        'Key': {
+            'PK': pk,
+            'SK': pk
+        }
     }
 
-    response = table.get_item(
-        Key = params
-    )
+    try:
+        table = dynamodb_client.Table(TABLE_NAME)
+        response = table.get_item(**params)
+    except Exception as ex:
+        return create_response(500, str(ex))
 
     print('response: ', response)
 
+    if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+      return create_response(500, 'Error getting the poll')
 
     if not 'Item' in response:
         return create_response(404, {'error': 'Poll not found'})
