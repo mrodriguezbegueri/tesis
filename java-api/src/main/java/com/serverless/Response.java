@@ -12,6 +12,7 @@ public class Response {
 		this.input = input;
 	}
 
+
 	public String getMessage() {
 		return this.message;
 	}

@@ -181,7 +181,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-java/tesis/1646655493699-2022-03-07T12:18:13.699Z/polls-api-java-dev.jar"
+          "S3Key": "serverless/polls-api-java/tesis/1646750723952-2022-03-08T14:45:23.952Z/polls-api-java-dev.jar"
         },
         "Handler": "com.serverless.polls.createpoll.CreatePollHandler",
         "Runtime": "java8",
@@ -223,14 +223,14 @@
         "CreatePollLogGroup"
       ]
     },
-    "CreatePollLambdaVersionlSBN2Ku9hURapf0w35nfOBcX3gTtxwW0Fz8CEzw": {
+    "CreatePollLambdaVersionfKtVArx65Wdqzlesv9i6XqXmqKaJ53hb8Z7sTUm6EU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreatePollLambdaFunction"
         },
-        "CodeSha256": "8WxU4VUMcM3DlZm5NyzZfwATclvrDtbuOqjYvjnImJ4="
+        "CodeSha256": "XKAsMzqKx+sQmZcFm2jplQQOlOiJBPvDeL2mUHtq4Js="
       }
     },
     "ApiGatewayRestApi": {
@@ -303,7 +303,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1646655492878": {
+    "ApiGatewayDeployment1646750723119": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -362,7 +362,7 @@
     "CreatePollLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreatePollLambdaVersionlSBN2Ku9hURapf0w35nfOBcX3gTtxwW0Fz8CEzw"
+        "Ref": "CreatePollLambdaVersionfKtVArx65Wdqzlesv9i6XqXmqKaJ53hb8Z7sTUm6EU"
       }
     },
     "ServiceEndpoint": {

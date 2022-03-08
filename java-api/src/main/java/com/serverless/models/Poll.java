@@ -11,6 +11,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedJson;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel.DynamoDBAttributeType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.serverless.utils.DynamoDBAdapter;
 
@@ -47,8 +51,8 @@ public class Poll {
     @JsonProperty("title")
     private String title;
 
-    // @JsonProperty("groups")
-    // private ArrayList<Group> groups;
+    @JsonProperty("groups")
+    private ArrayList<Group> groups;
 
     public Poll() {
         DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
@@ -102,34 +106,21 @@ public class Poll {
         this.description = description;
     }
 
+    @DynamoDBAttribute(attributeName = "groups")
+    public ArrayList<Group> getGroups() {
+        return this.groups;
+    }
+    public void setGroups(ArrayList<Group> groups) {
+        this.groups = groups;
+    }
+    
     @Override
     public String toString() {
-        return "Poll[pk=" + PK + ", sk=" + SK + ", title=" + title + ", description=" + description + ", gsi1pk=" + GSI1PK + "]";
+        return "Poll[PK=" + PK + ", SK=" + SK + ", title=" + title + ", description=" + description + ", GSI1PK=" + GSI1PK + "]";
     }
-
-    // public ArrayList<Group> getGroups() {
-    //     return this.groups;
-    // }
-    // public void setGroups(ArrayList<Group> groups) {
-    //     this.groups = groups;
-    // }
 
     public void save(Poll poll) throws IOException {
         this.mapper.save(poll);
     }
-    
-
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (this == o) return true;
-    //     if (o == null || getClass() != o.getClass()) return false;
-    //     Poll poll = (Poll) o;
-    //     return isbn.equals(poll.isbn);
-    // }
-
-    // @Override
-    // public int hashCode() {
-    //     return Objects.hash(isbn);
-    // }
 
 }

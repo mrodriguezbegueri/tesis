@@ -2,8 +2,12 @@ package com.serverless.models;
 
 
 import java.util.ArrayList;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@DynamoDBDocument
 public class Question {
     
     @JsonProperty("options")
@@ -22,6 +26,7 @@ public class Question {
     private Boolean required;
 
 
+    @DynamoDBAttribute(attributeName = "options")
     public ArrayList<Option> getOptions() {
         return this.options;
     }
@@ -29,6 +34,7 @@ public class Question {
         this.options = options;
     }
 
+    @DynamoDBAttribute(attributeName = "description")
     public String getDescription() {
         return this.description;
     }
@@ -36,6 +42,7 @@ public class Question {
         this.description = description;
     }
 
+    @DynamoDBAttribute(attributeName = "label")
     public String getLabel() {
         return this.label;
     }
@@ -43,6 +50,7 @@ public class Question {
         this.label = label;
     }
 
+    @DynamoDBAttribute(attributeName = "type")
     public String getType() {
         return this.type;
     }
@@ -50,6 +58,7 @@ public class Question {
         this.type = type;
     }
 
+    @DynamoDBAttribute(attributeName = "required")
     public Boolean getRequired() {
         return this.required;
     }

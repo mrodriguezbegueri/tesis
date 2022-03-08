@@ -2,6 +2,7 @@ package com.serverless.models;
 
 import java.util.ArrayList;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,6 +18,7 @@ public class Group {
     @JsonProperty("label")
     private String label;
 
+    @DynamoDBAttribute(attributeName = "questions")
     public ArrayList<Question> getQuestions() {
         return this.questions;
     }
@@ -24,6 +26,7 @@ public class Group {
         this.questions = questions;
     }
 
+    @DynamoDBAttribute(attributeName = "description")
     public String getDescription() {
         return this.description;
     }
@@ -31,6 +34,7 @@ public class Group {
         this.description = description;
     }
 
+    @DynamoDBAttribute(attributeName = "label")
     public String getLabel() {
         return this.label;
     }

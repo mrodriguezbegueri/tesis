@@ -4,7 +4,7 @@
   "description": "Poll API in Java for final project of UNSJ",
   "main": "index.js",
   "scripts": {
-    "deploy": "SLS_DEBUG=* npm i && npm run mvn && sls deploy --aws-profile awsTesis --region us-east-1 --stage tesis",
+    "deploy": "SLS_DEBUG=* npm i && npm run mvn && sls deploy --force --aws-profile awsTesis --region us-east-1 --stage tesis",
     "package": "npm i && sls package --aws-profile awsTesis --region us-east-1 --stage tesis",
     "remove": "sls remove --aws-profile awsTesis --region us-east-1 --stage tesis",
     "mvn": "mvn clean && mvn install && mvn package"
