@@ -7,4 +7,5 @@ com/serverless/models/Poll.class
 com/serverless/ApiGatewayResponse$Builder.class
 com/serverless/utils/DynamoDBAdapter.class
 com/serverless/Response.class
+com/serverless/polls/updatepoll/UpdatePollHandler.class
 com/serverless/ApiGatewayResponse.class
