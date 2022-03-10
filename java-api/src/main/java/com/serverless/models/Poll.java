@@ -2,14 +2,21 @@ package com.serverless.models;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.document.DeleteItemOutcome;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.serverless.utils.DynamoDBAdapter;
 
@@ -115,4 +122,32 @@ public class Poll {
         this.mapper.save(poll);
     }
 
+    public Poll getPoll(String PK) throws IOException {
+        Poll poll = null;
+
+        HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
+        av.put(":v", new AttributeValue().withS(PK));
+
+        DynamoDBQueryExpression<Poll> queryExpression = new DynamoDBQueryExpression<Poll>()
+            .withKeyConditionExpression("PK = :v")
+            .withExpressionAttributeValues(av);
+        
+        PaginatedQueryList<Poll> result = this.mapper.query(Poll.class, queryExpression);
+
+        if(result.size() == 1) {
+            poll = result.get(0);
+        }
+
+        return poll;
+    }
+
+    public DeleteItemOutcome deletePoll(String PK) throws IOException {
+        DynamoDB dynamoDB = new DynamoDB(this.client);
+
+        Table table = dynamoDB.getTable(POLLS_TABLE_NAME);
+
+        DeleteItemOutcome deleteItemOutcome = table.deleteItem("PK", PK, "SK", PK);
+
+        return deleteItemOutcome;
+    }
 }
