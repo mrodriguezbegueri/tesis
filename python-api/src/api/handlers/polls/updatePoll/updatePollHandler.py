@@ -42,7 +42,7 @@ def updatePoll(event, context):
         table = dynamodb_client.Table(TABLE_NAME)
         response = table.update_item(**params)
     except Exception as ex:
-        return create_response(500, str(ex))
+        return create_response(500, 'Error updating the Poll')
 
     print('Response', response)
 

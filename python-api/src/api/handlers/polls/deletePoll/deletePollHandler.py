@@ -35,7 +35,7 @@ def deletePoll(event, context):
         table = dynamodb_client.Table(TABLE_NAME)
         response = table.delete_item(**params)
     except Exception as ex:
-        return create_response(500, str(ex))
+        return create_response(500, 'Error deleting the Poll')
 
     print('response: ', response)
 

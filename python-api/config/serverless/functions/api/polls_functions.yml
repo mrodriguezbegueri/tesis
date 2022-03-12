@@ -6,7 +6,7 @@ createPoll:
       - src/api/handlers/polls/**
   events:
     - http: # Se indica que el evento se disparará mediante una solicitud http
-        path: /poll
+        path: /polls
         method: post
 getPoll:
   module: src/api/handlers/polls/getPoll
@@ -16,7 +16,7 @@ getPoll:
       - src/api/handlers/polls/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: get
 getAllPolls:
   module: src/api/handlers/polls/getAllPolls
@@ -36,7 +36,7 @@ updatePoll:
       - src/api/handlers/polls/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: put
 deletePoll:
   module: src/api/handlers/polls/deletePoll
@@ -46,7 +46,7 @@ deletePoll:
       - src/api/handlers/polls/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: delete
 getPollByTitle:
   module: src/api/handlers/polls/getPollByTitle

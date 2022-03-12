@@ -1,0 +1,13 @@
+{
+  "name": "polls-api-database",
+  "version": "1.0.0",
+  "description": "database configuration",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "SLS_DEBUG=* npm i && sls deploy --aws-profile awsTesis --region us-east-1 --stage tesis",
+    "package": "npm i && sls package --aws-profile awsTesis --region us-east-1 --stage tesis",
+    "remove": "sls remove --aws-profile awsTesis --region us-east-1 --stage tesis"
+  },
+  "author": "Matias Rodriguez",
+  "license": "ISC"
+}

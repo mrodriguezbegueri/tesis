@@ -1,53 +1,53 @@
 createPoll:
-  handler: src/api/handlers/polls/pollHandler.createPoll
+  handler: src/api/handlers/polls/createPoll/createPollHandler.createPoll
   package:
     patterns:
-      - src/api/handlers/polls/**
+      - src/api/handlers/polls/createPoll/**
   events:
     - http: # Se indica que el evento se disparará mediante una solicitud http
-        path: /poll
+        path: /polls
         method: post
 updatePoll:
-  handler: src/api/handlers/polls/pollHandler.updatePoll
+  handler: src/api/handlers/polls/updatePoll/updatePollHandler.updatePoll
   package:
     patterns:
-      - src/api/handlers/polls/**
+      - src/api/handlers/polls/updatePoll/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: put
 getPoll:
-  handler: src/api/handlers/polls/pollHandler.getPoll
+  handler: src/api/handlers/polls/getPoll/getPollHandler.getPoll
   package:
     patterns:
-      - src/api/handlers/polls/**
+      - src/api/handlers/polls/getPoll/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: get
 deletePoll:
-  handler: src/api/handlers/polls/pollHandler.deletePoll
+  handler: src/api/handlers/polls/deletePoll/deletePollHandler.deletePoll
   package:
     patterns:
-      - src/api/handlers/polls/**
+      - src/api/handlers/polls/deletePoll/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: delete
 getAllPolls:
-  handler: src/api/handlers/polls/pollHandler.getAllPolls
+  handler: src/api/handlers/polls/getAllPolls/getAllPollsHandler.getAllPolls
   package:
     patterns:
-      - src/api/handlers/polls/**
+      - src/api/handlers/polls/getAllPolls/**
   events:
     - http:
         path: /polls
         method: get
 getPollByTitle:
-  handler: src/api/handlers/polls/pollHandler.getPollByTitle
+  handler: src/api/handlers/polls/getPollByTitle/getPollByTitleHandler.getPollByTitle
   package:
     patterns:
-      - src/api/handlers/polls/**
+      - src/api/handlers/polls/getPollByTitle/**
   events:
     - http:
         path: /polls/getPollByTitle
