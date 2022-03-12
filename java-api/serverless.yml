@@ -24,13 +24,9 @@ provider:
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/SearchPollByTitle
   environment: ${file(config/serverless/environment/env.yml)}
 
-
-
 package:
-  artifact: target/${self:service}-${self:provider.stage}.jar
   individually: true
-  # patterns:
-  #   - '!./**'
+  artifact: target/${self:service}-${self:provider.stage}.jar
 
 functions:
   - ${file(config/serverless/functions/api/polls_functions.yml)}

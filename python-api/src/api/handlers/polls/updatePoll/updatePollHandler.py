@@ -47,7 +47,7 @@ def updatePoll(event, context):
     print('Response', response)
 
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
-      return create_response(500, 'Error updating the poll')
+      return create_response(500, 'Error updating the Poll')
 
     return create_response(200, response)
 

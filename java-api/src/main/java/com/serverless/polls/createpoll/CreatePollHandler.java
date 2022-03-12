@@ -14,8 +14,6 @@ import com.serverless.models.Poll;
 
 public class CreatePollHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-    // private final Logger logger = Logger.getLogger(name, resourceBundleName)
-
     private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
 
     @Override
@@ -46,10 +44,11 @@ public class CreatePollHandler implements RequestHandler<Map<String, Object>, Ap
                     .build();
 
         } catch (Exception e) {
-            Response responseBody = new Response(e.toString(), input);
+            context.getLogger().log("Error: " + e.toString());
+            // Response responseBody = new Response(e.toString(), input);
     			return ApiGatewayResponse.builder()
     					.setStatusCode(500)
-    					.setObjectBody(responseBody)
+    					.setObjectBody("Error creating the Poll")
     					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     					.build();
         }

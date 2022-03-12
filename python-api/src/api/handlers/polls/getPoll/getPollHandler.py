@@ -40,10 +40,10 @@ def getPoll(event, context):
     print('response: ', response)
 
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
-      return create_response(500, 'Error getting the poll')
+      return create_response(500, 'Error getting the Poll')
 
     if not 'Item' in response:
-        return create_response(404, {'error': 'Poll not found'})
+        return create_response(404, 'Poll with id: ' + pk + ' not found')
 
     poll = response['Item']
 

@@ -40,7 +40,7 @@ def deletePoll(event, context):
     print('response: ', response)
 
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
-      return create_response(500, 'Error deleting the poll')
+      return create_response(500, 'Error deleting the Poll')
 
-    return create_response(200, { 'message': 'Poll deleted successfully' })
+    return create_response(200, 'Poll with id: ' + pk + 'deleted successfully')
 

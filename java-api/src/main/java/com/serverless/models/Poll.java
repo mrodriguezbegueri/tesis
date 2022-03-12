@@ -5,24 +5,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.document.DeleteItemOutcome;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.serverless.utils.DynamoDBAdapter;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
-
-// import java.util.Objects;
 
 @DynamoDBTable(tableName = "PLACEHOLDER_POLLS_TABLE_NAME")
 public class Poll {
@@ -62,8 +60,6 @@ public class Poll {
             this.client = this.dbAdapter.getDbClient();
             this.mapper = this.dbAdapter.createDbMapper(mapperConfig);
     }
-
-
 
     @DynamoDBHashKey(attributeName = "PK")
     public String getPK() {
@@ -122,6 +118,18 @@ public class Poll {
         this.mapper.save(poll);
     }
 
+    public void updatePoll(Poll poll) {
+        DynamoDBSaveExpression dbSaveExpression = new DynamoDBSaveExpression();
+        
+        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
+        AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
+        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
+        expectedAttribute.put("PK", expectedAttributeValue);
+
+        dbSaveExpression.setExpected(expectedAttribute);
+
+        this.mapper.save(poll, dbSaveExpression);
+    }
     public Poll getPoll(String PK) throws IOException {
         Poll poll = null;
 
@@ -140,14 +148,17 @@ public class Poll {
 
         return poll;
     }
+    public void deletePoll(Poll poll) throws IOException {
 
-    public DeleteItemOutcome deletePoll(String PK) throws IOException {
-        DynamoDB dynamoDB = new DynamoDB(this.client);
+        DynamoDBDeleteExpression dbDeleteExpression = new DynamoDBDeleteExpression();
+        
+        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
+        AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
+        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
+        expectedAttribute.put("PK", expectedAttributeValue);
 
-        Table table = dynamoDB.getTable(POLLS_TABLE_NAME);
+        dbDeleteExpression.setExpected(expectedAttribute);
 
-        DeleteItemOutcome deleteItemOutcome = table.deleteItem("PK", PK, "SK", PK);
-
-        return deleteItemOutcome;
+        this.mapper.delete(poll, dbDeleteExpression);
     }
 }

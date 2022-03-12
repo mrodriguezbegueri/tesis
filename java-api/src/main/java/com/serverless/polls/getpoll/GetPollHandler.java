@@ -27,7 +27,7 @@ public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGa
             if (poll == null) {
                 return ApiGatewayResponse.builder()
                     .setStatusCode(404)
-                    .setObjectBody("Poll with id: '" + pollId + "' not found.")
+                    .setObjectBody("Poll with id: " + pollId + " not found.")
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
                     .build();
             }
@@ -39,10 +39,11 @@ public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGa
                     .build();
 
         } catch (Exception e) {
-            Response responseBody = new Response(e.toString(), input);
+            context.getLogger().log("Error: " + e.toString());
+            // Response responseBody = new Response(e.toString(), input);
     			return ApiGatewayResponse.builder()
     					.setStatusCode(500)
-    					.setObjectBody(responseBody)
+    					.setObjectBody("Error getting the Poll")
     					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     					.build();
         }

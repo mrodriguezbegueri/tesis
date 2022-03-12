@@ -1,9 +1,6 @@
 createPoll:
   handler: com.serverless.polls.createpoll.CreatePollHandler
   timeout: 15
-  # package:
-    # patterns:
-    #   - src/api/handlers/polls/**
   events:
     - http: # Se indica que el evento se disparará mediante una solicitud http
         path: /polls
@@ -11,60 +8,21 @@ createPoll:
 getPoll:
   handler: com.serverless.polls.getpoll.GetPollHandler
   timeout: 15
-  # package:
-  #   patterns:
-  #     - src/api/handlers/polls/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: get
 updatePoll:
   handler: com.serverless.polls.updatepoll.UpdatePollHandler
   timeout: 15
-  # package:
-  #   patterns:
-  #     - src/api/handlers/polls/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: put
 deletePoll:
   handler: com.serverless.polls.deletepoll.DeletePollHandler
   timeout: 15
-  # package:
-  #   patterns:
-  #     - src/api/handlers/polls/**
   events:
     - http:
-        path: /poll/{id}
+        path: /polls/{id}
         method: delete
-# getAllPolls:
-#   module: src/api/handlers/polls/getAllPolls
-#   handler: getAllPollsHandler.getAllPolls
-#   package:
-#     patterns:
-#       - src/api/handlers/polls/**
-#   events:
-#     - http:
-#         path: /polls
-#         method: get
-# deletePoll:
-#   module: src/api/handlers/polls/deletePoll
-#   handler: deletePollHandler.deletePoll
-#   package:
-#     patterns:
-#       - src/api/handlers/polls/**
-#   events:
-#     - http:
-#         path: /poll/{id}
-#         method: delete
-# getPollByTitle:
-#   module: src/api/handlers/polls/getPollByTitle
-#   handler: getPollByTitleHandler.getPollByTitle
-#   package:
-#     patterns:
-#       - src/api/handlers/polls/**
-#   events:
-#     - http:
-#         path: /polls/getPollByTitle
-#         method: get
