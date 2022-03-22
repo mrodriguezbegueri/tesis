@@ -6,3 +6,4 @@ python-api/.serverless/**
 *.zip
 java-api/.serverless/**
 java-api/target/**
+scripts/node_modules/**

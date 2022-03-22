@@ -274,7 +274,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/createPoll.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/createPoll.zip"
               },
               "Handler": "src/api/handlers/polls/createPoll/createPollHandler.createPoll",
               "Runtime": "nodejs12.x",
@@ -314,7 +314,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/updatePoll.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/updatePoll.zip"
               },
               "Handler": "src/api/handlers/polls/updatePoll/updatePollHandler.updatePoll",
               "Runtime": "nodejs12.x",
@@ -354,7 +354,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/getPoll.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/getPoll.zip"
               },
               "Handler": "src/api/handlers/polls/getPoll/getPollHandler.getPoll",
               "Runtime": "nodejs12.x",
@@ -394,7 +394,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/deletePoll.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/deletePoll.zip"
               },
               "Handler": "src/api/handlers/polls/deletePoll/deletePollHandler.deletePoll",
               "Runtime": "nodejs12.x",
@@ -434,7 +434,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/getAllPolls.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/getAllPolls.zip"
               },
               "Handler": "src/api/handlers/polls/getAllPolls/getAllPollsHandler.getAllPolls",
               "Runtime": "nodejs12.x",
@@ -474,7 +474,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/getPollByTitle.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/getPollByTitle.zip"
               },
               "Handler": "src/api/handlers/polls/getPollByTitle/getPollByTitleHandler.getPollByTitle",
               "Runtime": "nodejs12.x",
@@ -514,7 +514,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/addResult.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/addResult.zip"
               },
               "Handler": "src/api/handlers/results/resultHandler.addResult",
               "Runtime": "nodejs12.x",
@@ -554,7 +554,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/saveRandomResultsBot.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/saveRandomResultsBot.zip"
               },
               "Handler": "src/bot/botHandler.run",
               "Runtime": "nodejs12.x",
@@ -594,7 +594,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z/callBot.zip"
+                "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/callBot.zip"
               },
               "Handler": "src/bot/botHandler.callBot",
               "Runtime": "nodejs12.x",
@@ -627,6 +627,16 @@
               "CallBotLogGroup"
             ]
           },
+          "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "CreatePollLambdaFunction"
+              },
+              "CodeSha256": "c6tBKqDpdK4D6H4jvL2vJeRMey5PtNRvHopefKdnpDM="
+            }
+          },
           "GetPollLambdaVersion5gSMkJ9mt9EL5zAiirDo7lBdNGB2f3i3iTbpXXewHI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
@@ -647,14 +657,14 @@
               "CodeSha256": "n3GdShwKZqLAt+Cu84UojBNFA2XCVB8LhyWxA+TdpzI="
             }
           },
-          "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4": {
+          "DeletePollLambdaVersionfDJaM7eDOad1zayeRp0hKuOtnkkxOeL3j0mQpVwNXRY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "CreatePollLambdaFunction"
+                "Ref": "DeletePollLambdaFunction"
               },
-              "CodeSha256": "c6tBKqDpdK4D6H4jvL2vJeRMey5PtNRvHopefKdnpDM="
+              "CodeSha256": "zZE1kmnZ6E5Pn7CJBZwv/mCGRYWNLn9/VDT2AXm3CpY="
             }
           },
           "GetAllPollsLambdaVersioncG0JRuVFpveNrALCdLlcsxZFUf2LruvsOFiLSSTRUA": {
@@ -675,16 +685,6 @@
                 "Ref": "GetPollByTitleLambdaFunction"
               },
               "CodeSha256": "2OdNXxqDmvJjPU7bYTpKwU3dLcoT+lAwKzSALB3bCsk="
-            }
-          },
-          "DeletePollLambdaVersionfDJaM7eDOad1zayeRp0hKuOtnkkxOeL3j0mQpVwNXRY": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "DeletePollLambdaFunction"
-              },
-              "CodeSha256": "zZE1kmnZ6E5Pn7CJBZwv/mCGRYWNLn9/VDT2AXm3CpY="
             }
           },
           "AddResultLambdaVersionROz3Hml8QuRzTd7HDcEVyDy8oH5XDswFv9FGWwrW4I": {
@@ -1209,7 +1209,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1647118100459": {
+          "ApiGatewayDeployment1647432485719": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1561,111 +1561,18 @@
                 ]
               }
             }
-          },
-          "PollsTable": {
-            "Type": "AWS::DynamoDB::Table",
-            "Properties": {
-              "TableName": "polls",
-              "AttributeDefinitions": [
-                {
-                  "AttributeName": "PK",
-                  "AttributeType": "S"
-                },
-                {
-                  "AttributeName": "SK",
-                  "AttributeType": "S"
-                },
-                {
-                  "AttributeName": "GSI1PK",
-                  "AttributeType": "S"
-                },
-                {
-                  "AttributeName": "title",
-                  "AttributeType": "S"
-                }
-              ],
-              "KeySchema": [
-                {
-                  "AttributeName": "PK",
-                  "KeyType": "HASH"
-                },
-                {
-                  "AttributeName": "SK",
-                  "KeyType": "RANGE"
-                }
-              ],
-              "GlobalSecondaryIndexes": [
-                {
-                  "IndexName": "ListPollsTitles",
-                  "KeySchema": [
-                    {
-                      "AttributeName": "GSI1PK",
-                      "KeyType": "HASH"
-                    }
-                  ],
-                  "Projection": {
-                    "NonKeyAttributes": [
-                      "title"
-                    ],
-                    "ProjectionType": "INCLUDE"
-                  },
-                  "ProvisionedThroughput": {
-                    "ReadCapacityUnits": 1,
-                    "WriteCapacityUnits": 1
-                  }
-                },
-                {
-                  "IndexName": "SearchPollByTitle",
-                  "KeySchema": [
-                    {
-                      "AttributeName": "title",
-                      "KeyType": "HASH"
-                    },
-                    {
-                      "AttributeName": "PK",
-                      "KeyType": "RANGE"
-                    }
-                  ],
-                  "Projection": {
-                    "ProjectionType": "ALL"
-                  },
-                  "ProvisionedThroughput": {
-                    "ReadCapacityUnits": 5,
-                    "WriteCapacityUnits": 5
-                  }
-                },
-                {
-                  "IndexName": "SKPK",
-                  "KeySchema": [
-                    {
-                      "AttributeName": "SK",
-                      "KeyType": "HASH"
-                    },
-                    {
-                      "AttributeName": "PK",
-                      "KeyType": "RANGE"
-                    }
-                  ],
-                  "Projection": {
-                    "ProjectionType": "ALL"
-                  },
-                  "ProvisionedThroughput": {
-                    "ReadCapacityUnits": 5,
-                    "WriteCapacityUnits": 5
-                  }
-                }
-              ],
-              "ProvisionedThroughput": {
-                "ReadCapacityUnits": 14,
-                "WriteCapacityUnits": 14
-              }
-            }
           }
         },
         "Outputs": {
           "ServerlessDeploymentBucketName": {
             "Value": {
               "Ref": "ServerlessDeploymentBucket"
+            }
+          },
+          "CreatePollLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4"
             }
           },
           "GetPollLambdaFunctionQualifiedArn": {
@@ -1680,10 +1587,10 @@
               "Ref": "UpdatePollLambdaVersionZNumwdcaK7Y3MWw4el5Akg0I0NwXD0xVL6ZDD3jPlw"
             }
           },
-          "CreatePollLambdaFunctionQualifiedArn": {
+          "DeletePollLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4"
+              "Ref": "DeletePollLambdaVersionfDJaM7eDOad1zayeRp0hKuOtnkkxOeL3j0mQpVwNXRY"
             }
           },
           "GetAllPollsLambdaFunctionQualifiedArn": {
@@ -1696,12 +1603,6 @@
             "Description": "Current Lambda function version",
             "Value": {
               "Ref": "GetPollByTitleLambdaVersionbavKvzlKaenJR4ndj6TqsP0TxioVIigaGIamGf1o"
-            }
-          },
-          "DeletePollLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "DeletePollLambdaVersionfDJaM7eDOad1zayeRp0hKuOtnkkxOeL3j0mQpVwNXRY"
             }
           },
           "AddResultLambdaFunctionQualifiedArn": {
@@ -2050,110 +1951,6 @@
         "versionLogicalId": "CallBotLambdaVersionx53XVFrsc1gBwRXobblqUYtIi3p8j26NzQvLlbQN8"
       }
     },
-    "resources": {
-      "Resources": {
-        "PollsTable": {
-          "Type": "AWS::DynamoDB::Table",
-          "Properties": {
-            "TableName": "polls",
-            "AttributeDefinitions": [
-              {
-                "AttributeName": "PK",
-                "AttributeType": "S"
-              },
-              {
-                "AttributeName": "SK",
-                "AttributeType": "S"
-              },
-              {
-                "AttributeName": "GSI1PK",
-                "AttributeType": "S"
-              },
-              {
-                "AttributeName": "title",
-                "AttributeType": "S"
-              }
-            ],
-            "KeySchema": [
-              {
-                "AttributeName": "PK",
-                "KeyType": "HASH"
-              },
-              {
-                "AttributeName": "SK",
-                "KeyType": "RANGE"
-              }
-            ],
-            "GlobalSecondaryIndexes": [
-              {
-                "IndexName": "ListPollsTitles",
-                "KeySchema": [
-                  {
-                    "AttributeName": "GSI1PK",
-                    "KeyType": "HASH"
-                  }
-                ],
-                "Projection": {
-                  "NonKeyAttributes": [
-                    "title"
-                  ],
-                  "ProjectionType": "INCLUDE"
-                },
-                "ProvisionedThroughput": {
-                  "ReadCapacityUnits": 1,
-                  "WriteCapacityUnits": 1
-                }
-              },
-              {
-                "IndexName": "SearchPollByTitle",
-                "KeySchema": [
-                  {
-                    "AttributeName": "title",
-                    "KeyType": "HASH"
-                  },
-                  {
-                    "AttributeName": "PK",
-                    "KeyType": "RANGE"
-                  }
-                ],
-                "Projection": {
-                  "ProjectionType": "ALL"
-                },
-                "ProvisionedThroughput": {
-                  "ReadCapacityUnits": 5,
-                  "WriteCapacityUnits": 5
-                }
-              },
-              {
-                "IndexName": "SKPK",
-                "KeySchema": [
-                  {
-                    "AttributeName": "SK",
-                    "KeyType": "HASH"
-                  },
-                  {
-                    "AttributeName": "PK",
-                    "KeyType": "RANGE"
-                  }
-                ],
-                "Projection": {
-                  "ProjectionType": "ALL"
-                },
-                "ProvisionedThroughput": {
-                  "ReadCapacityUnits": 5,
-                  "WriteCapacityUnits": 5
-                }
-              }
-            ],
-            "ProvisionedThroughput": {
-              "ReadCapacityUnits": 14,
-              "WriteCapacityUnits": 14
-            }
-          }
-        }
-      },
-      "Outputs": {}
-    },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
     "layers": {},
@@ -2171,20 +1968,17 @@
           "!./**",
           "./node_modules/**"
         ],
-        "artifactDirectoryName": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z"
+        "artifactDirectoryName": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
-      },
-      "resources": {
-        "$ref": "$[\"service\"][\"resources\"]"
       }
     },
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/polls-api-nodejs/tesis/1647118102946-2022-03-12T20:48:22.946Z",
+    "artifactDirectoryName": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z",
     "artifact": ""
   }
 }

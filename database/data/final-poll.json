@@ -1,0 +1,542 @@
+{
+    "title": "Censo 2022",
+    "description": "Fracción de cuestionario para el censo 2022",
+    "groups": [
+      {
+        "label": "Ubicación geográfica",
+        "description": "Copie del plano en la sede antes de salir a censar",
+        "questions": [
+          {
+            "label": "Provincia",
+            "type": "number",
+            "description": "",
+            "required": true
+          },
+          {
+              "label": "Departament/Partido/Comuna",
+              "type": "number",
+              "description": "",
+              "required": true
+          },
+          {
+              "label": "Localidad",
+              "type": "number",
+              "description": "",
+              "required": true
+          },
+          {
+              "label": "Fracción",
+              "type": "number",
+              "description": "",
+              "required": true
+          },
+          {
+              "label": "Radio",
+              "type": "number",
+              "description": "",
+              "required": true
+          },
+          {
+              "label": "Segmento",
+              "type": "number",
+              "description": "",
+              "required": true
+          },
+          {
+              "label": "Vivienda (Dirección)",
+              "type": "number",
+              "description": "",
+              "required": true
+          }
+        ]
+      },
+      {
+        "label": "Vivienda",
+        "description": "",
+        "questions": [
+          {
+            "label": "Marque por observación el tipo de vivienda.",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Casa"
+              },
+              {
+                "label": "Rancho"
+              },
+              {
+                "label": "Casilla"
+              },
+              {
+                "label": "Departamento"
+              },
+              {
+                "label": "Pieza ocupada en inquilinato, hotel familiar o pensión"
+              },
+              {
+                "label": "Local no construido para habitación ocupado"
+              },
+              {
+                "label": "Vivienda móvil ocupada (casa rodante, barco, carpa u otra"
+              },
+              {
+                "label": "Persona(s) viviendo en la calle"
+              }
+            ]
+          },
+          {
+            "label": "Marque si en la vivienda hay o no personas presentes.",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Hay personas presentes"
+              },
+              {
+                "label": "No Hay personas presentes"
+              }
+            ]
+          },
+          {
+            "label": "¿Cuántas personas viven la mayor parte del tiempo en esta vivienda?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Ninguna"
+              },
+              {
+                "label": "Una sola"
+              },
+              {
+                "label": "Dos o más"
+              }
+            ]
+          },
+          {
+            "label": "¿Todas esas personas tienen gastos en común para la alimentación?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "¿Cuántos grupos de personas tienen gastos separados para la alimentación?",
+            "type": "number",
+            "description": "",
+            "required": true
+          },
+          {
+            "label": "Anote el número del hogar que va a censar.",
+            "type": "number",
+            "description": "",
+            "required": true
+          }
+        ]
+      },
+      {
+        "label": "Dificultad o Limitación",
+        "description": "",
+        "questions": [
+          {
+            "label": "En este hogar ¿hay alguna persona que tenga dificultad o limitación para caminar o subir escaleras?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si?"
+              },
+              {
+                "label": "No?"
+              }
+            ]
+          },
+          {
+            "label": "En este hogar ¿hay alguna persona que tenga dificultad o limitación para recordar o concentrarse? Por ejemplo recordar la dirección de su casa",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "En este hogar ¿hay alguna persona que tenga dificultad o limitación para comunicarse,por ejemplo,entender o ser entendida por otras personas?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "En este hogar ¿hay alguna persona que tenga dificultad o limitación para oir, aun con el uso de audífonos?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "En este hogar ¿hay alguna persona que tenga dificultad o limitación para ver, aun con los anteojos puestos? Por ejemplo, ver la letra impresa en un diario.",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "En este hogar ¿hay alguna persona que tenga dificultad o limitación para comer, bañarse o vestirse sola?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Características del hogar y la vivienda",
+        "description": "",
+        "questions": [
+          {
+            "label": "¿El material predominante de los pisos es...",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "cerámica, mosaico, baldosa, alfombra, madera, flotante, vinílico, microcemento, cemento alisado o mármol?"
+              },
+              {
+                "label": "carpeta, contrapiso o ladrillo fijo?"
+              },
+              {
+                "label": "tierra o ladrillo suelto?"
+              },
+              {
+                "label": "otro material?"
+              }
+            ]
+          },
+          {
+            "label": "¿El material predominante de la cubierta exterior del techo es...",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "baldosa, membrana, pintura asfáltica, pizarra o teja?"
+              },
+              {
+                "label": "losa o carpeta a la vista (sin cubierta)?"
+              },
+              {
+                "label": "chapa de metal?"
+              },
+              {
+                "label": "chapa de cartón, caña, palma, tabla con barro, paja con barro o paja sola?"
+              },
+              {
+                "label": "otro material?"
+              }
+            ]
+          },
+          {
+            "label": "El techo ¿tiene revestimiento interior o cielorraso?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              },
+              {
+                "label": "Ignorado"
+              }
+            ]
+          },
+          {
+            "label": "¿Tiene agua...",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "por cañería dentro de la vivienda?"
+              },
+              {
+                "label": "fuera de la vivienda, pero dentro del terreno?"
+              },
+              {
+                "label": "fuera del terreno?"
+              }
+            ]
+          },
+          {
+            "label": "El agua que usa este hogar para beber y cocinar ¿proviene de...",
+            "type": "select",
+            "description": "Si utiliza agua envasada (bidón, botella, sachet) solo para beber, indique la procedencia del agua que usa para cocinar",
+            "required": true,
+            "options": [
+              {
+                "label": "red pública (agua corriente)?"
+              },
+              {
+                "label": "perforación con bomba a motor?"
+              },
+              {
+                "label": "perforación con bomba manual?"
+              },
+              {
+                "label": "pozo sin bomba?"
+              },
+              {
+                "label": "transporte por cisterna, agua de lluvia, río, canal, arroyo o acequia?"
+              },
+              {
+                "label": "otra procedencia?"
+              }
+            ]
+          },
+          {
+            "label": "Este hogar ¿tiene baño o letrina..",
+            "type": "select",
+            "description": "Si tiene un baño dentro de la vivienda y uno fuera de la vivienda, marque la opción dentro de la vivienda.",
+            "required": true,
+            "options": [
+              {
+                "label": "dentro de la vivienda?"
+              },
+              {
+                "label": "fuera de la vivienda, pero dentro del terreno?"
+              },
+              {
+                "label": "No tiene"
+              }
+            ]
+          },
+          {
+            "label": "¿Cuántos baños tiene este hogar?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Uno"
+              },
+              {
+                "label": "Dos"
+              },
+              {
+                "label": "Tres o más"
+              }
+            ]
+          },
+          {
+            "label": "El baño ¿tiene..",
+            "type": "select",
+            "description": "Si tiene más de un baño, considere el baño principal",
+            "required": true,
+            "options": [
+              {
+                "label": "inodoro con botón, mochila o cadena (arrastre de agua)?"
+              },
+              {
+                "label": "inodoro sin botón ni cadena (a balde)?"
+              },
+              {
+                "label": "pozo?"
+              }
+            ]
+          },
+          {
+            "label": "El desagüe del inodoro ¿es...",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "a red pública (cloaca)?"
+              },
+              {
+                "label": "a cámara séptica y pozo ciego?"
+              },
+              {
+                "label": "solo a pozo ciego?"
+              },
+              {
+                "label": "a hoyo, excavación en la tierra, etcétera?"
+              }
+            ]
+          },
+          {
+            "label": "Para cocinar ¿utiliza principalmente...",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "electricidad?"
+              },
+              {
+                "label": "gas de red?"
+              },
+              {
+                "label": "gas en tubo o a granel (zeppelin)?"
+              },
+              {
+                "label": "gas en garrafa?"
+              },
+              {
+                "label": "leña o carbón?"
+              },
+              {
+                "label": "otro combustible?"
+              }
+            ]
+          },
+          {
+            "label": "Este hogar ¿cuántos ambientes, habitaciones o piezas tiene en total, sin contar baños ni cocina?",
+            "type": "number",
+            "description": "Incluya dormitorios, comedor, living, entrepisos, escritorios, habitaciones de servicio, etcétera.",
+            "required": true
+          },
+          {
+            "label": "Y de esos ¿cuántos tiene para dormir, independientemente de si los usa para tal fin?",
+            "type": "number",
+            "description": "",
+            "required": true
+          },
+          {
+            "label": "La vivienda ¿es...",
+            "type": "select",
+            "description": "Si la opción marcada es 2, 3, 4 ó 5 pase a la pregunta 24",
+            "required": true,
+            "options": [
+              {
+                "label": "propia?"
+              },
+              {
+                "label": "alquilada?"
+              },
+              {
+                "label": "cedida por trabajao?"
+              },
+              {
+                "label": "prestada?"
+              },
+              {
+                "label": "otra situación"
+              }
+            ]
+          },
+          {
+            "label": " ¿Tiene...",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "escritura?"
+              },
+              {
+                "label": "boleta de compra-venta?"
+              },
+              {
+                "label": "otra documentación?"
+              },
+              {
+                "label": "no tiene documentación"
+              }
+            ]
+          },
+          {
+            "label": "¿Este hogar tiene internet en la vivienda?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "¿Este hogar tiene celular con internet?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "label": "¿Este hogar tiene computadora, tablet, etcétera?",
+            "type": "select",
+            "description": "",
+            "required": true,
+            "options": [
+              {
+                "label": "Si"
+              },
+              {
+                "label": "No"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
