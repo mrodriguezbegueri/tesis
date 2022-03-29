@@ -6,7 +6,6 @@ import java.util.Map;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.ApiGatewayResponse;
-import com.serverless.Response;
 import com.serverless.models.Poll;
 
 public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
@@ -40,7 +39,6 @@ public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGa
 
         } catch (Exception e) {
             context.getLogger().log("Error: " + e.toString());
-            // Response responseBody = new Response(e.toString(), input);
     			return ApiGatewayResponse.builder()
     					.setStatusCode(500)
     					.setObjectBody("Error getting the Poll")
