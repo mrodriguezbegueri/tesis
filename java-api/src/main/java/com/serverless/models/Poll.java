@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
@@ -20,7 +21,7 @@ import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.serverless.utils.DynamoDBAdapter;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
+// import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
 
 @DynamoDBTable(tableName = "PLACEHOLDER_POLLS_TABLE_NAME")
 public class Poll {
@@ -77,7 +78,9 @@ public class Poll {
         this.SK = SK;
     }
 
-    @DynamoDbSecondaryPartitionKey(indexNames = {"GSI1PK"})
+    
+    // @DynamoDbSecondaryPartitionKey(indexNames = {"GSI1PK"})
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "GSI1PK")
     public String getGSI1PK() {
         return this.GSI1PK;
     }

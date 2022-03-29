@@ -2,6 +2,7 @@ com/serverless/models/Option.class
 com/serverless/models/Question.class
 com/serverless/Handler.class
 com/serverless/polls/getpoll/GetPollHandler.class
+com/serverless/polls/testpoll/TestPollHandler.class
 com/serverless/polls/deletepoll/DeletePollHandler.class
 com/serverless/polls/createpoll/CreatePollHandler.class
 com/serverless/models/Poll.class

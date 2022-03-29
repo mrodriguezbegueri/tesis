@@ -12,6 +12,13 @@ getPoll:
     - http:
         path: /polls/{id}
         method: get
+# testPoll:
+#   handler: com.serverless.polls.testpoll.TestPollHandler
+#   timeout: 6
+#   events:
+#     - http:
+#         path: /polls/testpoll
+#         method: get
 updatePoll:
   handler: com.serverless.polls.updatepoll.UpdatePollHandler
   timeout: 15

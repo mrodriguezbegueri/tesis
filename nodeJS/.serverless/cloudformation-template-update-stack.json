@@ -107,6 +107,12 @@
         "LogGroupName": "/aws/lambda/polls-api-nodejs-tesis-getPollByTitle"
       }
     },
+    "TestPollLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/polls-api-nodejs-tesis-testPoll"
+      }
+    },
     "AddResultLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -230,7 +236,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/createPoll.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/createPoll.zip"
         },
         "Handler": "src/api/handlers/polls/createPoll/createPollHandler.createPoll",
         "Runtime": "nodejs12.x",
@@ -282,7 +288,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/updatePoll.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/updatePoll.zip"
         },
         "Handler": "src/api/handlers/polls/updatePoll/updatePollHandler.updatePoll",
         "Runtime": "nodejs12.x",
@@ -334,7 +340,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/getPoll.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/getPoll.zip"
         },
         "Handler": "src/api/handlers/polls/getPoll/getPollHandler.getPoll",
         "Runtime": "nodejs12.x",
@@ -386,7 +392,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/deletePoll.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/deletePoll.zip"
         },
         "Handler": "src/api/handlers/polls/deletePoll/deletePollHandler.deletePoll",
         "Runtime": "nodejs12.x",
@@ -438,7 +444,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/getAllPolls.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/getAllPolls.zip"
         },
         "Handler": "src/api/handlers/polls/getAllPolls/getAllPollsHandler.getAllPolls",
         "Runtime": "nodejs12.x",
@@ -490,7 +496,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/getPollByTitle.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/getPollByTitle.zip"
         },
         "Handler": "src/api/handlers/polls/getPollByTitle/getPollByTitleHandler.getPollByTitle",
         "Runtime": "nodejs12.x",
@@ -535,6 +541,58 @@
         "GetPollByTitleLogGroup"
       ]
     },
+    "TestPollLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/testPoll.zip"
+        },
+        "Handler": "src/api/handlers/polls/testPoll/testPollHandler.testPoll",
+        "Runtime": "nodejs12.x",
+        "FunctionName": "polls-api-nodejs-tesis-testPoll",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "POLLS_TABLE_NAME": "polls",
+            "POLLS_ID": "POLL",
+            "RESULTS_ID": "RESULT",
+            "ANSWER_ID": "ANSWER",
+            "REGION": "us-east-1",
+            "SAVE_RANDOM_ANSWER_LAMBDA": "polls-api-nodejs-tesis-saveRandomResultsBot",
+            "APIG_URL": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  "us-east-1",
+                  ".amazonaws.com/",
+                  "tesis"
+                ]
+              ]
+            },
+            "QUESTIONS_ID": "Q",
+            "GROUPS_ID": "G"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "TestPollLogGroup"
+      ]
+    },
     "AddResultLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -542,7 +600,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/addResult.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/addResult.zip"
         },
         "Handler": "src/api/handlers/results/resultHandler.addResult",
         "Runtime": "nodejs12.x",
@@ -594,7 +652,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/saveRandomResultsBot.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/saveRandomResultsBot.zip"
         },
         "Handler": "src/bot/botHandler.run",
         "Runtime": "nodejs12.x",
@@ -646,7 +704,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/polls-api-nodejs/tesis/1647432488415-2022-03-16T12:08:08.415Z/callBot.zip"
+          "S3Key": "serverless/polls-api-nodejs/tesis/1648306031157-2022-03-26T14:47:11.157Z/callBot.zip"
         },
         "Handler": "src/bot/botHandler.callBot",
         "Runtime": "nodejs12.x",
@@ -691,26 +749,6 @@
         "CallBotLogGroup"
       ]
     },
-    "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "CreatePollLambdaFunction"
-        },
-        "CodeSha256": "c6tBKqDpdK4D6H4jvL2vJeRMey5PtNRvHopefKdnpDM="
-      }
-    },
-    "GetPollLambdaVersion5gSMkJ9mt9EL5zAiirDo7lBdNGB2f3i3iTbpXXewHI": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "GetPollLambdaFunction"
-        },
-        "CodeSha256": "0lN+xgPNKORFXcwF9sWscNkIShAIdSh3SSDH30GDaUg="
-      }
-    },
     "UpdatePollLambdaVersionZNumwdcaK7Y3MWw4el5Akg0I0NwXD0xVL6ZDD3jPlw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
@@ -721,6 +759,16 @@
         "CodeSha256": "n3GdShwKZqLAt+Cu84UojBNFA2XCVB8LhyWxA+TdpzI="
       }
     },
+    "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CreatePollLambdaFunction"
+        },
+        "CodeSha256": "c6tBKqDpdK4D6H4jvL2vJeRMey5PtNRvHopefKdnpDM="
+      }
+    },
     "DeletePollLambdaVersionfDJaM7eDOad1zayeRp0hKuOtnkkxOeL3j0mQpVwNXRY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
@@ -729,6 +777,16 @@
           "Ref": "DeletePollLambdaFunction"
         },
         "CodeSha256": "zZE1kmnZ6E5Pn7CJBZwv/mCGRYWNLn9/VDT2AXm3CpY="
+      }
+    },
+    "GetPollLambdaVersion5gSMkJ9mt9EL5zAiirDo7lBdNGB2f3i3iTbpXXewHI": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetPollLambdaFunction"
+        },
+        "CodeSha256": "0lN+xgPNKORFXcwF9sWscNkIShAIdSh3SSDH30GDaUg="
       }
     },
     "GetAllPollsLambdaVersioncG0JRuVFpveNrALCdLlcsxZFUf2LruvsOFiLSSTRUA": {
@@ -749,6 +807,16 @@
           "Ref": "GetPollByTitleLambdaFunction"
         },
         "CodeSha256": "2OdNXxqDmvJjPU7bYTpKwU3dLcoT+lAwKzSALB3bCsk="
+      }
+    },
+    "TestPollLambdaVersionXuBThNLcLJU7XV34bMUKFadm9gRghCBISq4ZGe48": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "TestPollLambdaFunction"
+        },
+        "CodeSha256": "77K50ApW1QDCY3p7QBZYNAksrFIb9ScohezpnilNmzc="
       }
     },
     "AddResultLambdaVersionROz3Hml8QuRzTd7HDcEVyDy8oH5XDswFv9FGWwrW4I": {
@@ -827,6 +895,18 @@
           "Ref": "ApiGatewayResourcePolls"
         },
         "PathPart": "getPollByTitle",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourcePollsTestpoll": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourcePolls"
+        },
+        "PathPart": "testpoll",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -1144,6 +1224,49 @@
         "MethodResponses": []
       }
     },
+    "ApiGatewayMethodPollsTestpollGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourcePollsTestpoll"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "TestPollLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
     "ApiGatewayMethodResultsPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -1273,7 +1396,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1647432485719": {
+    "ApiGatewayDeployment1648306029515": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1288,6 +1411,7 @@
         "ApiGatewayMethodPollsIdVarDelete",
         "ApiGatewayMethodPollsGet",
         "ApiGatewayMethodPollsGetpollbytitleGet",
+        "ApiGatewayMethodPollsTestpollGet",
         "ApiGatewayMethodResultsPost",
         "ApiGatewayMethodBotRunGet",
         "ApiGatewayMethodBotCallbotGet"
@@ -1515,6 +1639,43 @@
         }
       }
     },
+    "TestPollLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "TestPollLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
     "AddResultLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
@@ -1633,28 +1794,28 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "CreatePollLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4"
-      }
-    },
-    "GetPollLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "GetPollLambdaVersion5gSMkJ9mt9EL5zAiirDo7lBdNGB2f3i3iTbpXXewHI"
-      }
-    },
     "UpdatePollLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
         "Ref": "UpdatePollLambdaVersionZNumwdcaK7Y3MWw4el5Akg0I0NwXD0xVL6ZDD3jPlw"
       }
     },
+    "CreatePollLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "CreatePollLambdaVersionJgOEoqzcDJO2adkNCzWGp5xYnheq8gGStHj1OG4"
+      }
+    },
     "DeletePollLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
         "Ref": "DeletePollLambdaVersionfDJaM7eDOad1zayeRp0hKuOtnkkxOeL3j0mQpVwNXRY"
+      }
+    },
+    "GetPollLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetPollLambdaVersion5gSMkJ9mt9EL5zAiirDo7lBdNGB2f3i3iTbpXXewHI"
       }
     },
     "GetAllPollsLambdaFunctionQualifiedArn": {
@@ -1667,6 +1828,12 @@
       "Description": "Current Lambda function version",
       "Value": {
         "Ref": "GetPollByTitleLambdaVersionbavKvzlKaenJR4ndj6TqsP0TxioVIigaGIamGf1o"
+      }
+    },
+    "TestPollLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "TestPollLambdaVersionXuBThNLcLJU7XV34bMUKFadm9gRghCBISq4ZGe48"
       }
     },
     "AddResultLambdaFunctionQualifiedArn": {

@@ -52,3 +52,12 @@ getPollByTitle:
     - http:
         path: /polls/getPollByTitle
         method: get
+# testPoll:
+#   handler: src/api/handlers/polls/testPoll/testPollHandler.testPoll
+#   package:
+#     patterns:
+#       - src/api/handlers/polls/testPoll/**
+#   events:
+#     - http:
+#         path: /polls/testpoll
+#         method: get
