@@ -62,12 +62,26 @@ const buildRandomResult = (poll) => {
     return result
 }
 
+const buildQuestionKey = (groupIndex, questionIndex) => {
+    return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
+} 
 
 const getRandomAnswer = (question) => {
 
-    const contOptions = question.options.length
-    const randomIndex = getRandomInt(0, (contOptions - 1))
-    const answer = question.options[randomIndex].label
+    let answer = null
+
+    if (question.type === 'number') {
+        const randomNumber = getRandomInt(1, 100)
+        answer = randomNumber
+    } else {
+        const contOptions = question.options.length
+        const randomIndex = getRandomInt(0, (contOptions - 1))
+        answer = question.options[randomIndex].label
+    }
+
+    if (!answer) {
+        throw new Error('Error with random answer')
+    }
 
     return answer
 }
@@ -78,9 +92,6 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const buildQuestionKey = (groupIndex, questionIndex) => {
-    return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
-  } 
 
 module.exports = {
     getRandomResult
