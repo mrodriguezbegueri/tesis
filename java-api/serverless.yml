@@ -30,3 +30,4 @@ package:
 
 functions:
   - ${file(config/serverless/functions/api/polls_functions.yml)}
+  - ${file(config/serverless/functions/api/results_functions.yml)}

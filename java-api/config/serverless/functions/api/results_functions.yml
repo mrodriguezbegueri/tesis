@@ -1,0 +1,7 @@
+deleteResult:
+  handler: com.serverless.results.deleteresult.DeleteResultHandler
+  timeout: 15
+  events:
+    - http:
+        path: /results/{id}
+        method: delete
