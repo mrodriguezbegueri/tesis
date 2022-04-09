@@ -1,12 +1,39 @@
 addResult:
-  handler: src/api/handlers/results/resultHandler.addResult
+  handler: src/api/handlers/results/createResultHandler.createResult
   package:
     patterns:
-      - src/api/handlers/results/**
+      - src/api/handlers/results/createResult/**
   events:
     - http: # Se indica que el evento se disparará mediante una solicitud http
         path: /results
         method: post
+deleteResult:
+  handler: src/api/handlers/results/deleteResult/deleteResultHandler.deleteResult
+  package:
+    patterns:
+      - src/api/handlers/results/deleteResult/**
+  events:
+    - http:
+        path: /results/{id}
+        method: delete
+# updateResult:
+#   handler: src/api/handlers/results/updateResult/updateResultHandler.updateResult
+#   package:
+#     patterns:
+#       - src/api/handlers/results/updateResult/**
+#   events:
+#     - http:
+#         path: /results/{id}
+#         method: put
+# getResult:
+#   handler: src/api/handlers/results/getResult/getResultHandler.getResult
+#   package:
+#     patterns:
+#       - src/api/handlers/results/getResult/**
+#   events:
+#     - http:
+#         path: /results/{id}
+#         method: get
 # addRandomResult:
 #   handler: src/api/handlers/results/resultHandler.addRandomResult
 #   package:

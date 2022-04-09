@@ -13,7 +13,7 @@ const response = (statusCode, message) => {
     }
 }
 
-const addResult = async (event) => {
+const createResult = async (event) => {
   try {
   
     const reqBody = JSON.parse(event.body)
@@ -65,5 +65,5 @@ const buildQuestionKey = (groupIndex, questionIndex) => {
 
 
 module.exports = {
-  addResult
+  createResult
 }
