@@ -1,4 +1,4 @@
-addResult:
+createResult:
   handler: src/api/handlers/results/createResultHandler.createResult
   package:
     patterns:

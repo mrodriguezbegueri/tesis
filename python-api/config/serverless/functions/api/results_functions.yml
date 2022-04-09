@@ -1,0 +1,19 @@
+# createResult:
+#   handler: src/api/handlers/results/createResultHandler.createResult
+#   package:
+#     patterns:
+#       - src/api/handlers/results/createResult/**
+#   events:
+#     - http: # Se indica que el evento se disparará mediante una solicitud http
+#         path: /results
+#         method: post
+deleteResult:
+  module: src/api/handlers/results/deleteResult
+  handler: deleteResultHandler.deleteResult
+  package:
+    patterns:
+      - src/api/handlers/results/deleteResult/**
+  events:
+    - http:
+        path: /results/{id}
+        method: delete
