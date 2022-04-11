@@ -33,3 +33,10 @@ deletePoll:
     - http:
         path: /polls/{id}
         method: delete
+getPollByTitle:
+  handler: com.serverless.polls.getpollbytitle.GetPollByTitleHandler
+  timeout: 15
+  events:
+    - http:
+        path: /polls/getPollByTitle
+        method: get

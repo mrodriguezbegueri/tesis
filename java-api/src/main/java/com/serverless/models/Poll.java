@@ -17,6 +17,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.serverless.utils.DynamoDBAdapter;
@@ -27,6 +29,7 @@ import com.serverless.utils.DynamoDBAdapter;
 public class Poll {
 
     private static final String POLLS_TABLE_NAME = System.getenv("POLLS_TABLE_NAME");
+    private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
     public static final String PARTITION_KEY = "PK";
     public static final String SORT_KEY = "SK";
 
@@ -163,5 +166,34 @@ public class Poll {
         dbDeleteExpression.setExpected(expectedAttribute);
 
         this.mapper.delete(poll, dbDeleteExpression);
+    }
+
+    public Poll getPollByTitle(String title) {
+        Poll poll = null;
+
+        HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
+        av.put(":v", new AttributeValue().withS(title));
+        av.put(":v1", new AttributeValue().withS(DYNAMO_POLLS_ID));
+
+        // Condition condition = new Condition()
+        //     .withComparisonOperator(ComparisonOperator.BEGINS_WITH.toString())
+        //     .withAttributeValueList(new AttributeValue().withS(title));
+        // HashMap<String, AttributeValue> av1 = new HashMap<String, AttributeValue>();
+        // av.put(":v", new AttributeValue().withS(DYNAMO_POLLS_ID));
+
+        DynamoDBQueryExpression<Poll> queryExpression = new DynamoDBQueryExpression<Poll>()
+            .withIndexName("SearchPollByTitle")
+            .withKeyConditionExpression("title = :v AND begins_with(PK, :v1)")
+            .withExpressionAttributeValues(av)
+            .withConsistentRead(false);
+            // .withRangeKeyCondition("PK", condition);
+        
+        PaginatedQueryList<Poll> result = this.mapper.query(Poll.class, queryExpression);
+
+        if(result.size() == 1) {
+            poll = result.get(0);
+        }
+
+        return poll;
     }
 }
