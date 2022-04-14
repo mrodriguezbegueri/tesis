@@ -2,31 +2,29 @@
 
 const AWS = require('aws-sdk')
 const { v4: uuidv4 } = require('uuid')
+const db = new AWS.DynamoDB.DocumentClient({});
 
-const { RESULTS_ID, QUESTIONS_ID, GROUPS_ID } = process.env
+const { RESULTS_ID, QUESTIONS_ID, GROUPS_ID, POLLS_TABLE_NAME } = process.env
 
-const generateEventResponse = (processData) => {
+const response = (statusCode, message) => {
     return {
-            poll: processData.poll,
-            randomResult: processData.randomResult
+        statusCode: statusCode,
+        body: JSON.stringify(message)
     }
 }
 
-const getRandomResult = async (event) => {
+const createRandomResult = async (event) => {
 
     try {
-        const poll = event.data.poll
+        const poll = JSON.parse(event.body)
             
         let randomResult = buildRandomResult(poll)
         console.log('answer: ', JSON.stringify(randomResult))
-        
-        const eventResponseData = generateEventResponse({
-            poll,
-            randomResult
-        })
 
-        console.log("eventResponseData: ", eventResponseData)
-        return eventResponseData
+        const res = await saveResult(randomResult)
+
+        return response(200, randomResult)
+        
     } catch(err) {
         console.log('err', err)
     }
@@ -49,6 +47,7 @@ const buildRandomResult = (poll) => {
         group.questions.forEach( ( question, qIndex ) => {
             let key = buildQuestionKey(gIndex, qIndex)
             const randomAnswer = getRandomAnswer(question)
+            question['value'] = randomAnswer
             result[key] = randomAnswer
         })
     })
@@ -85,7 +84,28 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+const saveResult = async (result) => {
+    try {
+
+        const params = {
+            TableName: POLLS_TABLE_NAME,
+            Item: result
+        }
+        
+        let res = await db.put(params).promise()
+    
+        if (res) {
+            return res
+        } else {
+            throw new Error('Error at creating the result')
+        }
+      } catch (err) {
+          console.error('Error: ', err.message)
+          throw new Error(err.message)
+      }
+}
+
 
 module.exports = {
-    getRandomResult
+    createRandomResult
 }
