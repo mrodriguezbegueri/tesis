@@ -4,7 +4,7 @@ frameworkVersion: '2'
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   region: us-east-1
   iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB

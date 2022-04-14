@@ -3,8 +3,8 @@
 const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient({})
 
-const tableName = process.env.POLLS_TABLE_NAME
-const dynamoPollsId = process.env.POLLS_ID
+const { POLLS_ID, POLLS_TABLE_NAME } = process.env
+
 
 const response = (statusCode, message) => {
     return {
@@ -15,26 +15,56 @@ const response = (statusCode, message) => {
 
 const updatePoll = async (event) => {
     const PK = event.pathParameters.id
-    const reqBody = JSON.parse(event.body)
-    const paramName = reqBody.paramName
-    const paramValue = reqBody.paramValue
+    const poll = JSON.parse(event.body)
+    
+    let toUpdatePropers = []
+    let ExpressionAttributeNames = {}
+    let ExpressionAttributeValues = {}
+
+    for (const property in poll) {
+      
+      toUpdatePropers.push(`#${property} = :${property}`)
+      ExpressionAttributeNames['#' + property] = property 
+      
+      let pollProperty = poll[property]
+      
+      if(property === 'groups') {
+        pollProperty = JSON.stringify(pollProperty)
+      }
+
+      ExpressionAttributeValues[':' + property] = pollProperty
+    }
+
+    const UpdateExpression = `set ${toUpdatePropers.join(',')}`
+
+    console.log('UpdateExpression: ', UpdateExpression)
+    console.log('ExpressionAttributeNames: ', ExpressionAttributeNames)
+    console.log('ExpressionAttributeValues: ', ExpressionAttributeValues)
     
     const params = {
-      TableName: tableName,
+      TableName: POLLS_TABLE_NAME,
       Key: {
-        PK: dynamoPollsId + '#' + PK,
-        SK: dynamoPollsId + '#' + PK,
+        PK: POLLS_ID + '#' + PK,
+        SK: POLLS_ID + '#' + PK,
       },
       ConditionExpression: 'attribute_exists(PK) AND attribute_exists(SK)',
-      UpdateExpression: 'set ' + paramName + ' = :v',
-      ExpressionAttributeValues: {
-        ':v': paramValue
-      },
+      
+      UpdateExpression,
+      ExpressionAttributeNames,
+      ExpressionAttributeValues,
       ReturnValues: 'ALL_NEW'
     }
   
     try {
-      const updatePoll = await db.update(params).promise()
+      let updatePoll = await db.update(params).promise()
+      updatePoll = updatePoll.Attributes
+
+      const groups = updatePoll?.groups
+
+      if (groups) {
+        updatePoll['groups'] = JSON.parse(groups)
+      }
+
       return response(200, updatePoll)
     } catch (err) {
       console.log('err: ', err)
