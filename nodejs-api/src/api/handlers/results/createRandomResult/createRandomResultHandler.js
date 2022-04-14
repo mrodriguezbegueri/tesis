@@ -40,15 +40,15 @@ const buildRandomResult = (poll) => {
         title: poll.title,
         description: poll.description,
         groups: poll.groups,
-        createdAt: new Date().toISOString()
+        // createdAt: new Date().toISOString()
       }
 
     poll.groups.forEach( ( group, gIndex ) => {
         group.questions.forEach( ( question, qIndex ) => {
-            let key = buildQuestionKey(gIndex, qIndex)
+            // let key = buildQuestionKey(gIndex, qIndex)
             const randomAnswer = getRandomAnswer(question)
             question['value'] = randomAnswer
-            result[key] = randomAnswer
+            // result[key] = randomAnswer
         })
     })
     return result

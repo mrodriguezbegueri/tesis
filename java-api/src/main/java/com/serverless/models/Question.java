@@ -25,6 +25,9 @@ public class Question {
     @JsonProperty("required")
     private Boolean required;
 
+    @JsonProperty("value")
+    private String value;
+
 
     @DynamoDBAttribute(attributeName = "options")
     public ArrayList<Option> getOptions() {
@@ -64,5 +67,13 @@ public class Question {
     }
     public void setRequired(Boolean required) {
         this.required = required;
+    }
+
+    @DynamoDBAttribute(attributeName = "value")
+    public String getValue() {
+        return this.value;
+    }
+    public void setValue(String value) {
+        this.value = value;
     }
 }

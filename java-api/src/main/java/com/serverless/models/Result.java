@@ -97,9 +97,9 @@ public class Result {
         return "Result[PK=" + PK + ", SK=" + SK + ", title=" + title + ", description=" + description + "]";
     }
 
-    // public void save(Result result) throws IOException {
-    //     this.mapper.save(result);
-    // }
+    public void save(Result result) throws IOException {
+        this.mapper.save(result);
+    }
 
     public void deleteResult(Result result) throws IOException {
 

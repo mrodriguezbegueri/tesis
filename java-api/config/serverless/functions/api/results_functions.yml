@@ -1,3 +1,10 @@
+createResult:
+  handler: com.serverless.results.createresult.CreateResultHandler
+  timeout: 15
+  events:
+    - http:
+        path: /results
+        method: post
 deleteResult:
   handler: com.serverless.results.deleteresult.DeleteResultHandler
   timeout: 15
