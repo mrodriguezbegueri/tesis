@@ -1,12 +1,13 @@
-# createResult:
-#   handler: src/api/handlers/results/createResultHandler.createResult
-#   package:
-#     patterns:
-#       - src/api/handlers/results/createResult/**
-#   events:
-#     - http: # Se indica que el evento se disparará mediante una solicitud http
-#         path: /results
-#         method: post
+createResult:
+  module: src/api/handlers/results/createResult
+  handler: createResultHandler.createResult
+  package:
+    patterns:
+      - src/api/handlers/results/createResult/**
+  events:
+    - http: # Se indica que el evento se disparará mediante una solicitud http
+        path: /results
+        method: post
 updateResult:
   module: src/api/handlers/results/updateResult
   handler: updateResultHandler.updateResult
