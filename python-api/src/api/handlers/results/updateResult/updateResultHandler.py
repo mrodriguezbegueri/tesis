@@ -9,7 +9,7 @@ import simplejson as json
 
 dynamodb_client = boto3.resource('dynamodb')
 TABLE_NAME = os.environ['POLLS_TABLE_NAME']
-DYNAMO_POLLS_ID = os.environ['POLLS_ID']
+RESULTS_ID = os.environ['RESULTS_ID']
 
 def create_response(code, message):
   return {
@@ -23,33 +23,30 @@ def get_update_params(body):
     update_values = dict()
 
     for key, val in body.items():
+        if key == 'PK' or key == 'SK':
+            continue
         update_expression.append(f" {key} = :{key},")
         update_values[f":{key}"] = val
 
     return "".join(update_expression)[:-1], update_values
 
-def updatePoll(event, context):
+def updateResult(event, context):
 
     PK = event['pathParameters']['id']
-    poll = json.loads(event['body'])
+    result = json.loads(event['body'])
 
-    updateExpression, expressionAttributesValues = get_update_params(poll)
+    SK = result['SK']
 
-    # paramName = reqBody['paramName']
-    # paramValue = reqBody['paramValue']
+    updateExpression, expressionAttributesValues = get_update_params(result)
     
     params = {
         'Key': {
-            'PK': DYNAMO_POLLS_ID + '#' + PK,
-            'SK': DYNAMO_POLLS_ID + '#' + PK,
+            'PK': RESULTS_ID + '#' + PK,
+            'SK': SK,
         },
         'ConditionExpression': 'attribute_exists(PK) AND attribute_exists(SK)',
         'UpdateExpression': updateExpression,
         'ExpressionAttributeValues': expressionAttributesValues,
-        # 'UpdateExpression': 'set ' + paramName + ' = :v',
-        # 'ExpressionAttributeValues': {
-        #     ':v': paramValue
-        # },
         'ReturnValues': 'ALL_NEW'
     }
 
@@ -57,9 +54,10 @@ def updatePoll(event, context):
         table = dynamodb_client.Table(TABLE_NAME)
         response = table.update_item(**params)
     except Exception as ex:
+        print('Ex: ', ex)
         return create_response(500, 'Error updating the Poll')
 
-    print('Response', response)
+    print('Response: ', response)
 
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
       return create_response(500, 'Error updating the Poll')
@@ -67,4 +65,3 @@ def updatePoll(event, context):
     response = response['Attributes']
 
     return create_response(200, response)
-

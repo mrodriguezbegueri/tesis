@@ -27,10 +27,6 @@ const updatePoll = async (event) => {
       ExpressionAttributeNames['#' + property] = property 
       
       let pollProperty = poll[property]
-      
-      if(property === 'groups') {
-        pollProperty = JSON.stringify(pollProperty)
-      }
 
       ExpressionAttributeValues[':' + property] = pollProperty
     }
@@ -58,12 +54,6 @@ const updatePoll = async (event) => {
     try {
       let updatePoll = await db.update(params).promise()
       updatePoll = updatePoll.Attributes
-
-      const groups = updatePoll?.groups
-
-      if (groups) {
-        updatePoll['groups'] = JSON.parse(groups)
-      }
 
       return response(200, updatePoll)
     } catch (err) {

@@ -35,10 +35,6 @@ const updateResult = async (event) => {
       ExpressionAttributeNames['#' + property] = property 
       
       let resultProperty = result[property]
-      
-      if(property === 'groups') {
-        resultProperty = JSON.stringify(resultProperty)
-      }
 
       ExpressionAttributeValues[':' + property] = resultProperty
     }
@@ -69,13 +65,7 @@ const updateResult = async (event) => {
     try {
       let updateResult = await db.update(params).promise()
       updateResult = updateResult.Attributes
-
-      const groups = updateResult?.groups
-
-      if (groups) {
-        updateResult['groups'] = JSON.parse(groups)
-      }
-
+      
       return response(200, updateResult)
     } catch (err) {
       console.log('err: ', err)

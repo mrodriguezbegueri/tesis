@@ -7,6 +7,16 @@
 #     - http: # Se indica que el evento se disparará mediante una solicitud http
 #         path: /results
 #         method: post
+updateResult:
+  module: src/api/handlers/results/updateResult
+  handler: updateResultHandler.updateResult
+  package:
+    patterns:
+      - src/api/handlers/results/**
+  events:
+    - http:
+        path: /results/{id}
+        method: put
 deleteResult:
   module: src/api/handlers/results/deleteResult
   handler: deleteResultHandler.deleteResult
