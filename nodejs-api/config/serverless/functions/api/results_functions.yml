@@ -1,11 +1,20 @@
 createResult:
+  handler: src/api/handlers/results/createResult/createResultHandler.createResult
+  package:
+    patterns:
+      - src/api/handlers/results/createResult/**
+  events:
+    - http: # Se indica que el evento se disparará mediante una solicitud http
+        path: /results
+        method: post
+createRandomResult:
   handler: src/api/handlers/results/createRandomResult/createRandomResultHandler.createRandomResult
   package:
     patterns:
       - src/api/handlers/results/createRandomResult/**
   events:
     - http: # Se indica que el evento se disparará mediante una solicitud http
-        path: /results
+        path: /results/randomResults
         method: post
 updateResult:
   handler: src/api/handlers/results/updateResult/updateResultHandler.updateResult

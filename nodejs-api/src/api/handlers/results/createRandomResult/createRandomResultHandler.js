@@ -2,7 +2,7 @@
 
 const AWS = require('aws-sdk')
 const { v4: uuidv4 } = require('uuid')
-const db = new AWS.DynamoDB.DocumentClient({});
+// const db = new AWS.DynamoDB.DocumentClient({});
 
 const { RESULTS_ID, QUESTIONS_ID, GROUPS_ID, POLLS_TABLE_NAME } = process.env
 
@@ -21,7 +21,7 @@ const createRandomResult = async (event) => {
         let randomResult = buildRandomResult(poll)
         console.log('answer: ', JSON.stringify(randomResult))
 
-        const res = await saveResult(randomResult)
+        // const res = await saveResult(randomResult)
 
         return response(200, randomResult)
         
@@ -84,26 +84,26 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const saveResult = async (result) => {
-    try {
+// const saveResult = async (result) => {
+//     try {
 
-        const params = {
-            TableName: POLLS_TABLE_NAME,
-            Item: result
-        }
+//         const params = {
+//             TableName: POLLS_TABLE_NAME,
+//             Item: result
+//         }
         
-        let res = await db.put(params).promise()
+//         let res = await db.put(params).promise()
     
-        if (res) {
-            return res
-        } else {
-            throw new Error('Error at creating the result')
-        }
-      } catch (err) {
-          console.error('Error: ', err.message)
-          throw new Error(err.message)
-      }
-}
+//         if (res) {
+//             return res
+//         } else {
+//             throw new Error('Error at creating the result')
+//         }
+//       } catch (err) {
+//           console.error('Error: ', err.message)
+//           throw new Error(err.message)
+//       }
+// }
 
 
 module.exports = {

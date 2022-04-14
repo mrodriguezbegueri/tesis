@@ -37,18 +37,6 @@ const createPoll = async (event) => {
       const createPoll = await db.put(params).promise()
       console.log('createPoll: ', createPoll)
 
-      // delete params.Item
-      // params['Key'] = {
-      //   PK: dynamoPollsId + '#' + pollId,
-      //   SK: dynamoPollsId + '#' + pollId,
-      // }
-
-      // const getPoll = await db.get(params).promise()
-
-      // if (!getPoll.Item) {
-      //   return response(404, {error: 'Error creating Poll'})
-      // }
-
       return response(200, poll)
     } catch (err) {
       console.log('err: ', err)
