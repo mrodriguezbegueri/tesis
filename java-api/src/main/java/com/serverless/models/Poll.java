@@ -83,6 +83,7 @@ public class Poll {
 
     
     // @DynamoDbSecondaryPartitionKey(indexNames = {"GSI1PK"})
+    @DynamoDBAttribute(attributeName = "GSI1PK")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "GSI1PK")
     public String getGSI1PK() {
         return this.GSI1PK;

@@ -35,6 +35,8 @@ public class CreatePollHandler implements RequestHandler<Map<String, Object>, Ap
             poll.setPK(PK);
             poll.setSK(PK);
 
+            context.getLogger().log("POLL: " + poll.toString());
+
             poll.save(poll);
             
             return ApiGatewayResponse.builder()
