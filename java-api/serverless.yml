@@ -2,7 +2,7 @@ service: polls-api-java
 
 provider:
   name: aws
-  runtime: java8
+  runtime: java11
   lambdaHashingVersion: 20201221
   region: us-east-1
   iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB

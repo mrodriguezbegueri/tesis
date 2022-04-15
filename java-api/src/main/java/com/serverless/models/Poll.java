@@ -65,6 +65,7 @@ public class Poll {
             this.mapper = this.dbAdapter.createDbMapper(mapperConfig);
     }
 
+    @JsonProperty(PARTITION_KEY)
     @DynamoDBHashKey(attributeName = "PK")
     public String getPK() {
         return this.PK;
@@ -73,6 +74,7 @@ public class Poll {
         this.PK = PK;
     }
 
+    @JsonProperty(SORT_KEY)
     @DynamoDBRangeKey(attributeName = "SK")
     public String getSK() {
         return this.SK;
@@ -88,6 +90,7 @@ public class Poll {
     public String getGSI1PK() {
         return this.GSI1PK;
     }
+    @JsonProperty("GSI1PK")
     public void setGSI1PK(String GSI1PK) {
         this.GSI1PK = GSI1PK;
     }

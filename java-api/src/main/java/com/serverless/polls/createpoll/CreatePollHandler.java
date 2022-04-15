@@ -34,6 +34,7 @@ public class CreatePollHandler implements RequestHandler<Map<String, Object>, Ap
 
             poll.setPK(PK);
             poll.setSK(PK);
+            poll.setGSI1PK("POLLS");
 
             context.getLogger().log("POLL: " + poll.toString());
 

@@ -10,6 +10,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
@@ -52,6 +53,7 @@ public class Result {
             this.mapper = this.dbAdapter.createDbMapper(mapperConfig);
     }
 
+    @JsonProperty(PARTITION_KEY)
     @DynamoDBHashKey(attributeName = "PK")
     public String getPK() {
         return this.PK;
@@ -60,6 +62,7 @@ public class Result {
         this.PK = PK;
     }
 
+    @JsonProperty(SORT_KEY)
     @DynamoDBRangeKey(attributeName = "SK")
     public String getSK() {
         return this.SK;
@@ -113,5 +116,18 @@ public class Result {
         dbDeleteExpression.setExpected(expectedAttribute);
 
         this.mapper.delete(result, dbDeleteExpression);
+    }
+
+    public void updateResult(Result result) {
+        DynamoDBSaveExpression dbSaveExpression = new DynamoDBSaveExpression();
+        
+        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
+        AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
+        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
+        expectedAttribute.put("PK", expectedAttributeValue);
+
+        dbSaveExpression.setExpected(expectedAttribute);
+
+        this.mapper.save(result, dbSaveExpression);
     }
 }
