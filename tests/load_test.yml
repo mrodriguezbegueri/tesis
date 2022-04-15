@@ -10,11 +10,11 @@ config:
     js:
       target: "https://c320u3kjjf.execute-api.us-east-1.amazonaws.com/tesis"
     python:
-      target: ""
+      target: "https://e1ib5jr340.execute-api.us-east-1.amazonaws.com/tesis"
     java:
-      target: ""
+      target: "https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis"
 scenarios:
-  - name: "Flow"
+  - name: "Load test scenario"
     flow:
       - get:
           url: "/polls/getPollByTitle"
@@ -36,6 +36,9 @@ scenarios:
             - json: "$"
               as: "savedResult"
       - function: "processIds"
+      - put:
+          url: "/results/{{ resultPK }}"
+          json: "{{ savedResult }}"
       - delete:
           url: "/results/{{ resultPK }}?pollId={{ resultSK }}"
           
