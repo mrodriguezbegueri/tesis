@@ -1,0 +1,41 @@
+config:
+  target: "{{$processEnvironment.API_URL}}"
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      rampTo: 1
+      name: Warm up
+  processor: "./utilities/utilities.js"
+  environments:
+    js:
+      target: "https://c320u3kjjf.execute-api.us-east-1.amazonaws.com/tesis"
+    python:
+      target: ""
+    java:
+      target: ""
+scenarios:
+  - name: "Flow"
+    flow:
+      - get:
+          url: "/polls/getPollByTitle"
+          qs:
+            title: "Censo 2022"
+          capture:
+            - json: "$"
+              as: "poll"
+      - post:
+          url: "https://c320u3kjjf.execute-api.us-east-1.amazonaws.com/tesis/results/randomResults"
+          json: "{{ poll }}"
+          capture:
+            - json: "$"
+              as: "randomResult"
+      - post:
+          url: "/results"
+          json: "{{ randomResult }}"
+          capture:
+            - json: "$"
+              as: "savedResult"
+      - function: "processIds"
+      - delete:
+          url: "/results/{{ resultPK }}?pollId={{ resultSK }}"
+          

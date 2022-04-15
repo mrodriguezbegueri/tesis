@@ -1,0 +1,16 @@
+{
+  "name": "tesis-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "load_test:js": "artillery run -e js -k load_test.yml",
+    "load_test:python": "artillery run -e python -k load_test.yml",
+    "load_test:java": "artillery run -e java -k load_test.yml",
+    "stress_test:js": "artillery run -e js -k stress_test.yml",
+    "stress_test:python": "artillery run -e python -k stress_test.yml",
+    "stress_test:java": "artillery run -e java -k stress_test.yml"
+  },
+  "author": "Matias Rodriguez",
+  "license": "ISC"
+}

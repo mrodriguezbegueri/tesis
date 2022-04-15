@@ -15,6 +15,8 @@ const response = (statusCode, message) => {
 }
 
 const deleteResult = async (event) => {
+
+  console.log("event: ", JSON.stringify(event))
     const PK = event.pathParameters.id
     const SK = event.queryStringParameters.pollId
     
@@ -25,6 +27,8 @@ const deleteResult = async (event) => {
         SK: POLLS_ID + '#' + SK
       }
     }
+
+    console.log("params: ", params)
   
     try {
       const deleteResult = await db.delete(params).promise()
