@@ -21,8 +21,8 @@ public class UpdateResultHandler implements RequestHandler<Map<String, Object>, 
 
             Map<String,String> pathParameters = (Map<String,String>) input.get("pathParameters");
             String resultId = pathParameters.get("id");
-            Map<String,String> queryStringParameters =  (Map<String,String>)input.get("queryStringParameters");
-            String pollId = queryStringParameters.get("pollId");
+            // Map<String,String> queryStringParameters =  (Map<String,String>)input.get("queryStringParameters");
+            // String pollId = queryStringParameters.get("pollId");
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode body = mapper.readTree((String) input.get("body"));
@@ -32,10 +32,10 @@ public class UpdateResultHandler implements RequestHandler<Map<String, Object>, 
 
             Result result = mapper.readValue(jsonResult, Result.class);
 
-            String SK = DYNAMO_POLLS_ID + '#' + pollId; 
             String PK = DYNAMO_RESULTS_ID + '#' + resultId; 
+            // String SK = DYNAMO_POLLS_ID + '#' + pollId;
             result.setPK(PK);
-            result.setSK(SK);
+            // result.setSK(SK);
 
             result.updateResult(result);
                 
