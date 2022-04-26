@@ -1,18 +1,3 @@
-config:
-  target: "{{$processEnvironment.API_URL}}"
-  phases:
-    - duration: 1
-      arrivalRate: 1
-      rampTo: 1
-      name: Warm up
-  processor: "./utilities/utilities.js"
-  environments:
-    js:
-      target: "https://c320u3kjjf.execute-api.us-east-1.amazonaws.com/tesis"
-    python:
-      target: "https://e1ib5jr340.execute-api.us-east-1.amazonaws.com/tesis"
-    java:
-      target: "https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis"
 scenarios:
   - name: "Load test scenario"
     flow:

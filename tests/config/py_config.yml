@@ -1,0 +1,24 @@
+config:
+  target: "https://e1ib5jr340.execute-api.us-east-1.amazonaws.com/tesis"
+  processor: "./utilities/utilities.js"
+  environments:
+    VUS_10:
+      phases:
+        - duration: 10
+          arrivalCount: 10
+          name: "VUS 10 PY"
+    VUS_50:
+      phases:
+        - duration: 10
+          arrivalCount: 50
+          name: "VUS 50 PY"
+    VUS_100:
+      phases:
+        - duration: 10
+          arrivalCount: 100
+          name: "VUS 100 PY"
+    VUS_200:
+      phases:
+        - duration: 10
+          arrivalCount: 200
+          name: "VUS 200 PY"

@@ -1,0 +1,26 @@
+config:
+  target: "https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis"
+  http:
+    timeout: 20
+  processor: "./utilities/utilities.js"
+  environments:
+    VUS_10:
+      phases:
+        - duration: 10
+          arrivalCount: 10
+          name: "VUS 10 JAVA"
+    VUS_50:
+      phases:
+        - duration: 10
+          arrivalCount: 50
+          name: "VUS 50 JAVA"
+    VUS_100:
+      phases:
+        - duration: 10
+          arrivalCount: 100
+          name: "VUS 100 JAVA"
+    VUS_200:
+      phases:
+        - duration: 10
+          arrivalCount: 200
+          name: "VUS 200 JAVA"
