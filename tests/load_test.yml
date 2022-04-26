@@ -4,7 +4,7 @@ scenarios:
       - get:
           url: "/polls/getPollByTitle"
           qs:
-            title: "Censo 2022"
+            title: "Censo digital 2022"
           capture:
             - json: "$"
               as: "poll"
