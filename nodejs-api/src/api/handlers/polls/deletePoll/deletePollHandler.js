@@ -27,7 +27,7 @@ const deletePoll = async (event) => {
     try {
       const deletePoll = await db.delete(params).promise()
       console.log('deletePoll: ', deletePoll)
-      return response(200, 'Poll with id: ' + PK + 'deleted successfully')
+      return response(200, 'Poll with id: ' + PK + ' deleted successfully')
     } catch (err) {
       return response(500, 'Error deleting the Poll')
     }

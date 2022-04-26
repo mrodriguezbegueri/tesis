@@ -159,26 +159,6 @@
                     "ReadCapacityUnits": 5,
                     "WriteCapacityUnits": 5
                   }
-                },
-                {
-                  "IndexName": "SKPK",
-                  "KeySchema": [
-                    {
-                      "AttributeName": "SK",
-                      "KeyType": "HASH"
-                    },
-                    {
-                      "AttributeName": "PK",
-                      "KeyType": "RANGE"
-                    }
-                  ],
-                  "Projection": {
-                    "ProjectionType": "ALL"
-                  },
-                  "ProvisionedThroughput": {
-                    "ReadCapacityUnits": 5,
-                    "WriteCapacityUnits": 5
-                  }
                 }
               ],
               "ProvisionedThroughput": {
@@ -354,26 +334,6 @@
                   "ReadCapacityUnits": 5,
                   "WriteCapacityUnits": 5
                 }
-              },
-              {
-                "IndexName": "SKPK",
-                "KeySchema": [
-                  {
-                    "AttributeName": "SK",
-                    "KeyType": "HASH"
-                  },
-                  {
-                    "AttributeName": "PK",
-                    "KeyType": "RANGE"
-                  }
-                ],
-                "Projection": {
-                  "ProjectionType": "ALL"
-                },
-                "ProvisionedThroughput": {
-                  "ReadCapacityUnits": 5,
-                  "WriteCapacityUnits": 5
-                }
               }
             ],
             "ProvisionedThroughput": {
@@ -403,7 +363,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/polls-api-database/tesis/1650055402451-2022-04-15T20:43:22.451Z",
+    "artifactDirectoryName": "serverless/polls-api-database/tesis/1650935301377-2022-04-26T01:08:21.377Z",
     "artifact": ""
   }
 }
