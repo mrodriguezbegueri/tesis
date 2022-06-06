@@ -3,15 +3,22 @@ package com.serverless.results.deleteresult;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.ApiGatewayResponse;
 import com.serverless.models.Result;
+import com.serverless.utils.DynamoDBResults;
 
 public class DeleteResultHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
     private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
     private final static String DYNAMO_RESULTS_ID = System.getenv("RESULTS_ID");
+
+    private static final Logger log = Logger.getLogger(DeleteResultHandler.class);
+
+    private static final DynamoDBResults dynamoResults = DynamoDBResults.instance();
 
     @Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
@@ -30,7 +37,8 @@ public class DeleteResultHandler implements RequestHandler<Map<String, Object>, 
             result.setPK(PK);
             result.setSK(SK);
 
-            result.deleteResult(result);
+            // result.deleteResult(result);
+            dynamoResults.deleteResult(result);
 
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
@@ -39,7 +47,7 @@ public class DeleteResultHandler implements RequestHandler<Map<String, Object>, 
                     .build();
 
         } catch (Exception e) {
-            context.getLogger().log("Error: " + e.toString());
+            log.info("Error: " + e.toString());
     		return ApiGatewayResponse.builder()
     				.setStatusCode(500)
     				.setObjectBody("Error deleting the Result")

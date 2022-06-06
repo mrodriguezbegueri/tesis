@@ -1,41 +1,19 @@
 package com.serverless.models;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.Condition;
-import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.serverless.utils.DynamoDBAdapter;
 
-// import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
-
-@DynamoDBTable(tableName = "PLACEHOLDER_POLLS_TABLE_NAME")
+@DynamoDBTable(tableName = "polls")
 public class Poll {
 
-    private static final String POLLS_TABLE_NAME = System.getenv("POLLS_TABLE_NAME");
-    private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
     public static final String PARTITION_KEY = "PK";
     public static final String SORT_KEY = "SK";
-
-    private DynamoDBAdapter dbAdapter;
-    private DynamoDBMapper mapper;
-    private AmazonDynamoDB client;
 
     @JsonProperty(PARTITION_KEY)
     private String PK;
@@ -56,13 +34,6 @@ public class Poll {
     private ArrayList<Group> groups;
 
     public Poll() {
-        DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
-            .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(POLLS_TABLE_NAME))
-            .build();
-
-            this.dbAdapter = DynamoDBAdapter.getInstance(this.dbAdapter);
-            this.client = this.dbAdapter.getDbClient();
-            this.mapper = this.dbAdapter.createDbMapper(mapperConfig);
     }
 
     @JsonProperty(PARTITION_KEY)
@@ -83,9 +54,6 @@ public class Poll {
         this.SK = SK;
     }
 
-    
-    // @DynamoDbSecondaryPartitionKey(indexNames = {"GSI1PK"})
-    @DynamoDBAttribute(attributeName = "GSI1PK")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "GSI1PK")
     public String getGSI1PK() {
         return this.GSI1PK;
@@ -122,82 +90,5 @@ public class Poll {
     @Override
     public String toString() {
         return "Poll[PK=" + PK + ", SK=" + SK + ", title=" + title + ", description=" + description + ", GSI1PK=" + GSI1PK + "]";
-    }
-
-    public void save(Poll poll) throws IOException {
-        this.mapper.save(poll);
-    }
-
-    public void updatePoll(Poll poll) {
-        DynamoDBSaveExpression dbSaveExpression = new DynamoDBSaveExpression();
-        
-        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
-        AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
-        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
-        expectedAttribute.put("PK", expectedAttributeValue);
-
-        dbSaveExpression.setExpected(expectedAttribute);
-
-        this.mapper.save(poll, dbSaveExpression);
-    }
-    public Poll getPoll(String PK) throws IOException {
-        Poll poll = null;
-
-        HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
-        av.put(":v", new AttributeValue().withS(PK));
-
-        DynamoDBQueryExpression<Poll> queryExpression = new DynamoDBQueryExpression<Poll>()
-            .withKeyConditionExpression("PK = :v")
-            .withExpressionAttributeValues(av);
-        
-        PaginatedQueryList<Poll> result = this.mapper.query(Poll.class, queryExpression);
-
-        if(result.size() == 1) {
-            poll = result.get(0);
-        }
-
-        return poll;
-    }
-    public void deletePoll(Poll poll) throws IOException {
-
-        DynamoDBDeleteExpression dbDeleteExpression = new DynamoDBDeleteExpression();
-        
-        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
-        AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
-        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
-        expectedAttribute.put("PK", expectedAttributeValue);
-
-        dbDeleteExpression.setExpected(expectedAttribute);
-
-        this.mapper.delete(poll, dbDeleteExpression);
-    }
-
-    public Poll getPollByTitle(String title) {
-        Poll poll = null;
-
-        HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
-        av.put(":v", new AttributeValue().withS(title));
-        av.put(":v1", new AttributeValue().withS(DYNAMO_POLLS_ID));
-
-        // Condition condition = new Condition()
-        //     .withComparisonOperator(ComparisonOperator.BEGINS_WITH.toString())
-        //     .withAttributeValueList(new AttributeValue().withS(title));
-        // HashMap<String, AttributeValue> av1 = new HashMap<String, AttributeValue>();
-        // av.put(":v", new AttributeValue().withS(DYNAMO_POLLS_ID));
-
-        DynamoDBQueryExpression<Poll> queryExpression = new DynamoDBQueryExpression<Poll>()
-            .withIndexName("SearchPollByTitle")
-            .withKeyConditionExpression("title = :v AND begins_with(PK, :v1)")
-            .withExpressionAttributeValues(av)
-            .withConsistentRead(false);
-            // .withRangeKeyCondition("PK", condition);
-        
-        PaginatedQueryList<Poll> result = this.mapper.query(Poll.class, queryExpression);
-
-        if(result.size() == 1) {
-            poll = result.get(0);
-        }
-
-        return poll;
     }
 }

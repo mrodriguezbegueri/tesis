@@ -15,17 +15,17 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.serverless.utils.DynamoDBAdapter;
+// import com.serverless.utils.DynamoDBAdapter;
 
-@DynamoDBTable(tableName = "PLACEHOLDER_POLLS_TABLE_NAME")
+@DynamoDBTable(tableName = "polls")
 public class Result {
 
     private static final String POLLS_TABLE_NAME = System.getenv("POLLS_TABLE_NAME");
     public static final String PARTITION_KEY = "PK";
     public static final String SORT_KEY = "SK";
 
-    private DynamoDBAdapter dbAdapter;
-    private DynamoDBMapper mapper;
+    // private DynamoDBAdapter dbAdapter;
+    // private DynamoDBMapper mapper;
     // private AmazonDynamoDB client;
 
     @JsonProperty(PARTITION_KEY)
@@ -44,13 +44,13 @@ public class Result {
     private ArrayList<Group> groups;
 
     public Result() {
-        DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
-            .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(POLLS_TABLE_NAME))
-            .build();
+        // DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
+        //     .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(POLLS_TABLE_NAME))
+        //     .build();
 
-            this.dbAdapter = DynamoDBAdapter.getInstance(this.dbAdapter);
-            // this.client = this.dbAdapter.getDbClient();
-            this.mapper = this.dbAdapter.createDbMapper(mapperConfig);
+        //     this.dbAdapter = DynamoDBAdapter.getInstance(this.dbAdapter);
+        //     // this.client = this.dbAdapter.getDbClient();
+        //     this.mapper = this.dbAdapter.createDbMapper(mapperConfig);
     }
 
     @JsonProperty(PARTITION_KEY)
@@ -100,34 +100,35 @@ public class Result {
         return "Result[PK=" + PK + ", SK=" + SK + ", title=" + title + ", description=" + description + "]";
     }
 
-    public void save(Result result) throws IOException {
-        this.mapper.save(result);
-    }
+    // public void save(Result result) throws IOException {
+    //     this.mapper.save(result);
+    // }
 
-    public void deleteResult(Result result) throws IOException {
+    // public void deleteResult(Result result) throws IOException {
 
-        DynamoDBDeleteExpression dbDeleteExpression = new DynamoDBDeleteExpression();
+    //     DynamoDBDeleteExpression dbDeleteExpression = new DynamoDBDeleteExpression();
         
-        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
-        AttributeValue pkExpectedValue = new AttributeValue().withS(this.PK);
-        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
-        expectedAttribute.put("PK", expectedAttributeValue);
+    //     HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
+    //     AttributeValue pkExpectedValue = new AttributeValue().withS(this.PK);
+    //     ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
+    //     expectedAttribute.put("PK", expectedAttributeValue);
 
-        dbDeleteExpression.setExpected(expectedAttribute);
+    //     dbDeleteExpression.setExpected(expectedAttribute);
 
-        this.mapper.delete(result, dbDeleteExpression);
-    }
+    //     this.mapper.delete(result, dbDeleteExpression);
+    // }
 
-    public void updateResult(Result result) {
-        DynamoDBSaveExpression dbSaveExpression = new DynamoDBSaveExpression();
+    // public void updateResult(Result result) {
+    //     DynamoDBSaveExpression dbSaveExpression = new DynamoDBSaveExpression();
         
-        HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
-        AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
-        ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
-        expectedAttribute.put("PK", expectedAttributeValue);
+    //     HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
+    //     AttributeValue pkExpectedValue = new AttributeValue().withS(PK);
+    //     ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
+    //     expectedAttribute.put("PK", expectedAttributeValue);
 
-        dbSaveExpression.setExpected(expectedAttribute);
+    //     dbSaveExpression.setExpected(expectedAttribute);
 
-        this.mapper.save(result, dbSaveExpression);
-    }
+    //     this.mapper.save(result, dbSaveExpression);
+    // }
+
 }

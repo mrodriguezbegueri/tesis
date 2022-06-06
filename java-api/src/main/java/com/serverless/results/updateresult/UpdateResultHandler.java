@@ -3,17 +3,24 @@ package com.serverless.results.updateresult;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.serverless.ApiGatewayResponse;
 import com.serverless.models.Result;
+import com.serverless.utils.DynamoDBResults;
 
 public class UpdateResultHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
     
-    private static final String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
     private static final String DYNAMO_RESULTS_ID = System.getenv("RESULTS_ID");
+
+    private static final Logger log = Logger.getLogger(UpdateResultHandler.class);
+
+    private static final DynamoDBResults dynamoResults = DynamoDBResults.instance();
+    
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         
@@ -26,7 +33,7 @@ public class UpdateResultHandler implements RequestHandler<Map<String, Object>, 
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode body = mapper.readTree((String) input.get("body"));
-            context.getLogger().log("body: " + body.toString());
+            log.info("body: " + body.toString());
 
             String jsonResult = body.toString();
 
@@ -37,7 +44,8 @@ public class UpdateResultHandler implements RequestHandler<Map<String, Object>, 
             result.setPK(PK);
             // result.setSK(SK);
 
-            result.updateResult(result);
+            // result.updateResult(result);
+            dynamoResults.updateResult(result);
                 
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
@@ -46,7 +54,7 @@ public class UpdateResultHandler implements RequestHandler<Map<String, Object>, 
                     .build();
 
         } catch (Exception e) {
-            context.getLogger().log("Error: " + e.toString());
+            log.info("Error: " + e.toString());
     		return ApiGatewayResponse.builder()
     				.setStatusCode(500)
     				.setObjectBody("Error updating the Result")

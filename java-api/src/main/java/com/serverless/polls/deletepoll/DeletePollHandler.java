@@ -6,12 +6,18 @@ import java.util.Map;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.ApiGatewayResponse;
-import com.serverless.Response;
 import com.serverless.models.Poll;
+import com.serverless.utils.DynamoDBPolls;
+
+import org.apache.log4j.Logger;
 
 public class DeletePollHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
     private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
+
+    private static final Logger log = Logger.getLogger(DeletePollHandler.class);
+
+    private static final DynamoDBPolls dynamoPolls = DynamoDBPolls.instance();
 
     @Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
@@ -26,7 +32,7 @@ public class DeletePollHandler implements RequestHandler<Map<String, Object>, Ap
             poll.setPK(PK);
             poll.setSK(PK);
 
-            poll.deletePoll(poll);
+            dynamoPolls.deletePoll(poll);
 
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
@@ -35,7 +41,7 @@ public class DeletePollHandler implements RequestHandler<Map<String, Object>, Ap
                     .build();
 
         } catch (Exception e) {
-            context.getLogger().log("Error: " + e.toString());
+            log.info("Error: " + e.toString());
             // Response responseBody = new Response(e.toString(), input);
     		return ApiGatewayResponse.builder()
     				.setStatusCode(500)
