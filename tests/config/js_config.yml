@@ -4,21 +4,21 @@ config:
   environments:
     VUS_10:
       phases:
-        - duration: 10
+        - duration: 60
           arrivalCount: 10
           name: "VUS 10 JS"
     VUS_50:
       phases:
-        - duration: 10
+        - duration: 60
           arrivalCount: 50
           name: "VUS 50 JS"
     VUS_100:
       phases:
-        - duration: 10
+        - duration: 60
           arrivalCount: 100
           name: "VUS 100 JS"
     VUS_200:
       phases:
-        - duration: 10
+        - duration: 60
           arrivalCount: 200
           name: "VUS 200 JS"
