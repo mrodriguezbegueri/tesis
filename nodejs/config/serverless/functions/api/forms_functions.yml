@@ -1,0 +1,39 @@
+createForm:
+  handler: src/api/handlers/forms/createForm/createFormHandler.createForm
+  package:
+    patterns:
+      - src/api/handlers/forms/createForm/**
+  events:
+    - http:
+        path: /forms
+        method: post
+getFormByTitle:
+  handler: src/api/handlers/forms/getFormByTitle/getFormByTitleHandler.getFormByTitle
+  package:
+    patterns:
+      - src/api/handlers/forms/getFormByTitle/**
+  events:
+    - http:
+        path: /forms/getFormByTitle
+        method: get
+updateForm:
+  handler: src/api/handlers/forms/updateForm/updateFormHandler.updateForm
+  package:
+    patterns:
+      - src/api/handlers/forms/updateForm/**
+  events:
+    - http:
+        path: /forms/{id}
+        method: put
+deleteForm:
+  handler: src/api/handlers/forms/deleteForm/deleteFormHandler.deleteForm
+  package:
+    patterns:
+      - src/api/handlers/forms/deleteForm/**
+  events:
+    - http:
+        path: /forms/{id}
+        method: delete
+
+
+
