@@ -2,15 +2,15 @@ scenarios:
   - name: "Load test scenario"
     flow:
       - get:
-          url: "/polls/getPollByTitle"
+          url: "/forms/getFormByTitle"
           qs:
             title: "Censo digital 2022"
           capture:
             - json: "$"
-              as: "poll"
+              as: "form"
       - post:
           url: "https://c320u3kjjf.execute-api.us-east-1.amazonaws.com/tesis/results/randomResults"
-          json: "{{ poll }}"
+          json: "{{ form }}"
           capture:
             - json: "$"
               as: "randomResult"
@@ -25,5 +25,6 @@ scenarios:
           url: "/results/{{ resultPK }}"
           json: "{{ savedResult }}"
       - delete:
-          url: "/results/{{ resultPK }}?pollId={{ resultSK }}"
-          
+          url: "/results/{{ resultPK }}?formId={{ resultSK }}"
+
+

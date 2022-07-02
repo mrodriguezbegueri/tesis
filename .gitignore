@@ -1,5 +1,5 @@
-nodejs-api/node_modules/**
-nodejs-api/.serverless/**
+nodejs/node_modules/**
+nodejs/.serverless/**
 automatic-process/node_modules/**
 automatic-process/.serverless/**
 python-api/.serverless/**

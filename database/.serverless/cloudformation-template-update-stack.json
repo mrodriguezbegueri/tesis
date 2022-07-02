@@ -71,10 +71,11 @@
         }
       }
     },
-    "PollsTable": {
+    "FormsTable": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "TableName": "polls",
+        "TableName": "forms",
+        "BillingMode": "PAY_PER_REQUEST",
         "AttributeDefinitions": [
           {
             "AttributeName": "PK",
@@ -105,7 +106,7 @@
         ],
         "GlobalSecondaryIndexes": [
           {
-            "IndexName": "ListPollsTitles",
+            "IndexName": "ListFormsTitles",
             "KeySchema": [
               {
                 "AttributeName": "GSI1PK",
@@ -117,14 +118,10 @@
                 "title"
               ],
               "ProjectionType": "INCLUDE"
-            },
-            "ProvisionedThroughput": {
-              "ReadCapacityUnits": 1,
-              "WriteCapacityUnits": 1
             }
           },
           {
-            "IndexName": "SearchPollByTitle",
+            "IndexName": "SearchFormByTitle",
             "KeySchema": [
               {
                 "AttributeName": "title",
@@ -137,17 +134,9 @@
             ],
             "Projection": {
               "ProjectionType": "ALL"
-            },
-            "ProvisionedThroughput": {
-              "ReadCapacityUnits": 5,
-              "WriteCapacityUnits": 5
             }
           }
-        ],
-        "ProvisionedThroughput": {
-          "ReadCapacityUnits": 14,
-          "WriteCapacityUnits": 14
-        }
+        ]
       }
     }
   },

@@ -24,3 +24,4 @@ config:
         - duration: 60
           arrivalCount: 200
           name: "VUS 200 JAVA"
+

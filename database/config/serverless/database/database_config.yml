@@ -1,8 +1,9 @@
 Resources:
-  PollsTable:
+  FormsTable:
     Type: "AWS::DynamoDB::Table"
     Properties:
-      TableName: ${self:provider.environment.POLLS_TABLE_NAME}
+      TableName: ${self:provider.environment.FORMS_TABLE_NAME}
+      BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: "PK"
           AttributeType: "S"
@@ -18,7 +19,7 @@ Resources:
         - AttributeName: "SK"
           KeyType: "RANGE"
       GlobalSecondaryIndexes:
-        - IndexName: ListPollsTitles
+        - IndexName: ListFormsTitles
           KeySchema:
             - AttributeName: "GSI1PK"
               KeyType: "HASH"
@@ -26,10 +27,7 @@ Resources:
             NonKeyAttributes:
               - title
             ProjectionType: "INCLUDE"
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
-        - IndexName: SearchPollByTitle
+        - IndexName: SearchFormByTitle
           KeySchema:
             - AttributeName: "title"
               KeyType: "HASH"
@@ -37,20 +35,4 @@ Resources:
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"
-          ProvisionedThroughput:
-            ReadCapacityUnits: 5
-            WriteCapacityUnits: 5
-        # - IndexName: SKPK
-        #   KeySchema:
-        #     - AttributeName: "SK"
-        #       KeyType: "HASH"
-        #     - AttributeName: "PK"
-        #       KeyType: "RANGE"
-        #   Projection:
-        #     ProjectionType: "ALL"
-        #   ProvisionedThroughput:
-        #     ReadCapacityUnits: 5
-        #     WriteCapacityUnits: 5
-      ProvisionedThroughput: # Cuando le damos capacidad de lectura 1, le estamos dando la capacidad de realizar 3600 lecturas por hora. Lo mismo para las escrituras con WriteCapacityUnite. Amazon nos va a avisar si nos pasamos de esto
-        ReadCapacityUnits: 14
-        WriteCapacityUnits: 14
+

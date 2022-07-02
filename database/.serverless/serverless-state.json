@@ -1,16 +1,16 @@
 {
   "service": {
-    "service": "polls-api-database",
+    "service": "forms-api-database",
     "serviceObject": {
-      "name": "polls-api-database"
+      "name": "forms-api-database"
     },
     "provider": {
       "name": "aws",
-      "runtime": "nodejs12.x",
+      "runtime": "nodejs14.x",
       "lambdaHashingVersion": "20201221",
       "region": "us-east-1",
       "environment": {
-        "POLLS_TABLE_NAME": "polls"
+        "FORMS_TABLE_NAME": "forms"
       },
       "stage": "dev",
       "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
@@ -88,10 +88,11 @@
               }
             }
           },
-          "PollsTable": {
+          "FormsTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "polls",
+              "TableName": "forms",
+              "BillingMode": "PAY_PER_REQUEST",
               "AttributeDefinitions": [
                 {
                   "AttributeName": "PK",
@@ -122,7 +123,7 @@
               ],
               "GlobalSecondaryIndexes": [
                 {
-                  "IndexName": "ListPollsTitles",
+                  "IndexName": "ListFormsTitles",
                   "KeySchema": [
                     {
                       "AttributeName": "GSI1PK",
@@ -134,14 +135,10 @@
                       "title"
                     ],
                     "ProjectionType": "INCLUDE"
-                  },
-                  "ProvisionedThroughput": {
-                    "ReadCapacityUnits": 1,
-                    "WriteCapacityUnits": 1
                   }
                 },
                 {
-                  "IndexName": "SearchPollByTitle",
+                  "IndexName": "SearchFormByTitle",
                   "KeySchema": [
                     {
                       "AttributeName": "title",
@@ -154,17 +151,9 @@
                   ],
                   "Projection": {
                     "ProjectionType": "ALL"
-                  },
-                  "ProvisionedThroughput": {
-                    "ReadCapacityUnits": 5,
-                    "WriteCapacityUnits": 5
                   }
                 }
-              ],
-              "ProvisionedThroughput": {
-                "ReadCapacityUnits": 14,
-                "WriteCapacityUnits": 14
-              }
+              ]
             }
           }
         },
@@ -263,10 +252,11 @@
     "functions": {},
     "resources": {
       "Resources": {
-        "PollsTable": {
+        "FormsTable": {
           "Type": "AWS::DynamoDB::Table",
           "Properties": {
-            "TableName": "polls",
+            "TableName": "forms",
+            "BillingMode": "PAY_PER_REQUEST",
             "AttributeDefinitions": [
               {
                 "AttributeName": "PK",
@@ -297,7 +287,7 @@
             ],
             "GlobalSecondaryIndexes": [
               {
-                "IndexName": "ListPollsTitles",
+                "IndexName": "ListFormsTitles",
                 "KeySchema": [
                   {
                     "AttributeName": "GSI1PK",
@@ -309,14 +299,10 @@
                     "title"
                   ],
                   "ProjectionType": "INCLUDE"
-                },
-                "ProvisionedThroughput": {
-                  "ReadCapacityUnits": 1,
-                  "WriteCapacityUnits": 1
                 }
               },
               {
-                "IndexName": "SearchPollByTitle",
+                "IndexName": "SearchFormByTitle",
                 "KeySchema": [
                   {
                     "AttributeName": "title",
@@ -329,17 +315,9 @@
                 ],
                 "Projection": {
                   "ProjectionType": "ALL"
-                },
-                "ProvisionedThroughput": {
-                  "ReadCapacityUnits": 5,
-                  "WriteCapacityUnits": 5
                 }
               }
-            ],
-            "ProvisionedThroughput": {
-              "ReadCapacityUnits": 14,
-              "WriteCapacityUnits": 14
-            }
+            ]
           }
         }
       },
@@ -363,7 +341,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/polls-api-database/tesis/1654356778620-2022-06-04T15:32:58.620Z",
+    "artifactDirectoryName": "serverless/forms-api-database/tesis/1656793390366-2022-07-02T20:23:10.366Z",
     "artifact": ""
   }
 }
