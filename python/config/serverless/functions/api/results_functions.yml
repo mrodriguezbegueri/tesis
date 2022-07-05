@@ -1,0 +1,41 @@
+createResult:
+  module: src/api/handlers/results/createResult
+  handler: createResultHandler.createResult
+  package:
+    patterns:
+      - src/api/handlers/results/createResult/**
+  events:
+    - http:
+        path: /results
+        method: post
+getResult:
+  module: src/api/handlers/results/getResult
+  handler: getResultHandler.getResult
+  package:
+    patterns:
+      - src/api/handlers/results/getResult/**
+  events:
+    - http:
+        path: /results/{id}
+        method: get
+updateResult:
+  module: src/api/handlers/results/updateResult
+  handler: updateResultHandler.updateResult
+  package:
+    patterns:
+      - src/api/handlers/results/updateResult/**
+  events:
+    - http:
+        path: /results/{id}
+        method: put
+deleteResult:
+  module: src/api/handlers/results/deleteResult
+  handler: deleteResultHandler.deleteResult
+  package:
+    patterns:
+      - src/api/handlers/results/deleteResult/**
+  events:
+    - http:
+        path: /results/{id}
+        method: delete
+

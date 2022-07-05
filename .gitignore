@@ -2,7 +2,8 @@ nodejs/node_modules/**
 nodejs/.serverless/**
 automatic-process/node_modules/**
 automatic-process/.serverless/**
-python-api/.serverless/**
+python/.serverless/**
+python/node_modules/**
 *.zip
 java-api/.serverless/**
 java-api/target/**
