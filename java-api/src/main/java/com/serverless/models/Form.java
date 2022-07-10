@@ -9,8 +9,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-@DynamoDBTable(tableName = "polls")
-public class Poll {
+@DynamoDBTable(tableName = "forms")
+public class Form {
 
     public static final String PARTITION_KEY = "PK";
     public static final String SORT_KEY = "SK";
@@ -33,7 +33,7 @@ public class Poll {
     @JsonProperty("groups")
     private ArrayList<Group> groups;
 
-    public Poll() {
+    public Form() {
     }
 
     @JsonProperty(PARTITION_KEY)
@@ -89,6 +89,6 @@ public class Poll {
     
     @Override
     public String toString() {
-        return "Poll[PK=" + PK + ", SK=" + SK + ", title=" + title + ", description=" + description + ", GSI1PK=" + GSI1PK + "]";
+        return "Form[PK=" + PK + ", SK=" + SK + ", title=" + title + ", description=" + description + ", GSI1PK=" + GSI1PK + "]";
     }
 }

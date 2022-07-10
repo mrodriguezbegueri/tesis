@@ -1,4 +1,4 @@
-package com.serverless.polls.testpoll;
+package com.serverless.forms.testform;
 
 import java.util.Collections;
 import java.util.Map;
@@ -7,7 +7,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.ApiGatewayResponse;
 
-public class TestPollHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class TestFormHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
     @Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
@@ -16,7 +16,7 @@ public class TestPollHandler implements RequestHandler<Map<String, Object>, ApiG
 
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
-                    .setObjectBody("Test poll succeed!!")
+                    .setObjectBody("Test form succeed!!")
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
                     .build();
 

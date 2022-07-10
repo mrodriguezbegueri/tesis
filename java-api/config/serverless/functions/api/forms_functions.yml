@@ -1,0 +1,30 @@
+createForm:
+  handler: com.serverless.forms.createform.CreateFormHandler
+  timeout: 15
+  events:
+    - http:
+        path: /forms
+        method: post
+getFormByTitle:
+  handler: com.serverless.forms.getformbytitle.GetFormByTitleHandler
+  timeout: 15
+  events:
+    - http:
+        path: /forms/getFormByTitle
+        method: get
+updateForm:
+  handler: com.serverless.forms.updateform.UpdateFormHandler
+  timeout: 15
+  events:
+    - http:
+        path: /forms/{id}
+        method: put
+deleteForm:
+  handler: com.serverless.forms.deleteform.DeleteFormHandler
+  timeout: 15
+  events:
+    - http:
+        path: /forms/{id}
+        method: delete
+
+

@@ -1,9 +1,9 @@
 const axios = require('axios').default
-// const API_URL = 'https://e1ib5jr340.execute-api.us-east-1.amazonaws.com/tesis/polls/badec2fc-4476-4cfe-82ba-33c6351323af' // PYTHON
-// const API_URL = 'https://w8u7sjpwec.execute-api.us-east-1.amazonaws.com/tesis/polls/97f0a5ad-a3f8-4c9d-931f-96a754946855' // NODEJS
-// const API_URL = 'https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis/polls/97f0a5ad-a3f8-4c9d-931f-96a754946855' // JAVA
-const API_URL = 'https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis/polls/testpoll' // JAVA TEST
-// const API_URL = 'https://w8u7sjpwec.execute-api.us-east-1.amazonaws.com/tesis/polls/testpoll' // NODE TEST
+// const API_URL = 'https://e1ib5jr340.execute-api.us-east-1.amazonaws.com/tesis/forms/badec2fc-4476-4cfe-82ba-33c6351323af' // PYTHON
+// const API_URL = 'https://w8u7sjpwec.execute-api.us-east-1.amazonaws.com/tesis/forms/97f0a5ad-a3f8-4c9d-931f-96a754946855' // NODEJS
+// const API_URL = 'https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis/forms/97f0a5ad-a3f8-4c9d-931f-96a754946855' // JAVA
+const API_URL = 'https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis/forms/testform' // JAVA TEST
+// const API_URL = 'https://w8u7sjpwec.execute-api.us-east-1.amazonaws.com/tesis/forms/testform' // NODE TEST
 
 
 const params = {

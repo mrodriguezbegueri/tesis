@@ -13,7 +13,7 @@ import com.serverless.utils.DynamoDBResults;
 
 public class DeleteResultHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-    private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
+    private final static String DYNAMO_FORMS_ID = System.getenv("FORMS_ID");
     private final static String DYNAMO_RESULTS_ID = System.getenv("RESULTS_ID");
 
     private static final Logger log = Logger.getLogger(DeleteResultHandler.class);
@@ -30,8 +30,8 @@ public class DeleteResultHandler implements RequestHandler<Map<String, Object>, 
             String id = pathParameters.get("id");
             String PK = DYNAMO_RESULTS_ID + '#' + id;
 
-            String pollId = queryStringParameters.get("pollId");
-            String SK = DYNAMO_POLLS_ID + '#' + pollId;
+            String formId = queryStringParameters.get("formId");
+            String SK = DYNAMO_FORMS_ID + '#' + formId;
 
             Result result = new Result();
             result.setPK(PK);

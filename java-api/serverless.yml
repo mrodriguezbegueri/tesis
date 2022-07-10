@@ -1,11 +1,11 @@
-service: polls-api-java
+service: forms-api-java
 
 provider:
   name: aws
   runtime: java11
   lambdaHashingVersion: 20201221
   region: us-east-1
-  iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB
+  iamRoleStatements:
     - Effect: "Allow"
       Action:
         - dynamodb:Query
@@ -18,10 +18,10 @@ provider:
         - dynamodb:PutItem
         - lambda:InvokeFunction
         - lambda:InvokeAsync
-      Resource: # Le indicamos el recurso para el cual aplica el rol en cuestión
-        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}
-        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/ListPollsTitles
-        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POLLS_TABLE_NAME}/index/SearchPollByTitle
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.FORMS_TABLE_NAME}
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.FORMS_TABLE_NAME}/index/ListFormsTitles
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.FORMS_TABLE_NAME}/index/SearchFormByTitle
   environment: ${file(config/serverless/environment/env.yml)}
 
 package:
@@ -29,5 +29,7 @@ package:
   artifact: target/${self:service}-${self:provider.stage}.jar
 
 functions:
-  - ${file(config/serverless/functions/api/polls_functions.yml)}
+  - ${file(config/serverless/functions/api/forms_functions.yml)}
   - ${file(config/serverless/functions/api/results_functions.yml)}
+
+  

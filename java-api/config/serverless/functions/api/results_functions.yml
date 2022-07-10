@@ -5,6 +5,13 @@ createResult:
     - http:
         path: /results
         method: post
+getResult:
+  handler: com.serverless.results.getresult.GetResultHandler
+  timeout: 15
+  events:
+    - http:
+        path: /results/{id}
+        method: get
 updateResult:
   handler: com.serverless.results.updateresult.UpdateResultHandler
   timeout: 15
@@ -19,3 +26,5 @@ deleteResult:
     - http:
         path: /results/{id}
         method: delete
+
+

@@ -1,7 +1,7 @@
 {
-  "name": "poll-api-java",
+  "name": "forms-api-java",
   "version": "1.0.0",
-  "description": "Poll API in Java for final project of UNSJ",
+  "description": "Forms API in Java for final project of UNSJ",
   "main": "index.js",
   "scripts": {
     "deploy": "SLS_DEBUG=* npm i && npm run mvn && sls deploy --force --aws-profile awsTesis --region us-east-1 --stage tesis",

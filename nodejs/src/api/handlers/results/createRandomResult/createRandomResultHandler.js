@@ -1,10 +1,8 @@
 'use strict'
 
-const AWS = require('aws-sdk')
 const { v4: uuidv4 } = require('uuid')
-// const db = new AWS.DynamoDB.DocumentClient({});
 
-const { RESULTS_ID, QUESTIONS_ID, GROUPS_ID, POLLS_TABLE_NAME } = process.env
+const { RESULTS_ID } = process.env
 
 const response = (statusCode, message) => {
     return {
@@ -14,49 +12,40 @@ const response = (statusCode, message) => {
 }
 
 const createRandomResult = async (event) => {
-
     try {
-        const poll = JSON.parse(event.body)
-            
-        let randomResult = buildRandomResult(poll)
+        const form = JSON.parse(event.body)
+
+        let randomResult = buildRandomResult(form)
         console.log('answer: ', JSON.stringify(randomResult))
 
-        // const res = await saveResult(randomResult)
-
         return response(200, randomResult)
-        
-    } catch(err) {
+
+    } catch (err) {
         console.log('err', err)
     }
 }
 
-const buildRandomResult = (poll) => {
-    
+const buildRandomResult = (form) => {
+
     const resultId = uuidv4()
 
     let result = {
         PK: RESULTS_ID + '#' + resultId,
-        SK: poll.PK,
-        title: poll.title,
-        description: poll.description,
-        groups: poll.groups,
-        // createdAt: new Date().toISOString()
-      }
+        SK: form.PK,
+        title: form.title,
+        description: form.description,
+        groups: form.groups,
+    }
 
-    poll.groups.forEach( ( group, gIndex ) => {
-        group.questions.forEach( ( question, qIndex ) => {
-            // let key = buildQuestionKey(gIndex, qIndex)
+    form.groups.forEach((group) => {
+        group.questions.forEach((question) => {
             const randomAnswer = getRandomAnswer(question)
             question['value'] = randomAnswer
-            // result[key] = randomAnswer
         })
     })
     return result
 }
 
-const buildQuestionKey = (groupIndex, questionIndex) => {
-    return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
-} 
 
 const getRandomAnswer = (question) => {
 
@@ -84,16 +73,19 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+// const buildQuestionKey = (groupIndex, questionIndex) => {
+//     return GROUPS_ID + ( groupIndex + 1 ) + QUESTIONS_ID + ( questionIndex + 1 )
+// } 
 // const saveResult = async (result) => {
 //     try {
 
 //         const params = {
-//             TableName: POLLS_TABLE_NAME,
+//             TableName: FORMS_TABLE_NAME,
 //             Item: result
 //         }
-        
+
 //         let res = await db.put(params).promise()
-    
+
 //         if (res) {
 //             return res
 //         } else {

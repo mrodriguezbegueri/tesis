@@ -1,4 +1,4 @@
-package com.serverless.polls.updatepoll;
+package com.serverless.forms.updateform;
 
 import java.util.Collections;
 import java.util.Map;
@@ -8,43 +8,43 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.serverless.ApiGatewayResponse;
-import com.serverless.models.Poll;
-import com.serverless.utils.DynamoDBPolls;
+import com.serverless.models.Form;
+import com.serverless.utils.DynamoDBForms;
 
 import org.apache.log4j.Logger;
 
-public class UpdatePollHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class UpdateFormHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
     
-    private static final String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
+    private static final String DYNAMO_FORMS_ID = System.getenv("FORMS_ID");
     
-    private static final Logger log = Logger.getLogger(UpdatePollHandler.class);
+    private static final Logger log = Logger.getLogger(UpdateFormHandler.class);
 
-    private static final DynamoDBPolls dynamoPolls = DynamoDBPolls.instance();
+    private static final DynamoDBForms dynamoForms = DynamoDBForms.instance();
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         
         try {
-            log.info("Update Poll Lambda");
+            log.info("Update Form Lambda");
             Map<String,String> pathParameters = (Map<String,String>) input.get("pathParameters");
-            String pollId = pathParameters.get("id");
+            String formId = pathParameters.get("id");
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode body = mapper.readTree((String) input.get("body"));
             context.getLogger().log("body: " + body.toString());
 
-            String jsonPoll = body.toString();
+            String jsonForm= body.toString();
 
-            Poll poll = mapper.readValue(jsonPoll, Poll.class);
+            Form form = mapper.readValue(jsonForm, Form.class);
 
-            String PK = DYNAMO_POLLS_ID + '#' + pollId;
-            poll.setPK(PK);
-            poll.setSK(PK);
+            String PK = DYNAMO_FORMS_ID + '#' + formId;
+            form.setPK(PK);
+            form.setSK(PK);
 
-            dynamoPolls.updatePoll(poll);
+            dynamoForms.updateForm(form);
                 
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
-                    .setObjectBody(poll)
+                    .setObjectBody(form)
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
                     .build();
 
@@ -53,7 +53,7 @@ public class UpdatePollHandler implements RequestHandler<Map<String, Object>, Ap
             // Response responseBody = new Response(e.toString(), input);
     		return ApiGatewayResponse.builder()
     				.setStatusCode(500)
-    				.setObjectBody("Error updating the Poll")
+    				.setObjectBody("Error updating the Form")
     				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     				.build();
         }

@@ -1,7 +1,7 @@
 {
-  "name": "poll-api-python",
+  "name": "form-api-python",
   "version": "1.0.0",
-  "description": "Poll API in Python for final project of UNSJ",
+  "description": "Form API in Python for final project of UNSJ",
   "main": "index.js",
   "scripts": {
     "deploy": "SLS_DEBUG=* npm i && sls deploy --aws-profile awsTesis --region us-east-1 --stage tesis",

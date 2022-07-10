@@ -17,10 +17,10 @@ import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 // import com.serverless.utils.DynamoDBAdapter;
 
-@DynamoDBTable(tableName = "polls")
+@DynamoDBTable(tableName = "forms")
 public class Result {
 
-    private static final String POLLS_TABLE_NAME = System.getenv("POLLS_TABLE_NAME");
+    private static final String FORMS_TABLE_NAME = System.getenv("FORMS_TABLE_NAME");
     public static final String PARTITION_KEY = "PK";
     public static final String SORT_KEY = "SK";
 
@@ -45,7 +45,7 @@ public class Result {
 
     public Result() {
         // DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
-        //     .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(POLLS_TABLE_NAME))
+        //     .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(FORMS_TABLE_NAME))
         //     .build();
 
         //     this.dbAdapter = DynamoDBAdapter.getInstance(this.dbAdapter);

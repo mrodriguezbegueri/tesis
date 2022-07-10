@@ -11,112 +11,110 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.serverless.interfaces.PollsInterface;
-import com.serverless.models.Poll;
+import com.serverless.interfaces.FormsInterface;
+import com.serverless.models.Form;
 // import org.apache.log4j.Logger;
 
-public class DynamoDBPolls implements PollsInterface {
+public class DynamoDBForms implements FormsInterface {
 
-    // private static final Logger log = Logger.getLogger(DynamoDBPolls.class);
-
-    private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
+    private final static String DYNAMO_FORMS_ID = System.getenv("FORMS_ID");
 
     private static final DynamoDBMapper mapper = DynamoDBManager.mapper();
 
-    private static volatile DynamoDBPolls instance;
+    private static volatile DynamoDBForms instance;
 
-    private DynamoDBPolls() {
+    private DynamoDBForms() {
     }
 
-    public static DynamoDBPolls instance() {
+    public static DynamoDBForms instance() {
 
         if (instance == null) {
-            synchronized (DynamoDBPolls.class) {
+            synchronized (DynamoDBForms.class) {
                 if (instance == null)
-                    instance = new DynamoDBPolls();
+                    instance = new DynamoDBForms();
             }
         }
         return instance;
     }
 
     @Override
-    public List<Poll> findAllPolls() {
-        return mapper.scan(Poll.class, new DynamoDBScanExpression());
+    public List<Form> findAllForms() {
+        return mapper.scan(Form.class, new DynamoDBScanExpression());
     }
 
     @Override
-    public void savePoll(Poll poll) {
-        mapper.save(poll);
+    public void saveForm(Form form) {
+        mapper.save(form);
     }
 
     @Override
-    public Poll getPoll(String PK) {
-        Poll poll = null;
+    public Form getForm(String PK) {
+        Form form = null;
 
         HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
         av.put(":v", new AttributeValue().withS(PK));
 
-        DynamoDBQueryExpression<Poll> queryExpression = new DynamoDBQueryExpression<Poll>()
+        DynamoDBQueryExpression<Form> queryExpression = new DynamoDBQueryExpression<Form>()
                 .withKeyConditionExpression("PK = :v")
                 .withExpressionAttributeValues(av);
 
-        PaginatedQueryList<Poll> result = mapper.query(Poll.class, queryExpression);
+        PaginatedQueryList<Form> result = mapper.query(Form.class, queryExpression);
 
         if (result.size() == 1) {
-            poll = result.get(0);
+            form = result.get(0);
         }
 
-        return poll;
+        return form;
     }
 
     @Override
-    public void updatePoll(Poll poll) {
+    public void updateForm(Form form) {
         DynamoDBSaveExpression dbSaveExpression = new DynamoDBSaveExpression();
         
         HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
-        AttributeValue pkExpectedValue = new AttributeValue().withS(poll.getPK());
+        AttributeValue pkExpectedValue = new AttributeValue().withS(form.getPK());
         ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
         expectedAttribute.put("PK", expectedAttributeValue);
 
         dbSaveExpression.setExpected(expectedAttribute);
 
-        mapper.save(poll, dbSaveExpression);
+        mapper.save(form, dbSaveExpression);
     }
 
     @Override
-    public void deletePoll(Poll poll) {
+    public void deleteForm(Form form) {
         DynamoDBDeleteExpression dbDeleteExpression = new DynamoDBDeleteExpression();
         
         HashMap<String, ExpectedAttributeValue> expectedAttribute = new HashMap<String, ExpectedAttributeValue>();
-        AttributeValue pkExpectedValue = new AttributeValue().withS(poll.getPK());
+        AttributeValue pkExpectedValue = new AttributeValue().withS(form.getPK());
         ExpectedAttributeValue expectedAttributeValue = new ExpectedAttributeValue(pkExpectedValue); 
         expectedAttribute.put("PK", expectedAttributeValue);
 
         dbDeleteExpression.setExpected(expectedAttribute);
 
-        mapper.delete(poll, dbDeleteExpression);
+        mapper.delete(form, dbDeleteExpression);
     }
 
     @Override
-    public Poll getPollByTitle(String title) {
-        Poll poll = null;
+    public Form getFormByTitle(String title) {
+        Form form = null;
 
         HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
         av.put(":v", new AttributeValue().withS(title));
-        av.put(":v1", new AttributeValue().withS(DYNAMO_POLLS_ID));
+        av.put(":v1", new AttributeValue().withS(DYNAMO_FORMS_ID));
 
-        DynamoDBQueryExpression<Poll> queryExpression = new DynamoDBQueryExpression<Poll>()
-            .withIndexName("SearchPollByTitle")
+        DynamoDBQueryExpression<Form> queryExpression = new DynamoDBQueryExpression<Form>()
+            .withIndexName("SearchFormByTitle")
             .withKeyConditionExpression("title = :v AND begins_with(PK, :v1)")
             .withExpressionAttributeValues(av)
             .withConsistentRead(false);
         
-        PaginatedQueryList<Poll> result = mapper.query(Poll.class, queryExpression);
+        PaginatedQueryList<Form> result = mapper.query(Form.class, queryExpression);
 
         if(result.size() == 1) {
-            poll = result.get(0);
+            form = result.get(0);
         }
 
-        return poll;
+        return form;
     }
 }

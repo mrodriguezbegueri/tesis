@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.serverless</groupId>
-  <artifactId>polls-api-java</artifactId>
+  <artifactId>forms-api-java</artifactId>
   <packaging>jar</packaging>
   <version>dev</version>
-  <name>polls-api-java</name>
+  <name>forms-api-java</name>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

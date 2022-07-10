@@ -1,4 +1,4 @@
-package com.serverless.polls.getpoll;
+package com.serverless.forms.getform;
 
 import java.util.Collections;
 import java.util.Map;
@@ -6,18 +6,18 @@ import java.util.Map;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.ApiGatewayResponse;
-import com.serverless.models.Poll;
-import com.serverless.utils.DynamoDBPolls;
+import com.serverless.models.Form;
+import com.serverless.utils.DynamoDBForms;
 
 import org.apache.log4j.Logger;
 
-public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class GetFormHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-    private final static String DYNAMO_POLLS_ID = System.getenv("POLLS_ID");
+    private final static String DYNAMO_FORMS_ID = System.getenv("FORMS_ID");
 
-    private static final Logger log = Logger.getLogger(GetPollHandler.class);
+    private static final Logger log = Logger.getLogger(GetFormHandler.class);
 
-    private static final DynamoDBPolls dynamoPolls = DynamoDBPolls.instance();
+    private static final DynamoDBForms dynamoForms = DynamoDBForms.instance();
 
     @Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
@@ -26,21 +26,21 @@ public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGa
 
             Map<String,String> pathParameters =  (Map<String,String>)input.get("pathParameters");
             String id = pathParameters.get("id");
-            String pollId = DYNAMO_POLLS_ID + '#' + id;
+            String formId = DYNAMO_FORMS_ID + '#' + id;
 
-            Poll poll = dynamoPolls.getPoll(pollId);
+            Form form = dynamoForms.getForm(formId);
 
-            if (poll == null) {
+            if (form == null) {
                 return ApiGatewayResponse.builder()
                     .setStatusCode(404)
-                    .setObjectBody("Poll with id: " + pollId + " not found.")
+                    .setObjectBody("Form with id: " + formId + " not found.")
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
                     .build();
             }
 
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
-                    .setObjectBody(poll)
+                    .setObjectBody(form)
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
                     .build();
 
@@ -48,7 +48,7 @@ public class GetPollHandler implements RequestHandler<Map<String, Object>, ApiGa
             log.info("Error: " + e.toString());
     			return ApiGatewayResponse.builder()
     					.setStatusCode(500)
-    					.setObjectBody("Error getting the Poll")
+    					.setObjectBody("Error getting the Form")
     					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     					.build();
         }
