@@ -5,6 +5,6 @@ automatic-process/.serverless/**
 python/.serverless/**
 python/node_modules/**
 *.zip
-java-api/.serverless/**
-java-api/target/**
+java/.serverless/**
+java/target/**
 scripts/node_modules/**
