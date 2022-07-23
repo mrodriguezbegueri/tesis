@@ -7,7 +7,7 @@ provider:
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   region: us-east-1
-  iamRoleStatements: # Se crea un rol con los permisos necesarios para interactuar con DynamoDB
+  iamRoleStatements:
     - Effect: "Allow"
       Action:
         - dynamodb:Query
@@ -20,10 +20,9 @@ provider:
         - dynamodb:PutItem
         - lambda:InvokeFunction
         - lambda:InvokeAsync
-      Resource: # Le indicamos el recurso para el cual aplica el rol en cuestión
+      Resource:
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.FORMS_TABLE_NAME}
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.FORMS_TABLE_NAME}/index/ListFormsTitles
-        - arn:aws:lambda:${self:provider.region}:735585965178:function:forms-api-nodejs-tesis-saveRandomResultsBot
         - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.FORMS_TABLE_NAME}/index/SearchFormByTitle
   environment: ${file(config/serverless/environment/env.yml)}
 
@@ -36,4 +35,3 @@ package:
 functions:
   - ${file(config/serverless/functions/api/forms_functions.yml)}
   - ${file(config/serverless/functions/api/results_functions.yml)}
-  - ${file(config/serverless/functions/bot/save_random_results_bot.yml)}

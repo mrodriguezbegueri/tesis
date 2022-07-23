@@ -1,5 +1,5 @@
 config:
-  target: "https://b560n6l4r0.execute-api.us-east-1.amazonaws.com/tesis"
+  target: "https://51vfyk8pgb.execute-api.us-east-1.amazonaws.com/tesis"
   http:
     timeout: 20
   processor: "./utilities/utilities.js"

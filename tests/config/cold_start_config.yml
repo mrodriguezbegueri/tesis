@@ -1,0 +1,11 @@
+config:
+  target: "https://51vfyk8pgb.execute-api.us-east-1.amazonaws.com/tesis" # JAVA
+  # target: "https://p1akbeueni.execute-api.us-east-1.amazonaws.com/tesis" # PYTHON
+  # target: "https://ulxgjhorie.execute-api.us-east-1.amazonaws.com/tesis" # NODEJS
+  http:
+    timeout: 20
+  processor: "./utilities/utilities.js"
+  phases:
+    - duration: 1
+      arrivalCount: 1
+      name: "Cold Start Test"

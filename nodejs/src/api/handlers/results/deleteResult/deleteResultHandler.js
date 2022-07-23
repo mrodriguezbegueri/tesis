@@ -3,9 +3,8 @@
 const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient({})
 
-const tableName = process.env.POLLS_TABLE_NAME
 
-const { POLLS_ID, RESULTS_ID } = process.env
+const { FORMS_ID, RESULTS_ID, FORMS_TABLE_NAME } = process.env
 
 const response = (statusCode, message) => {
     return {
@@ -18,13 +17,13 @@ const deleteResult = async (event) => {
 
   console.log("event: ", JSON.stringify(event))
     const PK = event.pathParameters.id
-    const SK = event.queryStringParameters.pollId
+    const SK = event.queryStringParameters.formId
     
     const params = {
-      TableName: tableName,
+      TableName: FORMS_TABLE_NAME,
       Key: {
         PK: RESULTS_ID + '#' + PK,
-        SK: POLLS_ID + '#' + SK
+        SK: FORMS_ID + '#' + SK
       }
     }
 

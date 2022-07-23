@@ -1,5 +1,5 @@
 config:
-  target: "https://e1ib5jr340.execute-api.us-east-1.amazonaws.com/tesis"
+  target: "https://p1akbeueni.execute-api.us-east-1.amazonaws.com/tesis"
   processor: "./utilities/utilities.js"
   environments:
     VUS_10:

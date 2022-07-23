@@ -14,7 +14,7 @@ const response = (statusCode, message) => {
 const createRandomResult = async (event) => {
     try {
         const form = JSON.parse(event.body)
-
+        console.log('body: ', JSON.stringify(event.body))
         let randomResult = buildRandomResult(form)
         console.log('answer: ', JSON.stringify(randomResult))
 

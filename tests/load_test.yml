@@ -4,12 +4,12 @@ scenarios:
       - get:
           url: "/forms/getFormByTitle"
           qs:
-            title: "Censo digital 2022"
+            title: "Censo 2022"
           capture:
             - json: "$"
               as: "form"
       - post:
-          url: "https://c320u3kjjf.execute-api.us-east-1.amazonaws.com/tesis/results/randomResults"
+          url: "https://ulxgjhorie.execute-api.us-east-1.amazonaws.com/tesis/results/randomResults"
           json: "{{ form }}"
           capture:
             - json: "$"
@@ -26,5 +26,4 @@ scenarios:
           json: "{{ savedResult }}"
       - delete:
           url: "/results/{{ resultPK }}?formId={{ resultSK }}"
-
 

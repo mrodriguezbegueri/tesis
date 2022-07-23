@@ -3,7 +3,7 @@
 const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient({})
 
-const { POLLS_TABLE_NAME } = process.env
+const { FORMS_TABLE_NAME } = process.env
 
 const response = (statusCode, message) => {
     return {
@@ -20,7 +20,7 @@ const createResult = async (event) => {
     console.log(JSON.stringify(result))
 
     let params = {
-      TableName: POLLS_TABLE_NAME,
+      TableName: FORMS_TABLE_NAME,
       Item: result
     }
 
