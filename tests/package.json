@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "load_test:js": "artillery run --config ./config/js_config.yml -e \"$npm_config_vus\" -k load_test.yml --output ./reports/js/load_test_js_\"$npm_config_vus\".json",
-    "load_test:py": "artillery run --config ./config/py_config.yml -e \"$npm_config_vus\" -k load_test.yml --output ./reports/python/load_test_py_\"$npm_config_vus\".json",
-    "load_test:java": "artillery run --config ./config/java_config.yml -e \"$npm_config_vus\" -k load_test.yml --output ./reports/java/load_test_java_\"$npm_config_vus\".json",
+    "load_test:js": "artillery run --config ./config/js_config.yml -e \"$npm_config_vus\" -k test_flow.yml --output ./reports/js/load_test_js_\"$npm_config_vus\".json",
+    "load_test:py": "artillery run --config ./config/py_config.yml -e \"$npm_config_vus\" -k test_flow.yml --output ./reports/python/load_test_py_\"$npm_config_vus\".json",
+    "load_test:java": "artillery run --config ./config/java_config.yml -e \"$npm_config_vus\" -k test_flow.yml --output ./reports/java/load_test_java_\"$npm_config_vus\".json",
+    "general_test": "artillery run --config ./config/general_conf.yml -k test_flow.yml",
     "report:js": "artillery report ./reports/js/load_test_js_\"$npm_config_vus\".json",
     "report:py": "artillery report ./reports/python/load_test_py_\"$npm_config_vus\".json",
     "report:java": "artillery report ./reports/java/load_test_java_\"$npm_config_vus\".json"
