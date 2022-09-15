@@ -1,5 +1,6 @@
 createForm:
   handler: src/api/handlers/forms/createForm/createFormHandler.createForm
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/forms/createForm/**
@@ -9,6 +10,7 @@ createForm:
         method: post
 getFormByTitle:
   handler: src/api/handlers/forms/getFormByTitle/getFormByTitleHandler.getFormByTitle
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/forms/getFormByTitle/**
@@ -18,6 +20,7 @@ getFormByTitle:
         method: get
 updateForm:
   handler: src/api/handlers/forms/updateForm/updateFormHandler.updateForm
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/forms/updateForm/**
@@ -27,6 +30,7 @@ updateForm:
         method: put
 deleteForm:
   handler: src/api/handlers/forms/deleteForm/deleteFormHandler.deleteForm
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/forms/deleteForm/**

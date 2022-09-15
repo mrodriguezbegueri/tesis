@@ -1,5 +1,6 @@
 createResult:
   handler: src/api/handlers/results/createResult/createResultHandler.createResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/createResult/**
@@ -9,6 +10,7 @@ createResult:
         method: post
 getResult:
   handler: src/api/handlers/results/getResult/getResultHandler.getResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/getResult/**
@@ -18,6 +20,7 @@ getResult:
         method: get
 createRandomResult:
   handler: src/api/handlers/results/createRandomResult/createRandomResultHandler.createRandomResult
+  memorySize: 10240
   package:
     patterns:
       - src/api/handlers/results/createRandomResult/**
@@ -27,6 +30,7 @@ createRandomResult:
         method: post
 updateResult:
   handler: src/api/handlers/results/updateResult/updateResultHandler.updateResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/updateResult/**
@@ -36,6 +40,7 @@ updateResult:
         method: put
 deleteResult:
   handler: src/api/handlers/results/deleteResult/deleteResultHandler.deleteResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/deleteResult/**

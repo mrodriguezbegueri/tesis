@@ -1,0 +1,17 @@
+config:
+  target: "{{$processEnvironment.API_URL}}"
+  http:
+    timeout: 10
+  processor: "./utilities/utilities.js"
+  phases:
+    - duration: 1
+      arrivalCount: 1
+    - pause: 60
+      name: "Pausa"
+    - duration: 1
+      arrivalCount: 1
+
+
+
+
+

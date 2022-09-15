@@ -1,6 +1,7 @@
 createResult:
   module: src/api/handlers/results/createResult
   handler: createResultHandler.createResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/createResult/**
@@ -11,6 +12,7 @@ createResult:
 getResult:
   module: src/api/handlers/results/getResult
   handler: getResultHandler.getResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/getResult/**
@@ -21,6 +23,7 @@ getResult:
 updateResult:
   module: src/api/handlers/results/updateResult
   handler: updateResultHandler.updateResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/updateResult/**
@@ -31,6 +34,7 @@ updateResult:
 deleteResult:
   module: src/api/handlers/results/deleteResult
   handler: deleteResultHandler.deleteResult
+  memorySize: 512
   package:
     patterns:
       - src/api/handlers/results/deleteResult/**

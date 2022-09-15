@@ -6,6 +6,9 @@ config:
     timeout: 20
   processor: "./utilities/utilities.js"
   phases:
-    - duration: 0
-      arrivalCount: 50
-      name: "General Test"
+    - duration: 1
+      arrivalCount: 1
+    - pause: 60
+      name: "Pausa"
+    - duration: 1
+      arrivalCount: 1

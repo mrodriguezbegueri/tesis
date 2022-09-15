@@ -1,5 +1,6 @@
 createResult:
   handler: com.serverless.results.createresult.CreateResultHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
@@ -7,6 +8,7 @@ createResult:
         method: post
 getResult:
   handler: com.serverless.results.getresult.GetResultHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
@@ -14,6 +16,7 @@ getResult:
         method: get
 updateResult:
   handler: com.serverless.results.updateresult.UpdateResultHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
@@ -21,6 +24,7 @@ updateResult:
         method: put
 deleteResult:
   handler: com.serverless.results.deleteresult.DeleteResultHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:

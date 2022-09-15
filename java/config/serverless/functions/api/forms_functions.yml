@@ -1,5 +1,6 @@
 createForm:
   handler: com.serverless.forms.createform.CreateFormHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
@@ -7,6 +8,7 @@ createForm:
         method: post
 getFormByTitle:
   handler: com.serverless.forms.getformbytitle.GetFormByTitleHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
@@ -14,6 +16,7 @@ getFormByTitle:
         method: get
 updateForm:
   handler: com.serverless.forms.updateform.UpdateFormHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
@@ -21,6 +24,7 @@ updateForm:
         method: put
 deleteForm:
   handler: com.serverless.forms.deleteform.DeleteFormHandler
+  memorySize: 512
   timeout: 15
   events:
     - http:
